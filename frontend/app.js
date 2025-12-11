@@ -1035,11 +1035,11 @@ async function startVoiceMode() {
         isListening = true;  // Start listening immediately
         state.isRecording = true;
 
-        // Update UI - show voice status bar, change mic button
+        // Update UI - show voice status bar, change voice mode button
         elements.voiceStatusBar.classList.remove('hidden');
         elements.voiceToggleBtn.classList.add('active');
-        elements.voiceToggleBtn.innerHTML = '<i class="fas fa-stop"></i>';
-        elements.voiceToggleBtn.title = 'Stop voice mode';
+        elements.voiceToggleBtn.innerHTML = '<i class="fas fa-phone-slash"></i><span>Exit Voice</span>';
+        elements.voiceToggleBtn.title = 'Exit voice mode';
 
         updateHeaderStatus('voice');
         updateVoiceStatus('listening');
@@ -1092,11 +1092,11 @@ function stopVoiceMode() {
         mediaStream = null;
     }
 
-    // Update UI - hide voice status bar, reset mic button
+    // Update UI - hide voice status bar, reset voice mode button
     elements.voiceStatusBar.classList.add('hidden');
     elements.voiceToggleBtn.classList.remove('active');
-    elements.voiceToggleBtn.innerHTML = '<i class="fas fa-microphone"></i>';
-    elements.voiceToggleBtn.title = 'Start voice mode';
+    elements.voiceToggleBtn.innerHTML = '<i class="fas fa-headset"></i><span>Voice Mode</span>';
+    elements.voiceToggleBtn.title = 'Switch to voice mode';
 
     updateHeaderStatus('connected');
 
@@ -1197,7 +1197,7 @@ function resetUIState() {
 
     // Reset voice toggle button
     elements.voiceToggleBtn.classList.remove('active');
-    elements.voiceToggleBtn.innerHTML = '<i class="fas fa-microphone"></i>';
+    elements.voiceToggleBtn.innerHTML = '<i class="fas fa-headset"></i><span>Voice Mode</span>';
 
     // Reset agent indicator
     updateAgentIndicator('');

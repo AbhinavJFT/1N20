@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ABC Doors & Windows - Sales Assistant</title>
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="styles.css?v=3">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
@@ -151,8 +151,9 @@
 
                 <!-- Chat Input with Voice Toggle (shown when conversation started) -->
                 <div class="chat-input-container hidden" id="chatInputContainer">
-                    <button class="voice-toggle-btn" id="voiceToggleBtn" title="Switch to voice mode">
-                        <i class="fas fa-microphone"></i>
+                    <button class="voice-mode-btn" id="voiceToggleBtn" title="Switch to voice mode">
+                        <i class="fas fa-headset"></i>
+                        <span>Voice Mode</span>
                     </button>
                     <input type="text"
                            id="messageInput"
@@ -188,6 +189,6 @@
     <!-- Toast Notifications -->
     <div class="toast-container" id="toastContainer"></div>
 
-    <script src="app.js?v=2"></script>
+    <script src="app.js?v=3"></script>
 </body>
 </html>

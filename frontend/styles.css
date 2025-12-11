@@ -797,36 +797,52 @@ input {
     color: var(--gray-400);
 }
 
-/* Voice Toggle Button (in chat input) */
-.voice-toggle-btn {
-    width: 40px;
-    height: 40px;
-    border-radius: var(--radius-full);
-    background: white;
-    color: var(--gray-500);
+/* Voice Mode Button (in chat input) */
+.voice-mode-btn {
     display: flex;
     align-items: center;
-    justify-content: center;
+    gap: var(--spacing-sm);
+    padding: var(--spacing-sm) var(--spacing-md);
+    border-radius: var(--radius-full);
+    background: white;
+    color: var(--gray-600);
+    font-size: 13px;
+    font-weight: 500;
     transition: all var(--transition-fast);
-    border: 2px solid transparent;
+    border: 2px solid var(--gray-200);
+    white-space: nowrap;
 }
 
-.voice-toggle-btn:hover {
+.voice-mode-btn i {
+    font-size: 14px;
+}
+
+.voice-mode-btn:hover {
     color: var(--primary);
-    background: var(--gray-50);
+    border-color: var(--primary-light);
+    background: rgba(124, 58, 237, 0.05);
 }
 
-.voice-toggle-btn.active {
+.voice-mode-btn.active {
     background: var(--primary);
     color: white;
+    border-color: var(--primary);
 }
 
-.voice-toggle-btn.active:hover {
+.voice-mode-btn.active span {
+    display: none;
+}
+
+.voice-mode-btn.active::after {
+    content: 'Exit Voice';
+}
+
+.voice-mode-btn.active:hover {
     background: var(--primary-dark);
-    color: white;
+    border-color: var(--primary-dark);
 }
 
-.voice-toggle-btn.recording {
+.voice-mode-btn.recording {
     background: var(--error);
     color: white;
     border-color: var(--error);
@@ -835,7 +851,7 @@ input {
 
 @keyframes pulse-recording {
     0%, 100% { transform: scale(1); }
-    50% { transform: scale(1.1); }
+    50% { transform: scale(1.02); }
 }
 
 .send-btn {

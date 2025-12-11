@@ -373,8 +373,8 @@ async def handle_client_messages(
                 # Send text message to realtime session
                 text = msg_data.get("text", "")
                 if text:
+                    print(f"📝 TEXT INPUT | {session_id[:12]} | \"{text}\"")
                     await realtime_session.send_message(text)
-                    # Don't echo back - frontend already displays it
 
             elif msg_type == "interrupt":
                 # User interrupted the agent - cancel current response
@@ -432,6 +432,26 @@ async def handle_agent_events(
                 raw_data = getattr(event, 'data', None)
                 if raw_data:
                     raw_type = getattr(raw_data, 'type', '')
+
+                    # Handle raw_server_event - check for errors
+                    if raw_type == 'raw_server_event':
+                        server_data = getattr(raw_data, 'data', None)
+                        if server_data:
+                            server_type = server_data.get('type', '')
+                            # Check for response failures
+                            if server_type == 'response.done':
+                                response = server_data.get('response', {})
+                                status = response.get('status', '')
+                                if status == 'failed':
+                                    status_details = response.get('status_details', {})
+                                    error_info = status_details.get('error', {})
+                                    error_type = error_info.get('type', 'unknown')
+                                    error_msg = error_info.get('message', 'Unknown error')
+                                    print(f"❌ API ERROR | {short_id} | {error_type}: {error_msg}")
+                                    await send_ws_message(websocket, MessageType.ERROR, {
+                                        "error": f"API Error: {error_msg}",
+                                        "type": error_type
+                                    })
 
                     # Detect when user starts speaking (item_updated with user role)
                     if raw_type == 'item_updated':
