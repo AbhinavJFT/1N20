@@ -1,0 +1,8 @@
+venv
+.env
+voice_agent_mvp/.claude
+.claude
+__pycache__/
+*.pyc
+*.pyo
+*.pyd

@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ABC Doors & Windows - Sales Assistant</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Left Panel - Activity & Info -->
+        <aside class="activity-panel">
+            <div class="panel-header">
+                <div class="logo">
+                    <i class="fas fa-door-open"></i>
+                    <span>ABC Doors & Windows</span>
+                </div>
+            </div>
+
+            <!-- Current Agent Status -->
+            <div class="panel-section">
+                <h3 class="section-title">
+                    <i class="fas fa-robot"></i>
+                    Current Agent
+                </h3>
+                <div class="agent-status">
+                    <div class="agent-avatar" id="agentAvatar">
+                        <i class="fas fa-headset"></i>
+                    </div>
+                    <div class="agent-info">
+                        <span class="agent-name" id="currentAgentName">GreetingAgent</span>
+                        <span class="agent-role" id="currentAgentRole">Collecting your information</span>
+                    </div>
+                    <div class="agent-indicator" id="agentIndicator"></div>
+                </div>
+            </div>
+
+            <!-- Customer Information -->
+            <div class="panel-section">
+                <h3 class="section-title">
+                    <i class="fas fa-user"></i>
+                    Customer Information
+                </h3>
+                <div class="info-grid">
+                    <div class="info-item">
+                        <label>Name</label>
+                        <span id="customerName" class="info-value empty">Not provided</span>
+                    </div>
+                    <div class="info-item">
+                        <label>Email</label>
+                        <span id="customerEmail" class="info-value empty">Not provided</span>
+                    </div>
+                    <div class="info-item">
+                        <label>Phone</label>
+                        <span id="customerPhone" class="info-value empty">Not provided</span>
+                    </div>
+                </div>
+                <div class="info-progress">
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="infoProgress" style="width: 0%"></div>
+                    </div>
+                    <span class="progress-text" id="infoProgressText">0/3 collected</span>
+                </div>
+            </div>
+
+            <!-- Tool Activity -->
+            <div class="panel-section">
+                <h3 class="section-title">
+                    <i class="fas fa-cogs"></i>
+                    Tool Activity
+                </h3>
+                <div class="activity-list" id="toolActivityList">
+                    <div class="activity-empty">
+                        <i class="fas fa-clock"></i>
+                        <span>Waiting for activity...</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Products Discussed -->
+            <div class="panel-section">
+                <h3 class="section-title">
+                    <i class="fas fa-shopping-cart"></i>
+                    Products Discussed
+                </h3>
+                <div class="products-list" id="productsList">
+                    <div class="activity-empty">
+                        <i class="fas fa-box-open"></i>
+                        <span>No products discussed yet</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Connection Status -->
+            <div class="connection-status" id="connectionStatus">
+                <div class="status-dot disconnected"></div>
+                <span>Disconnected</span>
+            </div>
+        </aside>
+
+        <!-- Main Chat Area -->
+        <main class="chat-container">
+            <!-- Chat Header -->
+            <header class="chat-header">
+                <div class="chat-title">
+                    <h1>Sales Assistant</h1>
+                    <span class="chat-subtitle" id="chatSubtitle">Chat or speak with our AI assistant</span>
+                </div>
+                <div class="header-status">
+                    <span class="status-badge" id="headerStatus">
+                        <i class="fas fa-circle"></i>
+                        <span>Ready</span>
+                    </span>
+                </div>
+            </header>
+
+            <!-- Messages Container (Chat Mode) -->
+            <div class="messages-container" id="messagesContainer">
+                <!-- Welcome Message -->
+                <div class="message system-message">
+                    <div class="message-content">
+                        <i class="fas fa-info-circle"></i>
+                        <span>Welcome! Click "Start Conversation" to begin chatting with our sales assistant.</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Voice Status Indicator (shown above input when in voice mode) -->
+            <div class="voice-status-bar hidden" id="voiceStatusBar">
+                <div class="voice-status-content">
+                    <div class="voice-status-waves">
+                        <span></span><span></span><span></span><span></span><span></span>
+                    </div>
+                    <span class="voice-status-text" id="voiceStatusText">Listening...</span>
+                </div>
+            </div>
+
+            <!-- Input Area -->
+            <div class="input-area">
+                <!-- Start/Stop Button -->
+                <button class="start-btn" id="startBtn">
+                    <i class="fas fa-play"></i>
+                    <span>Start Conversation</span>
+                </button>
+
+                <!-- Chat Input with Voice Toggle (shown when conversation started) -->
+                <div class="chat-input-container hidden" id="chatInputContainer">
+                    <button class="voice-toggle-btn" id="voiceToggleBtn" title="Switch to voice mode">
+                        <i class="fas fa-microphone"></i>
+                    </button>
+                    <input type="text"
+                           id="messageInput"
+                           placeholder="Type your message..."
+                           autocomplete="off">
+                    <button class="send-btn" id="sendBtn">
+                        <i class="fas fa-paper-plane"></i>
+                    </button>
+                </div>
+
+                <!-- End Conversation Button -->
+                <button class="end-btn hidden" id="endBtn">
+                    <i class="fas fa-stop"></i>
+                    <span>End</span>
+                </button>
+            </div>
+        </main>
+    </div>
+
+    <!-- Agent Handoff Notification -->
+    <div class="handoff-notification hidden" id="handoffNotification">
+        <div class="handoff-content">
+            <div class="handoff-icon">
+                <i class="fas fa-exchange-alt"></i>
+            </div>
+            <div class="handoff-text">
+                <span class="handoff-title">Agent Transfer</span>
+                <span class="handoff-message" id="handoffMessage">Transferring to Sales Agent...</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Notifications -->
+    <div class="toast-container" id="toastContainer"></div>
+
+    <script src="app.js"></script>
+</body>
+</html>
