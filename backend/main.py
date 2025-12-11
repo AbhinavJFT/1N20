@@ -250,12 +250,20 @@ async def websocket_endpoint(websocket: WebSocket, session_id: str):
     """
     await websocket.accept()
 
+    # Log connection start
+    short_id = session_id[:12]
+    print(f"\n{'─'*60}")
+    print(f"🔗 CONNECTION OPENED | Session: {short_id}")
+    print(f"{'─'*60}")
+
     # Get or create session
     session = session_manager.get_session(session_id)
     if not session:
         context = session_manager.create_session(session_id)
+        print(f"📝 NEW SESSION created: {short_id}")
     else:
         context = session["context"]
+        print(f"📝 EXISTING SESSION resumed: {short_id}")
 
     # Send session started message
     await send_ws_message(websocket, MessageType.SESSION_STARTED, {
@@ -317,11 +325,18 @@ async def websocket_endpoint(websocket: WebSocket, session_id: str):
                     pass
 
     except WebSocketDisconnect:
-        print(f"Client disconnected: {session_id}")
+        print(f"\n{'─'*60}")
+        print(f"🔌 CONNECTION CLOSED | Session: {short_id} (client disconnected)")
+        print(f"{'─'*60}\n")
     except Exception as e:
-        print(f"WebSocket error for {session_id}: {e}")
+        print(f"\n❌ ERROR | Session: {short_id} | {e}")
         await send_ws_message(websocket, MessageType.ERROR, {"error": str(e)})
     finally:
+        print(f"\n📊 SESSION SUMMARY | {short_id}")
+        print(f"   Name: {context.name or 'Not provided'}")
+        print(f"   Email: {context.email or 'Not provided'}")
+        print(f"   Phone: {context.phone or 'Not provided'}")
+        print(f"{'─'*60}\n")
         await send_ws_message(websocket, MessageType.SESSION_ENDED, {
             "session_id": session_id,
             "context": {
@@ -384,6 +399,18 @@ async def handle_agent_events(
         partial_agent_transcript = ""
         partial_user_transcript = ""
         last_context_update = datetime.now()
+        short_id = session_id[:12]
+
+        # Track audio streaming state to avoid repetitive logs
+        is_streaming_audio = False
+        audio_chunk_count = 0
+
+        # Buffer for agent response until user transcription is received
+        # This ensures user message appears before agent response in UI
+        awaiting_user_transcription = False
+        buffered_audio_chunks = []
+        buffered_transcript_deltas = []
+        user_transcription_received = False
 
         async for event in realtime_session:
             event_type = getattr(event, 'type', None)
@@ -394,49 +421,59 @@ async def handle_agent_events(
                 if raw_data:
                     raw_type = getattr(raw_data, 'type', '')
 
-                    # Debug: log important raw event types only
-                    if raw_type and raw_type not in ('raw_server_event', 'audio', 'transcript_delta'):
-                        print(f"  [RAW] {raw_type}")
-
-                    # Check for conversation item events that might have user input
+                    # Detect when user starts speaking (item_updated with user role)
                     if raw_type == 'item_updated':
                         item = getattr(raw_data, 'item', None)
                         if item:
-                            item_type = getattr(item, 'type', '')
                             role = getattr(item, 'role', '')
-                            print(f"  [ITEM_UPDATED] type={item_type}, role={role}")
-                            # Check if this is a user message with content
                             if role == 'user':
-                                content = getattr(item, 'content', None)
-                                if content:
-                                    print(f"  [USER CONTENT] {content}")
-                                # Also check for transcript
-                                transcript = getattr(item, 'transcript', None)
-                                if transcript:
-                                    print(f"  [USER TRANSCRIPT from item] {transcript}")
+                                # User is speaking, start buffering agent response
+                                awaiting_user_transcription = True
+                                user_transcription_received = False
+                                buffered_audio_chunks = []
+                                buffered_transcript_deltas = []
+                                partial_agent_transcript = ""
 
                     # Handle transcript delta (agent speaking - real-time)
                     if raw_type == 'transcript_delta':
                         delta = getattr(raw_data, 'delta', '')
                         if delta:
                             partial_agent_transcript += delta
-                            await send_ws_message(websocket, MessageType.PARTIAL_TRANSCRIPT, {
-                                "text": partial_agent_transcript,
-                                "role": "assistant",
-                                "agent": current_agent_name
-                            })
+                            if awaiting_user_transcription and not user_transcription_received:
+                                # Buffer the transcript until user transcription arrives
+                                buffered_transcript_deltas.append(partial_agent_transcript)
+                            else:
+                                await send_ws_message(websocket, MessageType.PARTIAL_TRANSCRIPT, {
+                                    "text": partial_agent_transcript,
+                                    "role": "assistant",
+                                    "agent": current_agent_name
+                                })
 
                     # Handle audio delta (the actual audio bytes)
                     elif raw_type == 'audio':
                         audio_delta = getattr(raw_data, 'delta', None)
                         if audio_delta:
-                            await send_ws_message(websocket, MessageType.AUDIO_OUTPUT, {
-                                "audio": audio_delta
-                            })
+                            if not is_streaming_audio:
+                                is_streaming_audio = True
+                                audio_chunk_count = 0
+                            audio_chunk_count += 1
+
+                            if awaiting_user_transcription and not user_transcription_received:
+                                # Buffer audio until user transcription arrives
+                                buffered_audio_chunks.append(audio_delta)
+                            else:
+                                await send_ws_message(websocket, MessageType.AUDIO_OUTPUT, {
+                                    "audio": audio_delta
+                                })
 
                     # Handle audio done - finalize transcript
                     elif raw_type == 'audio_done':
+                        if is_streaming_audio:
+                            print(f"🔊 AUDIO COMPLETE | {short_id} | {audio_chunk_count} chunks streamed")
+                            is_streaming_audio = False
+                            audio_chunk_count = 0
                         if partial_agent_transcript:
+                            print(f"🤖 AGENT SAID | {short_id} | \"{partial_agent_transcript[:100]}{'...' if len(partial_agent_transcript) > 100 else ''}\"")
                             await send_ws_message(websocket, MessageType.TRANSCRIPT, {
                                 "text": partial_agent_transcript,
                                 "role": "assistant",
@@ -444,85 +481,126 @@ async def handle_agent_events(
                             })
                             session_manager.add_message(session_id, "assistant", partial_agent_transcript, current_agent_name)
                             partial_agent_transcript = ""
+                        # Reset buffering state
+                        awaiting_user_transcription = False
+                        user_transcription_received = False
 
                     # Handle turn ended - reset state
                     elif raw_type == 'turn_ended':
                         partial_agent_transcript = ""
+                        awaiting_user_transcription = False
+                        user_transcription_received = False
 
                     # Handle input audio transcription (user speech)
                     elif 'input_audio_transcription' in raw_type:
-                        print(f"  [TRANSCRIPTION] raw_type: {raw_type}")
-                        print(f"  [TRANSCRIPTION] raw_data attrs: {[a for a in dir(raw_data) if not a.startswith('_')]}")
                         transcript = getattr(raw_data, 'transcript', '')
-                        print(f"  [TRANSCRIPTION] transcript: '{transcript}'")
 
                         # Only send completed transcriptions (not deltas)
-                        # The 'completed' event has the final accurate transcription
                         if 'completed' in raw_type and transcript:
+                            print(f"🎤 USER SAID | {short_id} | \"{transcript}\"")
                             await send_ws_message(websocket, MessageType.USER_TRANSCRIPT, {
                                 "text": transcript,
                                 "role": "user"
                             })
                             session_manager.add_message(session_id, "user", transcript)
+
+                            # Mark transcription as received and flush buffered agent response
+                            user_transcription_received = True
+                            if buffered_transcript_deltas:
+                                # Send the latest transcript state
+                                await send_ws_message(websocket, MessageType.PARTIAL_TRANSCRIPT, {
+                                    "text": buffered_transcript_deltas[-1],
+                                    "role": "assistant",
+                                    "agent": current_agent_name
+                                })
+                            # Flush buffered audio
+                            for audio_chunk in buffered_audio_chunks:
+                                await send_ws_message(websocket, MessageType.AUDIO_OUTPUT, {
+                                    "audio": audio_chunk
+                                })
+                            buffered_audio_chunks = []
+                            buffered_transcript_deltas = []
+
                         elif 'delta' not in raw_type and transcript:
-                            # Fallback for other transcription events
+                            print(f"🎤 USER SAID | {short_id} | \"{transcript}\"")
                             await send_ws_message(websocket, MessageType.USER_TRANSCRIPT, {
                                 "text": transcript,
                                 "role": "user"
                             })
                             session_manager.add_message(session_id, "user", transcript)
 
+                            # Mark transcription as received and flush buffered agent response
+                            user_transcription_received = True
+                            if buffered_transcript_deltas:
+                                await send_ws_message(websocket, MessageType.PARTIAL_TRANSCRIPT, {
+                                    "text": buffered_transcript_deltas[-1],
+                                    "role": "assistant",
+                                    "agent": current_agent_name
+                                })
+                            for audio_chunk in buffered_audio_chunks:
+                                await send_ws_message(websocket, MessageType.AUDIO_OUTPUT, {
+                                    "audio": audio_chunk
+                                })
+                            buffered_audio_chunks = []
+                            buffered_transcript_deltas = []
+
+                    # Handle function calls from raw events
+                    elif raw_type == 'function_call':
+                        func_name = getattr(raw_data, 'name', 'unknown')
+                        func_args = getattr(raw_data, 'arguments', '{}')
+                        print(f"🔧 TOOL CALL | {short_id} | {func_name}")
+                        print(f"   └─ Args: {func_args[:200]}{'...' if len(str(func_args)) > 200 else ''}")
+
                 continue
 
-            # Skip other noisy events
-            if event_type in ('history_updated', 'history_added'):
+            # Skip noisy events silently
+            if event_type in ('history_updated', 'history_added', 'audio'):
+                # Handle high-level audio events the same way
+                if event_type == 'audio':
+                    audio_event = getattr(event, 'audio', None)
+                    if audio_event:
+                        audio_data = None
+                        audio_delta = getattr(audio_event, 'delta', None)
+                        if audio_delta and isinstance(audio_delta, str):
+                            audio_data = audio_delta
+                        if not audio_data:
+                            raw_data = getattr(audio_event, 'data', None)
+                            if raw_data and isinstance(raw_data, bytes):
+                                audio_data = base64.b64encode(raw_data).decode('utf-8')
+                        if not audio_data:
+                            raw_audio = getattr(audio_event, 'audio', None)
+                            if raw_audio and isinstance(raw_audio, bytes):
+                                audio_data = base64.b64encode(raw_audio).decode('utf-8')
+                        if audio_data:
+                            if not is_streaming_audio:
+                                is_streaming_audio = True
+                                audio_chunk_count = 0
+                            audio_chunk_count += 1
+
+                            if awaiting_user_transcription and not user_transcription_received:
+                                # Buffer audio until user transcription arrives
+                                buffered_audio_chunks.append(audio_data)
+                            else:
+                                await send_ws_message(websocket, MessageType.AUDIO_OUTPUT, {
+                                    "audio": audio_data
+                                })
                 continue
 
-            # Debug logging for non-noisy events
-            print(f"[{session_id[:8]}] Event: {event_type}")
-
-            if event_type == "audio":
-                # RealtimeAudio event - audio property contains RealtimeModelAudioEvent
-                audio_event = getattr(event, 'audio', None)
-                if audio_event:
-                    # Try multiple ways to get audio data
-                    audio_data = None
-
-                    # Try delta (base64 string)
-                    audio_delta = getattr(audio_event, 'delta', None)
-                    if audio_delta and isinstance(audio_delta, str):
-                        audio_data = audio_delta
-
-                    # Try data (bytes)
-                    if not audio_data:
-                        raw_data = getattr(audio_event, 'data', None)
-                        if raw_data and isinstance(raw_data, bytes):
-                            audio_data = base64.b64encode(raw_data).decode('utf-8')
-
-                    # Try audio attribute directly
-                    if not audio_data:
-                        raw_audio = getattr(audio_event, 'audio', None)
-                        if raw_audio and isinstance(raw_audio, bytes):
-                            audio_data = base64.b64encode(raw_audio).decode('utf-8')
-
-                    if audio_data:
-                        await send_ws_message(websocket, MessageType.AUDIO_OUTPUT, {
-                            "audio": audio_data
-                        })
-                    else:
-                        # Debug: print what attributes we have
-                        print(f"  [DEBUG] audio_event type: {type(audio_event)}")
-                        print(f"  [DEBUG] audio_event attrs: {[a for a in dir(audio_event) if not a.startswith('_')]}")
-
-            elif event_type == "audio_end":
-                # Agent finished speaking
+            # Log significant events only
+            if event_type == "audio_end":
+                if is_streaming_audio:
+                    print(f"🔊 AUDIO COMPLETE | {short_id} | {audio_chunk_count} chunks")
+                    is_streaming_audio = False
+                    audio_chunk_count = 0
                 await send_ws_message(websocket, MessageType.AGENT_DONE, {
                     "agent": current_agent_name
                 })
                 partial_agent_transcript = ""
 
             elif event_type == "audio_interrupted":
-                # User interrupted the agent
+                print(f"⏸️  INTERRUPTED | {short_id} | User interrupted agent")
+                is_streaming_audio = False
+                audio_chunk_count = 0
                 await send_ws_message(websocket, MessageType.AGENT_DONE, {
                     "agent": current_agent_name,
                     "interrupted": True
@@ -530,33 +608,39 @@ async def handle_agent_events(
                 partial_agent_transcript = ""
 
             elif event_type == "agent_start":
-                # Agent started processing
                 agent = getattr(event, 'agent', None)
                 if agent:
                     current_agent_name = getattr(agent, 'name', current_agent_name)
                     session_manager.update_current_agent(session_id, current_agent_name)
+                print(f"🚀 AGENT START | {short_id} | {current_agent_name}")
                 await send_ws_message(websocket, MessageType.AGENT_SPEAKING, {
                     "agent": current_agent_name
                 })
 
             elif event_type == "agent_end":
-                # Agent finished
-                pass
+                print(f"✅ AGENT END | {short_id} | {current_agent_name}")
 
             elif event_type == "tool_start":
-                # Tool execution started
                 tool = getattr(event, 'tool', None)
                 tool_name = getattr(tool, 'name', 'unknown') if tool else 'unknown'
+                # Try to get tool arguments/input
+                tool_input = getattr(event, 'input', None) or getattr(tool, 'input', None)
+                print(f"🔧 TOOL START | {short_id} | {tool_name}")
+                if tool_input:
+                    print(f"   └─ Input: {str(tool_input)[:200]}{'...' if len(str(tool_input)) > 200 else ''}")
                 await send_ws_message(websocket, MessageType.TOOL_CALL, {
                     "tool": tool_name,
                     "status": "started"
                 })
 
             elif event_type == "tool_end":
-                # Tool execution completed
                 tool = getattr(event, 'tool', None)
                 tool_name = getattr(tool, 'name', 'unknown') if tool else 'unknown'
                 tool_output = getattr(event, 'output', None)
+                print(f"✅ TOOL END | {short_id} | {tool_name}")
+                if tool_output:
+                    output_str = str(tool_output)
+                    print(f"   └─ Output: {output_str[:200]}{'...' if len(output_str) > 200 else ''}")
                 await send_ws_message(websocket, MessageType.TOOL_RESULT, {
                     "tool": tool_name,
                     "status": "completed",
@@ -564,13 +648,12 @@ async def handle_agent_events(
                 })
 
             elif event_type == "handoff":
-                # Agent handoff occurred
                 old_agent = current_agent_name
                 to_agent = getattr(event, 'to_agent', None)
                 new_agent_name = getattr(to_agent, 'name', 'Unknown') if to_agent else 'Unknown'
                 current_agent_name = new_agent_name
                 session_manager.update_current_agent(session_id, current_agent_name)
-
+                print(f"🔀 HANDOFF | {short_id} | {old_agent} → {new_agent_name}")
                 await send_ws_message(websocket, MessageType.HANDOFF, {
                     "from_agent": old_agent,
                     "to_agent": new_agent_name,
@@ -578,22 +661,22 @@ async def handle_agent_events(
                 })
 
             elif event_type == "guardrail_tripped":
-                # Guardrail triggered
                 message = getattr(event, 'message', "I can only help with questions about doors and windows.")
+                print(f"🛑 GUARDRAIL | {short_id} | {message[:100]}")
                 await send_ws_message(websocket, MessageType.ERROR, {
                     "type": "guardrail",
                     "message": message
                 })
 
             elif event_type == "error":
-                # Error occurred
                 error = getattr(event, 'error', None)
                 error_msg = str(error) if error else "Unknown error"
+                print(f"❌ ERROR | {short_id} | {error_msg}")
                 await send_ws_message(websocket, MessageType.ERROR, {
                     "error": error_msg
                 })
 
-            # Send context update periodically (throttled)
+            # Send context update periodically (throttled) - silent
             now = datetime.now()
             if (now - last_context_update).total_seconds() > 1.0:
                 await send_ws_message(websocket, MessageType.CONTEXT_UPDATE, {
@@ -610,7 +693,7 @@ async def handle_agent_events(
     except asyncio.CancelledError:
         raise
     except Exception as e:
-        print(f"Error handling agent event: {e}")
+        print(f"❌ EVENT ERROR | {session_id[:12]} | {e}")
         import traceback
         traceback.print_exc()
 
