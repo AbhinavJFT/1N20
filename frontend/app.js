@@ -92,6 +92,7 @@ const elements = {
     voiceToggleBtn: document.getElementById('voiceToggleBtn'),
     voiceStatusBar: document.getElementById('voiceStatusBar'),
     voiceStatusText: document.getElementById('voiceStatusText'),
+    interruptBtn: document.getElementById('interruptBtn'),
 
     // Notifications
     handoffNotification: document.getElementById('handoffNotification'),
@@ -722,6 +723,8 @@ function handlePartialTranscript(data) {
 
         // Update voice status bar if in voice mode
         if (isVoiceModeActive) {
+            isAgentSpeaking = true;
+            pauseListening();
             updateVoiceStatus('agent-speaking');
         }
     }
@@ -745,8 +748,17 @@ function handleUserTranscript(data) {
 }
 
 function handleAudioOutput(data) {
+    console.log('[AUDIO_OUTPUT] Received, isVoiceModeActive:', isVoiceModeActive, 'hasAudio:', !!data.audio);
     // Play audio when in voice mode
     if (data.audio && isVoiceModeActive) {
+        // Ensure we're not listening while agent audio plays
+        if (!isAgentSpeaking) {
+            console.log('[AUDIO_OUTPUT] Agent started speaking, pausing listening');
+            isAgentSpeaking = true;
+            pendingAgentDone = false;  // Reset pending flag when new audio starts
+            pauseListening();
+            updateVoiceStatus('agent-speaking');
+        }
         playAudio(data.audio);
     }
     updateAgentIndicator('speaking');
@@ -809,16 +821,31 @@ function handleContextUpdate(data) {
 
 function handleAgentSpeaking(data) {
     updateAgentIndicator('speaking');
+    isAgentSpeaking = true;
     if (isVoiceModeActive) {
+        // Pause listening while agent speaks
+        pauseListening();
         updateVoiceStatus('agent-speaking');
     }
 }
 
 function handleAgentDone(data) {
+    console.log('[AGENT_DONE] Received, isVoiceModeActive:', isVoiceModeActive, 'audioQueue:', audioQueue.length, 'isProcessingAudio:', isProcessingAudio);
     finalizeTranscript();
     updateAgentIndicator('active');
-    // Resume listening when agent finishes speaking
+
+    // Check if audio is still playing
+    if (audioQueue.length > 0 || isProcessingAudio) {
+        console.log('[AGENT_DONE] Audio still playing, marking pendingAgentDone=true');
+        pendingAgentDone = true;
+        // Don't resume listening yet - the audio processor will handle it
+        return;
+    }
+
+    // No audio playing, can resume immediately
+    isAgentSpeaking = false;
     if (isVoiceModeActive) {
+        console.log('[AGENT_DONE] No audio pending, resuming listening');
         resumeListening();
         updateVoiceStatus('listening');
     }
@@ -851,6 +878,7 @@ function formatToolName(toolName) {
 let audioContextInstance = null;
 let audioQueue = [];
 let isProcessingAudio = false;
+let pendingAgentDone = false;  // Track if we received agent_done while audio is still playing
 
 /**
  * Initialize audio context
@@ -900,6 +928,7 @@ async function playAudio(base64Audio) {
 
         // Queue and play
         audioQueue.push(audioBuffer);
+        console.log('[AUDIO] Added to queue, queue length:', audioQueue.length);
         processAudioQueue();
 
     } catch (error) {
@@ -929,6 +958,18 @@ async function processAudioQueue() {
     }
 
     isProcessingAudio = false;
+    console.log('[AUDIO] Queue empty, isProcessingAudio:', isProcessingAudio, 'pendingAgentDone:', pendingAgentDone);
+
+    // Check if we received agent_done while audio was playing
+    if (pendingAgentDone) {
+        console.log('[AUDIO] Processing pending agent done - resuming listening');
+        pendingAgentDone = false;
+        isAgentSpeaking = false;
+        if (isVoiceModeActive) {
+            resumeListening();
+            updateVoiceStatus('listening');
+        }
+    }
 }
 
 // ============================================
@@ -939,6 +980,7 @@ let mediaStream = null;
 let audioProcessor = null;
 let isVoiceModeActive = false;  // Voice mode is on (UI state)
 let isListening = false;         // Currently capturing and sending audio
+let isAgentSpeaking = false;     // Track if agent is currently speaking
 
 /**
  * Start voice mode (continuous recording with turn-based control)
@@ -1014,9 +1056,10 @@ async function startVoiceMode() {
  * Pause listening (when user finishes speaking or agent starts)
  */
 function pauseListening() {
+    console.log('[VOICE] Pausing listening');
     isListening = false;
     if (isVoiceModeActive) {
-        updateVoiceStatus('processing');
+        updateVoiceStatus('agent-speaking');
     }
 }
 
@@ -1024,6 +1067,7 @@ function pauseListening() {
  * Resume listening (when agent finishes speaking)
  */
 function resumeListening() {
+    console.log('[VOICE] Resuming listening');
     if (isVoiceModeActive) {
         isListening = true;
         updateVoiceStatus('listening');
@@ -1065,19 +1109,28 @@ function stopVoiceMode() {
 function updateVoiceStatus(status) {
     const statusBar = elements.voiceStatusBar;
     const statusText = elements.voiceStatusText;
+    const interruptBtn = elements.interruptBtn;
 
-    statusBar.classList.remove('agent-speaking');
+    statusBar.classList.remove('agent-speaking', 'paused');
 
     switch (status) {
         case 'listening':
             statusText.textContent = 'Listening...';
+            interruptBtn.classList.add('hidden');
             break;
         case 'processing':
             statusText.textContent = 'Processing...';
+            interruptBtn.classList.add('hidden');
             break;
         case 'agent-speaking':
             statusBar.classList.add('agent-speaking');
             statusText.textContent = 'Agent speaking...';
+            interruptBtn.classList.remove('hidden');
+            break;
+        case 'paused':
+            statusBar.classList.add('paused');
+            statusText.textContent = 'Paused';
+            interruptBtn.classList.add('hidden');
             break;
     }
 }
@@ -1230,6 +1283,57 @@ elements.voiceToggleBtn.addEventListener('click', async () => {
         await startVoiceMode();
     }
 });
+
+/**
+ * Interrupt button - stop agent and start listening
+ */
+elements.interruptBtn.addEventListener('click', () => {
+    if (!isVoiceModeActive || !isAgentSpeaking) return;
+
+    console.log('[INTERRUPT] User interrupted agent');
+
+    // Send interrupt signal to backend
+    sendWebSocketMessage('interrupt', {});
+
+    // Clear any playing audio
+    clearAudioQueue();
+
+    // Reset agent speaking state
+    isAgentSpeaking = false;
+
+    // Resume listening immediately
+    resumeListening();
+    updateVoiceStatus('listening');
+    updateAgentIndicator('active');
+
+    showToast('Agent interrupted - listening now', 'info');
+});
+
+/**
+ * Clear the audio queue to stop playback
+ */
+function clearAudioQueue() {
+    console.log('[AUDIO] Clearing audio queue');
+    audioQueue = [];
+    isProcessingAudio = false;
+    pendingAgentDone = false;
+}
+
+/**
+ * Wait for all queued audio to finish playing
+ */
+function waitForAudioComplete() {
+    return new Promise((resolve) => {
+        const checkAudio = () => {
+            if (audioQueue.length === 0 && !isProcessingAudio) {
+                resolve();
+            } else {
+                setTimeout(checkAudio, 100);
+            }
+        };
+        checkAudio();
+    });
+}
 
 // ============================================
 // Initialization

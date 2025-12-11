@@ -914,6 +914,47 @@ input {
     font-weight: 500;
 }
 
+/* Interrupt Button (shown when agent is speaking) */
+.interrupt-btn {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-xs);
+    padding: var(--spacing-xs) var(--spacing-md);
+    background: rgba(255, 255, 255, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.4);
+    border-radius: var(--radius-full);
+    color: white;
+    font-size: 12px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all var(--transition-fast);
+    margin-left: var(--spacing-sm);
+}
+
+.interrupt-btn:hover {
+    background: rgba(255, 255, 255, 0.3);
+    border-color: rgba(255, 255, 255, 0.6);
+    transform: scale(1.05);
+}
+
+.interrupt-btn:active {
+    transform: scale(0.98);
+}
+
+.interrupt-btn i {
+    font-size: 12px;
+}
+
+/* Paused state for voice status bar */
+.voice-status-bar.paused {
+    background: var(--gray-400);
+}
+
+.voice-status-bar.paused .voice-status-waves span {
+    animation: none;
+    height: 8px;
+}
+
 /* Hidden Class */
 .hidden {
     display: none !important;

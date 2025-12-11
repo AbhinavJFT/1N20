@@ -376,6 +376,18 @@ async def handle_client_messages(
                     await realtime_session.send_message(text)
                     # Don't echo back - frontend already displays it
 
+            elif msg_type == "interrupt":
+                # User interrupted the agent - cancel current response
+                print(f"⏹️  USER INTERRUPT | {session_id[:12]} | User requested interrupt")
+                try:
+                    # Try to interrupt the realtime session
+                    if hasattr(realtime_session, 'interrupt'):
+                        await realtime_session.interrupt()
+                    elif hasattr(realtime_session, 'cancel'):
+                        await realtime_session.cancel()
+                except Exception as e:
+                    print(f"   └─ Interrupt error: {e}")
+
             elif msg_type == MessageType.END_SESSION.value:
                 break
 
@@ -481,6 +493,10 @@ async def handle_agent_events(
                             })
                             session_manager.add_message(session_id, "assistant", partial_agent_transcript, current_agent_name)
                             partial_agent_transcript = ""
+                        # Send agent done so frontend knows to resume listening
+                        await send_ws_message(websocket, MessageType.AGENT_DONE, {
+                            "agent": current_agent_name
+                        })
                         # Reset buffering state
                         awaiting_user_transcription = False
                         user_transcription_received = False
