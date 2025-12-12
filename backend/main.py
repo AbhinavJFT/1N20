@@ -284,7 +284,7 @@ async def websocket_endpoint(websocket: WebSocket, session_id: str):
                     "input_audio_format": "pcm16",
                     "output_audio_format": "pcm16",
                     "input_audio_transcription": {
-                        "model": "gpt-4o-transcribe",
+                        "model": config.TRANSRIPTION_MODEL,
                         "language": "en",
                     },
                     "turn_detection": {
