@@ -15,7 +15,6 @@ class Config:
 
     # OpenAI Configuration
     OPENAI_API_KEY: str = os.getenv("OPENAI_API_KEY", "")
-    print(OPENAI_API_KEY)
 
     # Pinecone Configuration
     PINECONE_API_KEY: str = os.getenv("PINECONE_API_KEY", "")
@@ -23,9 +22,14 @@ class Config:
 
     # Embedding model - must match what was used to create Pinecone index
     EMBEDDING_MODEL: str = os.getenv("EMBEDDING_MODEL", "text-embedding-3-large")
-    print(EMBEDDING_MODEL)
-    TRANSRIPTION_MODEL: str = os.getenv("TRANSRIPTION_MODEL", "gpt-4o-transcribe")
-    print(TRANSRIPTION_MODEL)
+
+    # VoicePipeline Models (STT → LLM → TTS)
+    STT_MODEL: str = os.getenv("STT_MODEL", "gpt-4o-mini-transcribe")  # Speech-to-text ($0.003/min)
+    TTS_MODEL: str = os.getenv("TTS_MODEL", "gpt-4o-mini-tts")  # Text-to-speech (~$0.015/min)
+    LLM_MODEL: str = os.getenv("LLM_MODEL", "gpt-4o-mini")  # Agent LLM for responses
+    print(f"Using LLM Model: {LLM_MODEL}")
+    print(f"Using TTS Model: {TTS_MODEL}")
+    print(f"Using STT Model: {STT_MODEL}")
 
     # SMTP Configuration
     SMTP_HOST: str = os.getenv("SMTP_HOST", "smtp.gmail.com")
@@ -37,12 +41,10 @@ class Config:
     CLIENT_EMAIL: str = os.getenv("CLIENT_EMAIL", "abhinav.sarkar@jellyfishtechnologies.com")
     COMPANY_NAME: str = os.getenv("COMPANY_NAME", "ABC Doors & Windows")
 
-    # Realtime API Configuration
-    REALTIME_MODEL: str = os.getenv("REALTIME_MODEL", "gpt-4o-mini-realtime-preview")
-    print(REALTIME_MODEL)
+    # Default voice (fallback)
     VOICE: str = os.getenv("VOICE", "alloy")
 
-    # Agent-specific voices (OpenAI Realtime API voices: alloy, ash, ballad, coral, echo, sage, shimmer, verse, marin, cedar)
+    # Agent-specific voices (OpenAI TTS voices: alloy, ash, ballad, coral, echo, sage, shimmer, verse)
     GREETING_AGENT_VOICE: str = os.getenv("GREETING_AGENT_VOICE", "coral")  # Warm, friendly voice
     SALES_AGENT_VOICE: str = os.getenv("SALES_AGENT_VOICE", "ash")  # Professional voice
 

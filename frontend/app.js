@@ -12,6 +12,10 @@ const CONFIG = {
     AUDIO_CHANNELS: 1,
     RECONNECT_DELAY: 3000,
     MAX_RECONNECT_ATTEMPTS: 5,
+    // Voice Activity Detection (VAD) settings for VoicePipeline
+    VAD_SILENCE_THRESHOLD: 0.01,  // RMS threshold for silence detection
+    VAD_SILENCE_DURATION_MS: 1000,  // How long to wait before considering turn ended
+    VAD_MIN_SPEECH_MS: 500,  // Minimum speech duration before checking for silence
 };
 
 // ============================================
@@ -705,14 +709,16 @@ function handleSessionEnded(data) {
 }
 
 function handleTranscript(data) {
-    // Finalize the typing message with the final text
     if (data.role === 'assistant') {
-        finalizeTranscript(data.text, data.agent || state.currentAgent);
-    }
+        const agentName = data.agent || state.currentAgent;
 
-    // Update voice transcript if in voice mode
-    if (state.currentMode === 'voice') {
-        elements.agentTranscriptText.textContent = processTextForDisplay(data.text);
+        // Check if there's a typing message to finalize
+        if (currentTypingMessage) {
+            finalizeTranscript(data.text, agentName);
+        } else {
+            // No typing message - add the message directly (text mode)
+            addMessage(data.text, 'agent', agentName);
+        }
     }
 }
 
@@ -738,11 +744,9 @@ function handleUserTranscript(data) {
     // Transliterate to English if contains non-English characters
     const displayText = processTextForDisplay(data.text);
 
-    // Always show user message in chat
-    addMessage(displayText, 'user');
-
-    // In voice mode, pause listening and wait for agent
+    // Only add user message in voice mode (text mode already adds it in sendChatMessage)
     if (isVoiceModeActive) {
+        addMessage(displayText, 'user');
         pauseListening();
     }
 }
@@ -982,11 +986,99 @@ let isVoiceModeActive = false;  // Voice mode is on (UI state)
 let isListening = false;         // Currently capturing and sending audio
 let isAgentSpeaking = false;     // Track if agent is currently speaking
 
+// VAD state for VoicePipeline turn detection
+let vadState = {
+    isSpeaking: false,
+    speechStartTime: null,
+    silenceStartTime: null,
+    turnEndTimeout: null,
+};
+
+/**
+ * Calculate RMS (Root Mean Square) of audio buffer for volume detection
+ */
+function calculateRMS(buffer) {
+    let sum = 0;
+    for (let i = 0; i < buffer.length; i++) {
+        sum += buffer[i] * buffer[i];
+    }
+    return Math.sqrt(sum / buffer.length);
+}
+
+/**
+ * Handle VAD (Voice Activity Detection) for VoicePipeline
+ * Detects when user stops speaking and triggers turn end
+ */
+function handleVAD(rms) {
+    const now = Date.now();
+    const isSpeech = rms > CONFIG.VAD_SILENCE_THRESHOLD;
+
+    if (isSpeech) {
+        // User is speaking
+        if (!vadState.isSpeaking) {
+            vadState.isSpeaking = true;
+            vadState.speechStartTime = now;
+            console.log('[VAD] Speech started');
+            // Notify backend that voice mode is active
+            sendWebSocketMessage('voice_mode_start', {});
+        }
+        vadState.silenceStartTime = null;
+
+        // Clear any pending turn end
+        if (vadState.turnEndTimeout) {
+            clearTimeout(vadState.turnEndTimeout);
+            vadState.turnEndTimeout = null;
+        }
+    } else {
+        // Silence detected
+        if (vadState.isSpeaking) {
+            if (!vadState.silenceStartTime) {
+                vadState.silenceStartTime = now;
+            }
+
+            const silenceDuration = now - vadState.silenceStartTime;
+            const speechDuration = vadState.speechStartTime ? now - vadState.speechStartTime : 0;
+
+            // Check if we've had enough speech and enough silence
+            if (speechDuration >= CONFIG.VAD_MIN_SPEECH_MS &&
+                silenceDuration >= CONFIG.VAD_SILENCE_DURATION_MS) {
+
+                // Schedule turn end (debounced)
+                if (!vadState.turnEndTimeout) {
+                    vadState.turnEndTimeout = setTimeout(() => {
+                        if (vadState.isSpeaking && isListening) {
+                            console.log('[VAD] Turn ended - silence detected');
+                            vadState.isSpeaking = false;
+                            vadState.speechStartTime = null;
+                            vadState.silenceStartTime = null;
+                            vadState.turnEndTimeout = null;
+
+                            // Pause listening and notify backend
+                            pauseListening();
+                            sendWebSocketMessage('voice_mode_end', {});
+                            updateVoiceStatus('processing');
+                        }
+                    }, 100);  // Small delay to avoid false triggers
+                }
+            }
+        }
+    }
+}
+
 /**
  * Start voice mode (continuous recording with turn-based control)
+ * Uses VoicePipeline architecture: audio is buffered and processed on turn end
  */
 async function startVoiceMode() {
     try {
+        // Reset VAD state
+        vadState = {
+            isSpeaking: false,
+            speechStartTime: null,
+            silenceStartTime: null,
+            turnEndTimeout: null,
+        };
+
         // Request microphone access
         mediaStream = await navigator.mediaDevices.getUserMedia({
             audio: {
@@ -1010,6 +1102,10 @@ async function startVoiceMode() {
 
             const inputData = event.inputBuffer.getChannelData(0);
 
+            // Calculate RMS for VAD
+            const rms = calculateRMS(inputData);
+            handleVAD(rms);
+
             // Convert Float32 to PCM16
             const pcm16 = new Int16Array(inputData.length);
             for (let i = 0; i < inputData.length; i++) {
@@ -1024,7 +1120,7 @@ async function startVoiceMode() {
             }
             const base64Audio = btoa(binary);
 
-            // Send to server
+            // Send to server (backend buffers until turn end)
             sendWebSocketMessage('audio_input', { audio: base64Audio });
         };
 
@@ -1070,6 +1166,13 @@ function resumeListening() {
     console.log('[VOICE] Resuming listening');
     if (isVoiceModeActive) {
         isListening = true;
+        // Reset VAD state for next turn
+        vadState = {
+            isSpeaking: false,
+            speechStartTime: null,
+            silenceStartTime: null,
+            turnEndTimeout: null,
+        };
         updateVoiceStatus('listening');
     }
 }
@@ -1081,6 +1184,17 @@ function stopVoiceMode() {
     isVoiceModeActive = false;
     isListening = false;
     state.isRecording = false;
+
+    // Clear VAD state and any pending timeouts
+    if (vadState.turnEndTimeout) {
+        clearTimeout(vadState.turnEndTimeout);
+    }
+    vadState = {
+        isSpeaking: false,
+        speechStartTime: null,
+        silenceStartTime: null,
+        turnEndTimeout: null,
+    };
 
     if (audioProcessor) {
         audioProcessor.disconnect();

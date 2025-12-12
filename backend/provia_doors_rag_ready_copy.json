@@ -1,0 +1,3115 @@
+{
+  "catalog_metadata": {
+    "name": "ProVia Doors Catalog",
+    "version": "2020",
+    "company": "ProVia",
+    "tagline": "The Professional Way",
+    "last_updated": "2020-01-01",
+    "total_products": 4,
+    "categories": ["Entry Doors", "Patio Doors", "Storm Doors", "Glass Options", "Hardware", "Finishes", "Accessories", "Frames"]
+  },
+  "products": {
+    "entry_doors": [
+      {
+        "chunk_id": "entry_door_embarq_001",
+        "product_id": "embarq",
+        "series": "Embarq Fiberglass",
+        "category": "Entry Door",
+        "tier": "Premium",
+        "energy_star": true,
+        "u_factor": "0.09",
+        "warranty": {
+          "finish": "15-year",
+          "glass": "Lifetime Limited",
+          "seal_failure": "Lifetime Limited"
+        },
+        "product_url": "https://www.provia.com/doors/entry-doors/embarq-fiberglass-entry-doors",
+        "description": "The Embarq fiberglass entry door represents the first product born from ProVia’s enVision™ innovation philosophy—reimagining how entry systems are engineered for energy efficiency, longevity, beauty, and structural integrity. This door is widely recognized as the most energy-efficient entry door in the U.S. market. It delivers an unprecedented U-Factor of 0.09 with its extra-thick 2.5-inch slab (43% thicker than traditional 1¾-inch exterior doors). To accommodate increased insulation, ProVia engineered internal channels in the stiles and rails to accept a larger polyurethane core. This core is injected using a computer-controlled foam-fill process that eliminates voids and maximizes thermal resistance. \n\nStructurally, stiles and rails are precision-dovetailed and bonded at each corner, forming a rigid, integrated frame resistant to warping, splitting, denting, and cracking. The door edge is crafted from real cherry, mahogany, or oak, harmonizing with selected skins. The 4¼-inch finger-jointed, 4-ply hardwood strike stile provides exceptional strength and a solid anchor point for Emtek® hardware, the exclusive hardware option for Embarq systems. The Z-AC threshold includes an auto-adjusting riser to maintain a tight seal, while the dual perimeter seal system forms a superior air and thermal barrier. A custom-designed sweep compensates for the door’s unique thickness to prevent drafts and environmental intrusion.\n\nThe authentic wood appearance is achieved using MasterGrain™ NVD (Nickel Vapor Deposition) technology, delivering premium grain realism. The DuraFuse™ P3 Fusion finishing system—applied through 7-step stain or 9-step glazed finishing processes—offers exceptional UV resistance, durability, and long-term color stability. Stain and paint finishing options include Cherry, Mahogany, Oak, and Knotty Alder skins with extensive color selections.\n\nFor glass options, Embarq exclusively uses the proprietary Quad Glass System engineered under enVision technology. The ComforTech™ QLK (Krypton-filled) glass achieves an R-Value of 10, while QLA (Argon-filled) achieves an R-Value of 9. These systems use multiple Low-E coated surfaces, inert gas fills, a Super Spacer®, and a Tri-Seal design, producing the most energy-efficient glass packages available in residential entry doors. All Embarq door styles, sidelites, and lites must use Quad Glass.\n\nExterior hardware is limited to premium Emtek® systems, with multiple handle styles such as Melrose, Imperial, Ribbon & Reed, Orleans, Marietta, and modern lever/knob options. Matching finishes include Lifetime Bright Brass, Satin Nickel, Oil Rubbed Bronze, and Lifetime Black. Frame compatibility includes FrameSaver®, FusionFrame®, and PermaTech®, all offering lifetime durability. Embarq also supports accessories such as Colonial door knockers, peepholes, kick plates, faux speakeasy windows, hinge straps, and clavos for decorative styling.\n\nOverall, Embarq represents a breakthrough in both performance and craftsmanship, offering a sophisticated look with industry-leading insulation, structural stability, advanced glass engineering, and long-term finish durability. It is specifically designed for homeowners seeking best-in-class efficiency, security, and luxury aesthetics in a premium entry system.",
+        "key_features": [
+          "2.5 inch thick door (43% thicker than standard)",
+          "Quad Glass System with R-10 value",
+          "Dovetailed and glued stiles/rails",
+          "4.25 inch finger-jointed 4-ply hardwood strike stile",
+          "High-performance composite bottom rail (rot-resistant)",
+          "Computer-controlled polyurethane foam core",
+          "MasterGrain NVD technology",
+          "DuraFuse P3 Fusion finish system",
+          "Z-AC auto-adjusting threshold"
+        ],
+        "skin_options": [
+          {"name": "Mahogany", "texture": "MasterGrain NVD"},
+          {"name": "Cherry", "texture": "MasterGrain NVD"},
+          {"name": "Oak", "texture": "MasterGrain NVD"},
+          {"name": "Knotty Alder", "texture": "MasterGrain NVD"},
+          {"URL": "https://www.provia.com/doors/entry-doors/embarq-fiberglass-entry-doors", "description": "Image shows skins options available for embarq doors"}          
+        ],
+        "door_styles": [
+          {"code": "002C-449", "has_glass": true, "glass_type": "decorative", "notes": "Center arch"},
+          {"code": "002CP-449", "has_glass": true, "glass_type": "decorative", "notes": "Center arch with plank"},
+          {"code": "002-440", "has_glass": true, "glass_type": "decorative", "notes": "Standard arch"},
+          {"code": "002P-440", "has_glass": true, "glass_type": "decorative", "notes": "Arch with plank"},
+          {"code": "003", "has_glass": true, "glass_type": "decorative", "notes": "3-panel"},
+          {"code": "002C-437", "has_glass": true, "glass_type": "decorative", "notes": "Center arch alternate"},
+          {"code": "002CP-437", "has_glass": true, "glass_type": "decorative", "notes": "Center arch plank alternate"},
+          {"code": "006", "has_glass": true, "glass_type": "decorative", "notes": "6-panel"},
+          {"code": "008P", "has_glass": true, "glass_type": "decorative", "notes": "8-panel plank"},
+          {"code": "419", "has_glass": true, "glass_type": "decorative", "notes": "Traditional"},
+          {"code": "430-1P", "has_glass": true, "glass_type": "decorative", "notes": "1-panel prairie"},
+          {"code": "430-1PP", "has_glass": true, "glass_type": "decorative", "notes": "1-panel prairie plank"},
+          {"code": "430-2P", "has_glass": true, "glass_type": "decorative", "notes": "2-panel prairie"},
+          {"code": "449-1P", "has_glass": true, "glass_type": "decorative", "notes": "1-panel contemporary"},
+          {"code": "449-1PP", "has_glass": true, "glass_type": "decorative", "notes": "1-panel contemporary plank"},
+          {"code": "243", "has_glass": true, "glass_type": "decorative", "notes": "Traditional lite"},
+          {"code": "150", "has_glass": true, "glass_type": "decorative", "notes": "Half lite"},
+          {"code": "440-1P", "has_glass": true, "glass_type": "decorative", "notes": "1-panel modern"},
+          {"code": "440-1PP", "has_glass": true, "glass_type": "decorative", "notes": "1-panel modern plank"},
+          {"code": "440-2P", "has_glass": true, "glass_type": "decorative", "notes": "2-panel modern"},
+          {"code": "460", "has_glass": true, "glass_type": "full_lite", "notes": "Full lite"}
+        ],
+        
+        "sidelites": [
+          {"code": "130", "width": "12 inch", "type": "decorative"},
+          {"code": "140", "width": "14 inch", "type": "decorative"},
+          {"code": "160", "width": "16 inch", "type": "decorative"},
+          {"code": "460", "width": "varies", "type": "full lite"}
+        ],
+        "glass_packages": [
+          {
+            "code": "QLK",
+            "name": "ComforTech QLK",
+            "type": "Quad Glass",
+            "gas_fill": "Krypton",
+            "r_value": 10,
+            "u_factor": "0.09",
+            "features": ["4 panes", "Super Spacer", "Low-E coating", "Krypton gas"]
+          },
+          {
+            "code": "QLA",
+            "name": "ComforTech QLA",
+            "type": "Quad Glass",
+            "gas_fill": "Argon",
+            "r_value": 9,
+            "u_factor": "0.11",
+            "features": ["4 panes", "Super Spacer", "Low-E coating", "Argon gas"]
+          }
+        ],
+        "compatible_decorative_glass": [
+          {"name": "Mirage", "code": "MIR", "privacy_level": 7, "new": true},
+          {"name": "Brookhaven", "code": "BRO", "privacy_level": 8, "new": true},
+          {"name": "Manhattan", "code": "MAN", "privacy_level": 8, "new": true},
+          {"name": "Essence", "code": "ES", "privacy_level": 6},
+          {"name": "Cheyenne", "code": "CH", "privacy_level": 8},
+          {"name": "Symphony", "code": "SY", "privacy_level": 5},
+          {"name": "Berkley", "code": "BE", "privacy_level": 7},
+          {"name": "Laurence", "code": "LAU", "privacy_level": 6},
+          {"name": "Carrington", "code": "CAR", "privacy_level": 5},
+          {"name": "Tacoma", "code": "TAC", "privacy_level": 6},
+          {"name": "Somerset", "code": "SOM", "privacy_level": 6},
+          {"name": "Carmen", "code": "CRM", "privacy_level": 9},
+          {"name": "Barcelona", "code": "BAR", "privacy_level": 8},
+          {"name": "Constance", "code": "CON", "privacy_level": 6},
+          {"name": "Tranquility", "code": "TR", "privacy_level": 8},
+          {"name": "Gemstone", "code": "GEM", "privacy_level": 7},
+          {"name": "Eclipse", "code": "EC", "privacy_level": 7},
+          {"name": "Florence", "code": "FL", "privacy_level": 8},
+          {"name": "Esmond", "code": "ESM", "privacy_level": 6},
+          {"name": "Carlisle", "code": "CR", "privacy_level": 7}                    
+        ],
+        "compatible_finishes": {
+          "stain_cherry_mahogany": [
+            {"name": "Toffee", "type": "stain", "wood_types": ["Cherry", "Mahogany"]},
+            {"name": "American Cherry", "type": "stain", "wood_types": ["Cherry", "Mahogany"]},
+            {"name": "Chestnut", "type": "stain", "wood_types": ["Cherry", "Mahogany"]},
+            {"name": "Cinnamon", "type": "stain", "wood_types": ["Cherry", "Mahogany"]},
+            {"name": "Nutmeg", "type": "stain", "wood_types": ["Cherry", "Mahogany"]},
+            {"name": "Hazelnut", "type": "stain", "wood_types": ["Cherry", "Mahogany"]},
+            {"name": "Coffee Bean", "type": "stain", "wood_types": ["Cherry", "Mahogany"]},
+            {"name": "Honey Wheat", "type": "stain", "wood_types": ["Cherry", "Mahogany"]}
+          ],
+          "stain_oak_knotty_alder": [
+            {"name": "Caramel", "type": "stain", "wood_types": ["Oak", "Knotty Alder"]},
+            {"name": "Truffle", "type": "stain", "wood_types": ["Oak", "Knotty Alder"]},
+            {"name": "Ginger", "type": "stain", "wood_types": ["Oak", "Knotty Alder"]},
+            {"name": "Almond", "type": "stain", "wood_types": ["Oak", "Knotty Alder"]},
+            {"name": "Pecan", "type": "stain", "wood_types": ["Oak", "Knotty Alder"]},
+            {"name": "Espresso", "type": "stain", "wood_types": ["Oak", "Knotty Alder"]}
+          ],
+          "glazed": [
+            {"name": "Winter Rain", "type": "glazed", "process": "9-step hand-applied"},
+            {"name": "Dutch Gray", "type": "glazed", "process": "9-step hand-applied"},
+            {"name": "Rustic Sage", "type": "glazed", "process": "9-step hand-applied"},
+            {"name": "Red Velvet", "type": "glazed", "process": "9-step hand-applied"},
+            {"name": "Windy City", "type": "glazed", "process": "9-step hand-applied"},
+            {"name": "River Gorge", "type": "glazed", "process": "9-step hand-applied"},
+            {"name": "Natural Leather", "type": "glazed", "process": "9-step hand-applied"}
+          ],
+          "paint": "All standard and trending colors available"
+        },
+        "compatible_hardware": [
+          {
+            "brand": "Emtek",
+            "type": "Interconnect",
+            "required": true,
+            "note": "Only hardware option for Embarq",
+            "styles": ["Melrose", "Imperial", "Ribbon & Reed", "Orleans", "Marietta", "Modern Rectangular", "Hanover Lever", "Round Knob"],
+            "finishes": ["Lifetime Bright Brass", "Lifetime Satin Nickel", "Lifetime Oil Rubbed Bronze", "Lifetime Black"]
+          }
+        ],
+        "compatible_frames": [
+          {"name": "FrameSaver", "material": "Wood with composite bottom", "warranty": "Lifetime Limited"},
+          {"name": "FusionFrame", "material": "LVL interior + FrameSaver bottom + composite exterior", "warranty": "Lifetime"},
+          {"name": "PermaTech", "material": "Full composite", "warranty": "Lifetime Limited"}
+        ],
+        "restrictions": {
+          "hardware": "Only compatible with Emtek Interconnect",
+          "frames": "Not compatible with Steel L-Frame",
+          "glass": "Requires Quad Glass System (QLK or QLA)"
+        },
+        "image_urls": {
+        "primary - main image of the door": [
+          "images/embarq/main.jpg"
+        ],
+
+        "skin_samples - shows woodgrain textures and available skin materials": [
+          "images/embarq/door_skins.jpg"
+        ],
+
+        "door_styles - door panel layouts, lite configurations, and style codes": [
+          "images/embarq/door_styles.jpg"
+        ],
+
+        "detail_images - close-up photos showing construction details such as dovetailed stiles, NVD woodgrain texture, seals, threshold, hardware area, and edge build": [
+          "images/embarq/detail_images.jpg"
+        ],
+
+        "paint_colors - displays available factory paint options": [
+          "images/embarq/paint_colors.jpg"
+        ],
+
+        "paints - finishing system illustration including 5-step paint process, cured surface examples, urethane coat layers, and robotic spray application visuals": [
+          "images/embarq/paints.jpg"
+        ],
+
+        "stain_finish - shows 7-step and 9-step stain/glaze finishing results": [
+          "images/embarq/stain_finish.jpg"
+        ]
+      },
+        "search_tags": [
+          "embarq", "premium door", "highest efficiency", "quad glass", "2.5 inch thick",
+          "fiberglass door", "energy efficient", "r-10", "emtek only", "dovetailed construction"
+        ],
+        "source_pages": [18, 19, 20, 21]
+      },
+      {
+        "chunk_id": "entry_door_signet_002",
+        "product_id": "signet",
+        "series": "Signet Fiberglass",
+        "category": "Entry Door",
+        "tier": "Premium",
+        "energy_star": true,
+        "u_factor": "0.16",
+        "warranty": {
+          "finish": "15-year",
+          "glass": "Lifetime Limited",
+          "seal_failure": "Lifetime Limited"
+        },
+        "description": "Signet Fiberglass doors are engineered to deliver exceptional structural integrity, authentic wood aesthetics, and industry-leading finish durability. Available in Cherry, Mahogany, Oak, Fir, Knotty Alder, and Smooth Series, Signet doors surpass traditional fiberglass construction through robust hardwood stiles and rails that are precision dovetailed and glued at each corner to form a solid, integrated frame. The 2⅝-inch finger-jointed, 3-ply hardwood hinge stile and the 4¼-inch finger-jointed, 4-ply hardwood strike stile offer superior mounting strength and long-term durability for decorative hardware. Every door is foam-filled by a computer-driven injection process that ensures optimal insulation, efficiency, and internal stability. Signet’s realistic wood appearance is achieved through MasterGrain’s advanced NVD (Nickel Vapor Deposition) technology, with matching real-wood edges crafted from Cherry, Mahogany, Oak, or Fir. Scientifically formulated fiberglass compounds give the door exceptional resistance to denting, warping, cracking, and splitting, while high-definition panel profiles create crisp shadow lines and rich architectural detail. Signet also features Plugless Window Trim (not available on Fir), a Z-AC threshold with auto-adjusting riser, high-performance composite bottom rails for rot resistance, and an ENERGY STAR®–qualified design on most configurations. All Signet doors utilize ProVia’s exclusive DuraFuse™ Finishing System with P3 Fusion, enabling a best-in-class 10-year finish warranty and offering a wide selection of stains and paints. Homeowners can fully customize both sides of the door with different styles and finishes, and ProVia accommodates custom widths and heights in precise 1/8-inch increments. The interior frame is hand-stained or painted to match, ensuring a consistent, premium appearance from every angle.",
+        "key_features": [
+          "Dovetailed and glued stiles/rails",
+          "2.625 inch finger-jointed 3-ply hardwood hinge stile",
+          "4.25 inch finger-jointed 4-ply hardwood strike stile",
+          "High-performance composite bottom rail",
+          "Plugless window trim (standard)",
+          "MasterGrain NVD technology",
+          "DuraFuse P3 Fusion finish system",
+          "Z-AC auto-adjusting threshold",
+          "Custom widths and heights available (1/8 inch increments)"
+        ],
+        "skin_options": [
+          {"name": "Mahogany", "texture": "MasterGrain NVD"},
+          {"name": "Cherry", "texture": "MasterGrain NVD"},
+          {"name": "Oak", "texture": "MasterGrain NVD"},
+          {"name": "Knotty Alder", "texture": "MasterGrain NVD"},
+          {"name": "Fir", "texture": "MasterGrain NVD"},
+          {"name": "Smooth", "texture": "Smooth finish"}
+        ],
+        "door_styles": [
+          {"code": "001", "has_glass": false, "glass_type": null, "notes": "1-panel flush"},
+          {"code": "001C", "has_glass": false, "glass_type": null, "notes": "1-panel flush center"},
+          {"code": "002C-449", "has_glass": true, "glass_type": "decorative", "notes": "Center arch"},
+          {"code": "002CP-449", "has_glass": true, "glass_type": "decorative", "notes": "Center arch with plank"},
+          {"code": "002-440", "has_glass": true, "glass_type": "decorative", "notes": "Standard arch"},
+          {"code": "002P-440", "has_glass": true, "glass_type": "decorative", "notes": "Arch with plank"},
+          {"code": "002C-437", "has_glass": true, "glass_type": "decorative", "notes": "Center arch alternate"},
+          {"code": "002CP-437", "has_glass": true, "glass_type": "decorative", "notes": "Center arch plank alternate"},
+          {"code": "003", "has_glass": true, "glass_type": "decorative", "notes": "3-panel"},
+          {"code": "003C", "has_glass": true, "glass_type": "decorative", "notes": "3-panel center"},
+          {"code": "003M", "has_glass": true, "glass_type": "decorative", "notes": "3-panel modified"},
+          {"code": "006", "has_glass": false, "glass_type": null, "notes": "6-panel"},
+          {"code": "008P", "has_glass": false, "glass_type": null, "notes": "8-panel plank"},
+          {"code": "419", "has_glass": true, "glass_type": "decorative", "notes": "Traditional"},
+          {"code": "420", "has_glass": true, "glass_type": "decorative", "notes": "Traditional variant"},
+          {"code": "420-DS", "has_glass": true, "glass_type": "decorative", "notes": "Traditional double"},
+          {"code": "113", "has_glass": true, "glass_type": "decorative", "notes": "Small lite"},
+          {"code": "115", "has_glass": true, "glass_type": "decorative", "notes": "Medium lite"},
+          {"code": "116", "has_glass": true, "glass_type": "decorative", "notes": "Large lite"},
+          {"code": "243", "has_glass": true, "glass_type": "decorative", "notes": "Traditional lite"},
+          {"code": "150", "has_glass": true, "glass_type": "decorative", "notes": "Half lite"},
+          {"code": "150M", "has_glass": true, "glass_type": "decorative", "notes": "Half lite modified"},
+          {"code": "430-1P", "has_glass": true, "glass_type": "decorative", "notes": "1-panel prairie"},
+          {"code": "430-1PP", "has_glass": true, "glass_type": "decorative", "notes": "1-panel prairie plank"},
+          {"code": "430-2P", "has_glass": true, "glass_type": "decorative", "notes": "2-panel prairie"},
+          {"code": "440-1P", "has_glass": true, "glass_type": "decorative", "notes": "1-panel modern"},
+          {"code": "440-1PP", "has_glass": true, "glass_type": "decorative", "notes": "1-panel modern plank"},
+          {"code": "440-2P", "has_glass": true, "glass_type": "decorative", "notes": "2-panel modern"},
+          {"code": "449-1P", "has_glass": true, "glass_type": "decorative", "notes": "1-panel contemporary"},
+          {"code": "449-1PP", "has_glass": true, "glass_type": "decorative", "notes": "1-panel contemporary plank"},
+          {"code": "460", "has_glass": true, "glass_type": "full_lite", "notes": "Full lite"}
+        ],
+        "sidelites": [
+          {"code": "120", "width": "10 inch", "type": "decorative"},
+          {"code": "130", "width": "12 inch", "type": "decorative"},
+          {"code": "140", "width": "14 inch", "type": "decorative"},
+          {"code": "160", "width": "16 inch", "type": "decorative"},
+          {"code": "460", "width": "varies", "type": "full lite"}
+        ],
+        "eight_foot_doors": {
+          "available": true,
+          "styles": ["001", "002W", "002WP", "002C-449", "002CP-449", "002C-437", "002CP-437", "115", "116", "440-1P", "440-1PP", "430-1P", "430-1PP", "437-1P", "437-1PP", "150-1P", "460"],
+          "hardware_required": ["Trilennium", "Hoppe"]
+        },
+        "glass_packages": [
+          {
+            "code": "TLK",
+            "name": "ComforTech TLK",
+            "type": "Triple",
+            "gas_fill": "Krypton",
+            "r_value": 10,
+            "features": ["3 panes", "Super Spacer", "Low-E coating", "Krypton gas"]
+          },
+          {
+            "code": "TLA",
+            "name": "ComforTech TLA",
+            "type": "Triple",
+            "gas_fill": "Argon",
+            "r_value": 7,
+            "features": ["3 panes", "Super Spacer", "Low-E coating", "Argon gas"]
+          },
+          {
+            "code": "DLA",
+            "name": "ComforTech DLA",
+            "type": "Double",
+            "gas_fill": "Argon",
+            "r_value": 4,
+            "features": ["2 panes", "Super Spacer", "Low-E coating", "Argon gas"]
+          },
+          {
+            "code": "DC",
+            "name": "ComforTech DC",
+            "type": "Double",
+            "gas_fill": "Air",
+            "r_value": 2,
+            "features": ["2 panes", "Super Spacer"]
+          }
+        ],
+        "compatible_decorative_glass": [
+          {"name": "Mirage", "code": "MIR", "privacy_level": 7, "new": true},
+          {"name": "Brookhaven", "code": "BRO", "privacy_level": 8, "new": true},
+          {"name": "Manhattan", "code": "MAN", "privacy_level": 8, "new": true},
+          {"name": "Essence", "code": "ES", "privacy_level": 6},
+          {"name": "Cheyenne", "code": "CH", "privacy_level": 8},
+          {"name": "Symphony", "code": "SY", "privacy_level": 5},
+          {"name": "Berkley", "code": "BE", "privacy_level": 7},
+          {"name": "Laurence", "code": "LAU", "privacy_level": 6},
+          {"name": "Carrington", "code": "CAR", "privacy_level": 5},
+          {"name": "Tacoma", "code": "TAC", "privacy_level": 6},
+          {"name": "Somerset", "code": "SOM", "privacy_level": 6},
+          {"name": "Carmen", "code": "CRM", "privacy_level": 9},
+          {"name": "Barcelona", "code": "BAR", "privacy_level": 8},
+          {"name": "Constance", "code": "CON", "privacy_level": 6},
+          {"name": "Tranquility", "code": "TR", "privacy_level": 8},
+          {"name": "Gemstone", "code": "GEM", "privacy_level": 7},
+          {"name": "Eclipse", "code": "EC", "privacy_level": 7},
+          {"name": "Florence", "code": "FL", "privacy_level": 8},
+          {"name": "Esmond", "code": "ESM", "privacy_level": 6},
+          {"name": "Carlisle", "code": "CR", "privacy_level": 7},
+          {"name": "Twilight", "code": "TWI", "privacy_level": 8},
+          {"name": "Brainstorm", "code": "BRS", "privacy_level": 6, "type": "Dialogue Layered"},
+          {"name": "Repartee", "code": "REP", "privacy_level": 8, "type": "Dialogue Layered"}
+        ],
+        "compatible_finishes": {
+          "stain_cherry_mahogany": [
+            {"name": "Toffee", "type": "stain", "wood_types": ["Cherry", "Mahogany"]},
+            {"name": "American Cherry", "type": "stain", "wood_types": ["Cherry", "Mahogany"]},
+            {"name": "Chestnut", "type": "stain", "wood_types": ["Cherry", "Mahogany"]},
+            {"name": "Cinnamon", "type": "stain", "wood_types": ["Cherry", "Mahogany"]},
+            {"name": "Nutmeg", "type": "stain", "wood_types": ["Cherry", "Mahogany"]},
+            {"name": "Hazelnut", "type": "stain", "wood_types": ["Cherry", "Mahogany"]},
+            {"name": "Coffee Bean", "type": "stain", "wood_types": ["Cherry", "Mahogany"]},
+            {"name": "Honey Wheat", "type": "stain", "wood_types": ["Cherry", "Mahogany"]}
+          ],
+          "stain_oak_knotty_alder_fir": [
+            {"name": "Caramel", "type": "stain", "wood_types": ["Oak", "Knotty Alder", "Fir"]},
+            {"name": "Truffle", "type": "stain", "wood_types": ["Oak", "Knotty Alder", "Fir"]},
+            {"name": "Ginger", "type": "stain", "wood_types": ["Oak", "Knotty Alder", "Fir"]},
+            {"name": "Almond", "type": "stain", "wood_types": ["Oak", "Knotty Alder", "Fir"]},
+            {"name": "Pecan", "type": "stain", "wood_types": ["Oak", "Knotty Alder", "Fir"]},
+            {"name": "Espresso", "type": "stain", "wood_types": ["Oak", "Knotty Alder", "Fir"]}
+          ],
+          "glazed": [
+            {"name": "Winter Rain", "type": "glazed", "process": "9-step hand-applied"},
+            {"name": "Dutch Gray", "type": "glazed", "process": "9-step hand-applied"},
+            {"name": "Rustic Sage", "type": "glazed", "process": "9-step hand-applied"},
+            {"name": "Red Velvet", "type": "glazed", "process": "9-step hand-applied"},
+            {"name": "Windy City", "type": "glazed", "process": "9-step hand-applied"},
+            {"name": "River Gorge", "type": "glazed", "process": "9-step hand-applied"},
+            {"name": "Natural Leather", "type": "glazed", "process": "9-step hand-applied"}
+          ],
+          "paint": "All standard and trending colors available"
+        },
+        "compatible_hardware": [
+          {
+            "brand": "Trilennium",
+            "type": "Multi-Point",
+            "required_for": "8ft doors",
+            "styles": ["Eclipse", "Pinnacle", "Westcott"],
+            "finishes": ["Lifetime Bright Brass", "Lifetime Satin Nickel", "Lifetime Flat Bronze", "Lifetime Black"]
+          },
+          {
+            "brand": "Hoppe",
+            "type": "Multi-Point",
+            "required_for": "8ft doors",
+            "styles": ["New Orleans Contemporary Arch", "New Orleans Classic Arch"],
+            "finishes": ["Lifetime Bright Brass", "Lifetime Satin Nickel"]
+          },
+          {
+            "brand": "Emtek",
+            "type": "Mortise",
+            "styles": ["Craftsman", "Salem", "Mills", "Albany"],
+            "finishes": ["Lifetime Bright Brass", "Lifetime Satin Nickel", "Lifetime Oil Rubbed Bronze", "Lifetime Black"]
+          },
+          {
+            "brand": "Emtek",
+            "type": "Interconnect",
+            "styles": ["Melrose", "Imperial", "Ribbon & Reed", "Orleans", "Marietta", "Modern Rectangular", "Hanover Lever", "Round Knob"],
+            "finishes": ["Lifetime Bright Brass", "Lifetime Satin Nickel", "Lifetime Oil Rubbed Bronze", "Lifetime Black"]
+          },
+          {
+            "brand": "Brinks",
+            "type": "Push Pull Rotate",
+            "styles": ["Harper Lever with Almarrion Deadbolt", "Stafford Knob with Almarrion Deadbolt", "Anderson with Brynne Deadbolt"],
+            "finishes": ["10-Year Satin Nickel", "10-Year Aged Bronze"]
+          },
+          {
+            "brand": "Schlage",
+            "type": "Vintage",
+            "styles": ["Addison", "Camelot", "Plymouth"],
+            "finishes": ["Lifetime Bright Brass", "Lifetime Satin Nickel", "Lifetime Antique Brass", "Lifetime Black"]
+          },
+          {
+            "brand": "Schlage",
+            "type": "Electronic",
+            "styles": ["Sense Smart Deadbolt", "Electronic Keypad Deadbolt", "Touch Keypad Deadbolt"],
+            "finishes": ["Lifetime Satin Nickel", "Lifetime Black", "Lifetime Bright Brass", "Lifetime Antique Brass"]
+          },
+          {
+            "brand": "Schlage",
+            "type": "Classic",
+            "styles": ["Accent/Addison", "Flair", "Georgian", "Latitude Lever"],
+            "finishes": ["Lifetime Bright Brass", "Lifetime Satin Nickel", "Lifetime Antique Brass", "Lifetime Black"]
+          }
+        ],
+        "compatible_frames": [
+          {"name": "FrameSaver", "material": "Wood with composite bottom", "warranty": "Lifetime Limited"},
+          {"name": "FusionFrame", "material": "LVL interior + FrameSaver bottom + composite exterior", "warranty": "Lifetime"},
+          {"name": "PermaTech", "material": "Full composite", "warranty": "Lifetime Limited"},
+          {"name": "Steel L-Frame", "material": "18-gauge steel", "warranty": "Standard"}
+        ],
+        "customization": {
+          "both_sides_different": true,
+          "custom_widths": true,
+          "custom_heights": true,
+          "increment": "1/8 inch"
+        },
+        "impact_shield": {
+          "available": true,
+          "restriction": "Doors without glass only"
+        },
+        "image_urls": {
+          "primary": ["images/signet/main.jpg", "images/signet/hero.jpg"],
+          "skin_samples": [
+            "images/signet/door_skin.jpg"   
+          ],
+          "door_styles": [
+            "images/signet/style_001.jpg",
+            "images/signet/style_002C-449.jpg",
+            "images/signet/style_003.jpg",
+            "images/signet/style_006.jpg",
+            "images/signet/style_460.jpg"
+          ],
+          "detail_images": [
+            "images/signet/dovetail_construction.jpg",
+            "images/signet/plugless_trim.jpg",
+            "images/signet/threshold.jpg"
+          ]
+        },
+        "search_tags": [
+          "signet", "premium fiberglass", "dovetailed", "plugless trim", "custom sizes",
+          "8 foot doors", "triple glass", "all hardware options", "durafuse finish"
+        ],
+        "source_pages": [22, 23]
+      },
+      {
+        "chunk_id": "entry_door_heritage_003",
+        "product_id": "heritage",
+        "series": "Heritage Fiberglass",
+        "category": "Entry Door",
+        "tier": "Mid-Range",
+        "energy_star": true,
+        "u_factor": "0.14",
+        "warranty": {
+          "finish": "10-year",
+          "glass": "Lifetime Limited",
+          "seal_failure": "Lifetime Limited"
+        },
+        "description": "Heritage Fiberglass doors are designed to deliver a refined woodgrain appearance with enhanced texture, improved definition embossing, and a durable hardwood edge that helps prevent warping over time. Available in Oak, Smooth, and Hemlock skin options, these doors offer a versatile aesthetic suited for both traditional and modern entryways. Most Heritage Fiberglass Entry Systems are ENERGY STAR® certified, providing reliable energy efficiency for the home. ProVia also offers custom door and sidelite heights in precise 1/8-inch increments, allowing homeowners to achieve an exact fit for unique openings. Supported by a 10-year finish warranty and compatible with a wide range of paint and stain options, Heritage doors combine strength, style, and performance in a value-focused fiberglass solution. Heritage Fiberglass doors are engineered for durability, energy efficiency, and the authentic look of real wood. Their polyurethane core significantly reduces energy loss, while improved definition panel profiles create crisp shadow lines and distinctive panel designs. Both the hinge and strike sides use 1⅞-inch finger-jointed, 2-ply solid oak laminated stiles that provide enhanced rigidity and long-term structural integrity. The variable-depth woodgrain texture, paired with hand-applied stain, closely replicates the appearance of natural wood, and the square-edge design further enhances the traditional wood door aesthetic. Specially engineered fiberglass facings prevent denting and resist splitting, cracking, and warping, ensuring a long-lasting, low-maintenance entry system. The reinforced lock area offers a secure mounting surface for decorative hardware, and optional Plugless Window Trim provides a clean, finished appearance. A high-performance composite bottom rail delivers excellent rot resistance, while the ZAI™ threshold features a manually adjustable riser with matching screw cover caps and comes standard in an aluminum mill finish—creating a reliable and durable seal at the base of the door.",
+        "key_features": [
+          "1.875 inch finger-jointed 2-ply solid oak laminated stiles",
+          "Variable-depth woodgrain texture",
+          "High-performance composite bottom rail",
+          "ZAI manually-adjustable threshold",
+          "Custom heights available (1/8 inch increments)",
+          "5-6 step finish process"
+        ],
+        "skin_options": [
+          {"name": "Oak", "texture": "Variable-depth woodgrain"},
+          {"name": "Hemlock", "texture": "Variable-depth woodgrain"},
+          {"name": "Smooth", "texture": "Smooth finish"}
+        ],
+        "door_styles": [
+          {"code": "400-4P", "has_glass": false, "glass_type": null, "notes": "4-panel"},
+          {"code": "400-6P", "has_glass": false, "glass_type": null, "notes": "6-panel"},
+          {"code": "230", "has_glass": true, "glass_type": "decorative", "notes": "Traditional oval"},
+          {"code": "439-2P", "has_glass": true, "glass_type": "decorative", "notes": "2-panel prairie oval"},
+          {"code": "419-3P", "has_glass": true, "glass_type": "decorative", "notes": "3-panel traditional"},
+          {"code": "439-3P", "has_glass": true, "glass_type": "decorative", "notes": "3-panel prairie oval"},
+          {"code": "419-4P", "has_glass": true, "glass_type": "decorative", "notes": "4-panel traditional"},
+          {"code": "243", "has_glass": true, "glass_type": "decorative", "notes": "Traditional lite"},
+          {"code": "419-6P", "has_glass": true, "glass_type": "decorative", "notes": "6-panel traditional"},
+          {"code": "150", "has_glass": true, "glass_type": "decorative", "notes": "Half lite"},
+          {"code": "420-3P", "has_glass": true, "glass_type": "decorative", "notes": "3-panel variant"},
+          {"code": "440-1P", "has_glass": true, "glass_type": "decorative", "notes": "1-panel modern"},
+          {"code": "420-4P", "has_glass": true, "glass_type": "decorative", "notes": "4-panel variant"},
+          {"code": "440-2P", "has_glass": true, "glass_type": "decorative", "notes": "2-panel modern"},
+          {"code": "410", "has_glass": true, "glass_type": "decorative", "notes": "Traditional circle"},
+          {"code": "206", "has_glass": true, "glass_type": "decorative", "notes": "Small circle"},
+          {"code": "420-6P", "has_glass": true, "glass_type": "decorative", "notes": "6-panel variant"},
+          {"code": "350", "has_glass": true, "glass_type": "decorative", "notes": "3/4 lite"},
+          {"code": "460", "has_glass": true, "glass_type": "full_lite", "notes": "Full lite"},
+          {"code": "430-1P", "has_glass": true, "glass_type": "decorative", "notes": "1-panel prairie"},
+          {"code": "001", "has_glass": false, "glass_type": null, "notes": "1-panel flush"},
+          {"code": "430-2P", "has_glass": true, "glass_type": "decorative", "notes": "2-panel prairie"},
+          {"code": "002", "has_glass": false, "glass_type": null, "notes": "2-panel"},
+          {"code": "430-3P", "has_glass": true, "glass_type": "decorative", "notes": "3-panel prairie"},
+          {"code": "003", "has_glass": false, "glass_type": null, "notes": "3-panel"},
+          {"code": "112", "has_glass": true, "glass_type": "decorative", "notes": "Small lite"},
+          {"code": "004", "has_glass": false, "glass_type": null, "notes": "4-panel"},
+          {"code": "114", "has_glass": true, "glass_type": "decorative", "notes": "Medium lite"},
+          {"code": "006", "has_glass": false, "glass_type": null, "notes": "6-panel"},
+          {"code": "115", "has_glass": true, "glass_type": "decorative", "notes": "Medium-large lite"},
+          {"code": "116", "has_glass": true, "glass_type": "decorative", "notes": "Large lite"},
+          {"code": "006C", "has_glass": false, "glass_type": null, "notes": "6-panel center"},
+          {"code": "008P", "has_glass": false, "glass_type": null, "notes": "8-panel plank"}
+        ],
+        "sidelites": [
+          {"code": "130", "width": "12 inch", "type": "decorative"},
+          {"code": "140", "width": "14 inch", "type": "decorative"},
+          {"code": "160", "width": "16 inch", "type": "decorative"},
+          {"code": "460", "width": "varies", "type": "full lite"}
+        ],
+        "eight_foot_doors": {
+          "available": true,
+          "styles": ["001", "002", "006", "008P", "430-1P", "430-2P", "114", "116", "460"],
+          "hardware_required": ["Trilennium", "Hoppe"]
+        },
+        "glass_packages": [
+          {
+            "code": "TLK",
+            "name": "ComforTech TLK",
+            "type": "Triple",
+            "gas_fill": "Krypton",
+            "r_value": 10
+          },
+          {
+            "code": "TLA",
+            "name": "ComforTech TLA",
+            "type": "Triple",
+            "gas_fill": "Argon",
+            "r_value": 7
+          },
+          {
+            "code": "DLA",
+            "name": "ComforTech DLA",
+            "type": "Double",
+            "gas_fill": "Argon",
+            "r_value": 4
+          },
+          {
+            "code": "DC",
+            "name": "ComforTech DC",
+            "type": "Double",
+            "gas_fill": "Air",
+            "r_value": 2
+          }
+        ],
+        "compatible_decorative_glass": "All 23 decorative glass styles available",
+        "compatible_finishes": {
+          "stain": [
+            {"name": "Natural Oak", "type": "stain"},
+            {"name": "Light Oak", "type": "stain"},
+            {"name": "Oak", "type": "stain"},
+            {"name": "Dark Oak", "type": "stain"},
+            {"name": "Walnut", "type": "stain"},
+            {"name": "Cherry", "type": "stain"},
+            {"name": "Dark Mahogany", "type": "stain"}
+          ],
+          "paint": "All standard colors available"
+        },
+        "compatible_hardware": "All hardware types available",
+        "compatible_frames": [
+          {"name": "FrameSaver", "material": "Wood with composite bottom", "warranty": "Lifetime Limited"},
+          {"name": "FusionFrame", "material": "LVL interior + FrameSaver bottom + composite exterior", "warranty": "Lifetime"},
+          {"name": "PermaTech", "material": "Full composite", "warranty": "Lifetime Limited"}
+        ],
+        "impact_shield": {
+          "available": true,
+          "restriction": "All doors without glass"
+        },
+        "image_urls": {
+          "primary": ["images/heritage/main.jpg", "images/heritage/hero.jpg"],
+          "skin_samples": [
+            "images/heritage/oak_skin.jpg",
+            "images/heritage/hemlock_skin.jpg",
+            "images/heritage/smooth_skin.jpg"
+          ],
+          "door_styles": [
+            "images/heritage/style_400-6P.jpg",
+            "images/heritage/style_230.jpg",
+            "images/heritage/style_150.jpg",
+            "images/heritage/style_460.jpg"
+          ],
+          "detail_images": [
+            "images/heritage/woodgrain_texture.jpg",
+            "images/heritage/threshold.jpg"
+          ]
+        },
+        "search_tags": [
+          "heritage", "mid-range fiberglass", "value door", "oak texture", "hemlock",
+          "10 year warranty", "all glass options", "custom heights"
+        ],
+        "source_pages": [24, 25]
+      },
+      {
+        "chunk_id": "entry_door_legacy_004",
+        "product_id": "legacy",
+        "series": "Legacy Steel",
+        "category": "Entry Door",
+        "tier": "Value",
+        "energy_star": true,
+        "u_factor": "0.17",
+        "warranty": {
+          "finish": "10-year",
+          "glass": "Lifetime Limited",
+          "seal_failure": "Lifetime Limited"
+        },
+        "description": "Legacy Steel entry doors are engineered to deliver exceptional durability, structural strength, and energy efficiency, making them a professional-class upgrade for any home. Available in multiple skin options—including Smooth Steel, Woodgrain Textured Steel, Smooth with High-Definition Embossing, and Smooth with Shaker Embossing—Legacy doors provide versatile design choices while maintaining an elegant, long-lasting finish backed by a 10-year warranty. Most Legacy Steel Entry Systems are ENERGY STAR® certified, supported by composite top and bottom endcaps that enhance rigidity and thermal performance. The door slab features a continuous piece of steel across the edges and face for superior strength and dent resistance, while the computer-driven foam-fill process ensures optimal insulation throughout the core. A rigid composite lock block reinforces the lock and deadbolt area for enhanced security, and ProVia’s exclusive tab-and-slot mechanical interlock system provides exceptional structural stability with reduced heat and cold transfer. Legacy full-lite and half-lite door styles use ComforTech™ Low-E glazing for ENERGY STAR qualification, with a slight tint that is best matched by ordering corresponding sidelites and transoms. Homeowners can fully customize both sides of the door with different styles and finishes, and ProVia offers custom widths and heights in precise 1/8-inch increments for perfect fitting. Optional Plugless Window Trim provides clean, fastener-free detailing, and every system includes a Z-AC threshold with an auto-adjusting riser and aluminum mill finish for reliable sealing performance. Overall, Legacy Steel doors combine the strength of 20-gauge galvannealed steel—49% thicker than standard 24-gauge doors—with advanced energy-saving technologies for a premium, secure, and highly efficient entry solution.",
+        "key_features": [
+          "20-gauge galvannealed steel (49% more steel than 24-gauge)",
+          "A40 Hot-dipped galvanizing (300% more coating)",
+          "Composite top and bottom endcaps",
+          "Rigid composite lock block",
+          "Z-AC auto-adjusting threshold",
+          "Custom sizes available (1/8 inch increments)",
+          "Both sides customization available"
+        ],
+        "skin_options": [
+          {"name": "Smooth with High-Definition Embossing", "texture": "Smooth HD"},
+          {"name": "Smooth", "texture": "Smooth"},
+          {"name": "Woodgrain Textured", "texture": "Woodgrain"},
+          {"name": "Smooth with Shaker Embossing", "texture": "Shaker style"}
+        ],
+        "door_styles": [
+          {"code": "400", "has_glass": false, "glass_type": null, "notes": "Flush panel"},
+          {"code": "110", "has_glass": true, "glass_type": "decorative", "notes": "Small oval"},
+          {"code": "112", "has_glass": true, "glass_type": "decorative", "notes": "Small lite"},
+          {"code": "114", "has_glass": true, "glass_type": "decorative", "notes": "Medium lite"},
+          {"code": "115", "has_glass": true, "glass_type": "decorative", "notes": "Medium-large lite"},
+          {"code": "116", "has_glass": true, "glass_type": "decorative", "notes": "Large lite"},
+          {"code": "437-1P", "has_glass": true, "glass_type": "decorative", "notes": "1-panel contemporary"},
+          {"code": "437-1PP", "has_glass": true, "glass_type": "decorative", "notes": "1-panel contemporary plank"},
+          {"code": "437-2P", "has_glass": true, "glass_type": "decorative", "notes": "2-panel contemporary"},
+          {"code": "430-2P", "has_glass": true, "glass_type": "decorative", "notes": "2-panel prairie"},
+          {"code": "430-1P", "has_glass": true, "glass_type": "decorative", "notes": "1-panel prairie"},
+          {"code": "430-1PP", "has_glass": true, "glass_type": "decorative", "notes": "1-panel prairie plank"},
+          {"code": "230", "has_glass": true, "glass_type": "decorative", "notes": "Traditional oval"},
+          {"code": "439", "has_glass": true, "glass_type": "decorative", "notes": "Prairie oval"},
+          {"code": "239", "has_glass": true, "glass_type": "decorative", "notes": "Traditional oval variant"},
+          {"code": "150", "has_glass": true, "glass_type": "decorative", "notes": "Half lite"},
+          {"code": "440-2P", "has_glass": true, "glass_type": "decorative", "notes": "2-panel modern"},
+          {"code": "240", "has_glass": true, "glass_type": "decorative", "notes": "Traditional oval large"},
+          {"code": "350", "has_glass": true, "glass_type": "decorative", "notes": "3/4 lite"},
+          {"code": "460", "has_glass": true, "glass_type": "full_lite", "notes": "Full lite"},
+          {"code": "420-2P", "has_glass": true, "glass_type": "decorative", "notes": "2-panel variant"},
+          {"code": "420-4P", "has_glass": true, "glass_type": "decorative", "notes": "4-panel variant"},
+          {"code": "419-4P", "has_glass": true, "glass_type": "decorative", "notes": "4-panel traditional"},
+          {"code": "206", "has_glass": true, "glass_type": "decorative", "notes": "Small circle"},
+          {"code": "410", "has_glass": true, "glass_type": "decorative", "notes": "Traditional circle"},
+          {"code": "001", "has_glass": false, "glass_type": null, "notes": "1-panel flush"},
+          {"code": "002", "has_glass": false, "glass_type": null, "notes": "2-panel"},
+          {"code": "003C", "has_glass": false, "glass_type": null, "notes": "3-panel center"},
+          {"code": "002C-437", "has_glass": true, "glass_type": "decorative", "notes": "Center arch contemporary"},
+          {"code": "002CP-437", "has_glass": true, "glass_type": "decorative", "notes": "Center arch contemporary plank"},
+          {"code": "003", "has_glass": false, "glass_type": null, "notes": "3-panel"},
+          {"code": "006", "has_glass": false, "glass_type": null, "notes": "6-panel"},
+          {"code": "005S", "has_glass": false, "glass_type": null, "notes": "5-panel shaker"},
+          {"code": "009", "has_glass": false, "glass_type": null, "notes": "9-panel"},
+          {"code": "008", "has_glass": false, "glass_type": null, "notes": "8-panel"}
+        ],
+        "sidelites": [
+          {"code": "106", "width": "6 inch", "type": "decorative"},
+          {"code": "130", "width": "12 inch", "type": "decorative"},
+          {"code": "139", "width": "12 inch", "type": "decorative variant"},
+          {"code": "140", "width": "14 inch", "type": "decorative"},
+          {"code": "160", "width": "16 inch", "type": "decorative"},
+          {"code": "460", "width": "varies", "type": "full lite"}
+        ],
+        "glass_packages": [
+          {
+            "code": "TLK",
+            "name": "ComforTech TLK",
+            "type": "Triple",
+            "gas_fill": "Krypton",
+            "r_value": 10
+          },
+          {
+            "code": "TLA",
+            "name": "ComforTech TLA",
+            "type": "Triple",
+            "gas_fill": "Argon",
+            "r_value": 7
+          },
+          {
+            "code": "DLA",
+            "name": "ComforTech DLA",
+            "type": "Double",
+            "gas_fill": "Argon",
+            "r_value": 4
+          },
+          {
+            "code": "DC",
+            "name": "ComforTech DC",
+            "type": "Double",
+            "gas_fill": "Air",
+            "r_value": 2
+          }
+        ],
+        "compatible_decorative_glass": "All 23 decorative glass styles available",
+        "compatible_finishes": {
+          "stain": [
+            {"name": "Natural Oak", "type": "stain"},
+            {"name": "Light Oak", "type": "stain"},
+            {"name": "Oak", "type": "stain"},
+            {"name": "Dark Oak", "type": "stain"},
+            {"name": "Walnut", "type": "stain"},
+            {"name": "Cherry", "type": "stain"},
+            {"name": "Dark Mahogany", "type": "stain"}
+          ],
+          "paint": "All standard colors available"
+        },
+        "compatible_hardware": [
+          {
+            "brand": "Trilennium",
+            "type": "Multi-Point",
+            "note": "20-gauge compatible",
+            "styles": ["Eclipse", "Pinnacle", "Westcott"],
+            "finishes": ["Lifetime Bright Brass", "Lifetime Satin Nickel", "Lifetime Flat Bronze", "Lifetime Black"]
+          },
+          {
+            "brand": "Hoppe",
+            "type": "Multi-Point",
+            "styles": ["New Orleans Contemporary Arch", "New Orleans Classic Arch"],
+            "finishes": ["Lifetime Bright Brass", "Lifetime Satin Nickel"]
+          },
+          {
+            "brand": "Emtek",
+            "type": "Mortise",
+            "note": "20-gauge compatible",
+            "styles": ["Craftsman", "Salem", "Mills", "Albany"],
+            "finishes": ["Lifetime Bright Brass", "Lifetime Satin Nickel", "Lifetime Oil Rubbed Bronze", "Lifetime Black"]
+          },
+          {
+            "brand": "Emtek",
+            "type": "Interconnect",
+            "styles": ["Melrose", "Imperial", "Ribbon & Reed", "Orleans", "Marietta", "Modern Rectangular", "Hanover Lever", "Round Knob"],
+            "finishes": ["Lifetime Bright Brass", "Lifetime Satin Nickel", "Lifetime Oil Rubbed Bronze", "Lifetime Black"]
+          },
+          {
+            "brand": "Brinks",
+            "type": "Push Pull Rotate",
+            "styles": ["Harper Lever with Almarrion Deadbolt", "Stafford Knob with Almarrion Deadbolt", "Anderson with Brynne Deadbolt"],
+            "finishes": ["10-Year Satin Nickel", "10-Year Aged Bronze"]
+          },
+          "All Schlage options available"
+        ],
+        "compatible_frames": [
+          {"name": "FrameSaver", "material": "Wood with composite bottom", "warranty": "Lifetime Limited"},
+          {"name": "FusionFrame", "material": "LVL interior + FrameSaver bottom + composite exterior", "warranty": "Lifetime"},
+          {"name": "PermaTech", "material": "Full composite", "warranty": "Lifetime Limited"},
+          {"name": "Steel L-Frame", "material": "18-gauge steel", "warranty": "Standard"}
+        ],
+        "customization": {
+          "both_sides_different": true,
+          "custom_widths": true,
+          "custom_heights": true,
+          "increment": "1/8 inch"
+        },
+        "impact_shield": {
+          "available": true
+        },
+        "image_urls": {
+          "primary": ["images/legacy/main.jpg", "images/legacy/hero.jpg"],
+          "skin_samples": [
+            "images/legacy/smooth_hd.jpg",
+            "images/legacy/smooth.jpg",
+            "images/legacy/woodgrain.jpg",
+            "images/legacy/shaker.jpg"
+          ],
+          "door_styles": [
+            "images/legacy/style_400.jpg",
+            "images/legacy/style_230.jpg",
+            "images/legacy/style_150.jpg",
+            "images/legacy/style_006.jpg",
+            "images/legacy/style_460.jpg"
+          ],
+          "detail_images": [
+            "images/legacy/20gauge_steel.jpg",
+            "images/legacy/galvanizing.jpg",
+            "images/legacy/threshold.jpg"
+          ]
+        },
+        "search_tags": [
+          "legacy", "steel door", "20 gauge", "value door", "galvannealed",
+          "woodgrain texture", "smooth steel", "shaker style", "custom sizes", "both sides"
+        ],
+        "source_pages": [26, 27]
+      },
+      {
+        "chunk_id": "entry_door_french_002",
+        "product_id": "french_doors",
+        "name": "French Door Systems",
+        "category": "Entry Door",
+        "tier": "Configurable",
+      
+        "description": "ProVia French Door systems provide a versatile double-door configuration that combines elegance, functionality, and security. All door styles across the product lines can be ordered as French Doors, giving homeowners the ability to customize panel layouts, finish options, hardware, and glass packages. French Doors can be built as inswing or outswing units, with the active door located on either the left or right side. Both doors are hinged on opposite ends and feature center-mounted hardware positions, while the inactive door includes a fully integrated astragal system with top and bottom slide bolts for secure locking. The astragal tightly seals into the threshold and head jamb, improving energy efficiency and weather protection. These systems are compatible with FrameSaver® frames or Steel L-Frames, support optional Trilennium® multi-point hardware, and include a header security plate when using a FrameSaver® system. Hardware such as locksets, deadbolts, and kickplates are installed on both active and inactive doors, while all supplemental hardware is placed on the active door only. Unequal French Doors are also available, enabling daily use of a wider active door with the flexibility to open the narrower inactive leaf when needed.",
+        
+        "key_features": [
+          "All door styles available as French Door configurations",
+          "Available with FrameSaver® or Steel L-Frame",
+          "Hinged on opposite ends with centered hardware layout",
+          "Left or right active door options",
+          "Inswing or outswing configurations",
+          "Inactive door includes astragal with top & bottom slide bolts",
+          "Header security plate included with FrameSaver® installations",
+          "Supports Trilennium® multi-point hardware",
+          "Unequal French Door option available for wider daily-use access"
+        ],
+
+        "astragal_details": {
+          "description": "The French Door astragal provides enhanced functionality, sealing performance, and improved security.",
+          "features": [
+            "Secures inactive door at both top and bottom",
+            "Lockable throw bolts improve structural and forced-entry resistance",
+            "Astragal bolt penetrates threshold for a superior weather barrier",
+            "Astragal boot creates an enhanced seal against the elements",
+            "Stained to match Signet Fiberglass stained doors"
+          ]
+        },
+
+        "styles_configurations": {
+          "availability": "All door styles may be ordered in French Door configurations.",
+          "examples": [
+            {"code": "460DC-IGT", "description": "Full-lite clear glass French Door with internal grids"},
+            {"code": "160SYA", "description": "Decorative glass French Door using Symphony glass"},
+            {"code": "460SYA", "description": "Full-lite Symphony decorative glass French Door"},
+            {"code": "460LAU", "description": "Full-lite Laurence decorative glass French Door"}
+          ],
+          "notes": [
+            "Custom clear-glass transoms can be ordered (cannot be mulled with Heritage Fiberglass in Certified Wind Load regions)",
+            "Unequal French Doors available in smooth steel only",
+            "Internal blind sizes may be limited—refer to Price List"
+          ]
+        },        
+        "image_urls": {
+          "primary - main image of french door": [
+            "images/french/french_door_main.jpg"
+          ],
+
+          "astragal_details - seal, throw bolts, threshold engagement": [
+            "images/french/astragal_details.jpg"
+          ],
+
+          "style_examples - examples of different french door styles and decorative glass": [
+            "images/french/french_styles.jpg"
+          ],
+
+          "unequal_door - image showing unequal french door configuration": [
+            "images/french/unequal_french.jpg"
+          ]
+        },
+        "search_tags": [
+          "french door", "double door", "entry door french", "astragal", "dual door",
+          "inswing french door", "outswing french door", "trilennium hardware",
+          "framesaver", "signet french door", "unequal french door"
+        ],
+        "source_pages": [88, 89, 90]
+      },
+      {
+        "chunk_id": "entry_doors_noglass_003",
+        "product_id": "doors_without_glass",
+        "name": "Doors Without Glass",
+        "category": "Entry Door",
+        "tier": "Privacy",
+        "description": "Solid-panel entry systems designed for maximum privacy and durability. Available across multiple series and materials (fiberglass and 20-gauge steel), these doors provide the same structural integrity, finish options, and frame compatibility as glazed entry systems while omitting lites. Ideal for homeowners seeking full privacy, robust weather performance, and a consistent exterior appearance.",
+        "warranty": {
+        "finish": "Lifetime Limited",
+        "glass_and_seal": "Lifetime Limited (applies to applicable components; includes seal failure)"
+        },
+        "styles_available": [
+        "001C", "003", "140BRC", "009", "008P", "008", "006C", "006", "004", "005",
+        "003M", "003C", "002C(P)-449", "002", "002C(P)-437", "002-440", "002P-440",
+        "001001", "002W(P)", "002CP-437"
+        ],
+        "available_series": {
+        "embarq_signet_mahogany": true,
+        "embarq_signet_cherry": true,
+        "embarq_signet_oak": true,
+        "signet_fir": true,
+        "embarq_signet_knotty_alder": true,
+        "signet_smooth_series": true,
+        "heritage_woodgrain_textured_fiberglass": true,
+        "heritage_smooth_fiberglass": true,
+        "20_gauge_woodgrain_textured_steel": true,
+        "20_gauge_smooth_steel": true
+        },
+        "energy_certification": "All entry systems without glass are ENERGY STAR® Certified.",
+        "eight_foot_availability": {
+        "note": "Certain styles are available in 8' height; availability varies by series.",
+        "not_available_in_8ft": ["Embarq doors and sidelites"]
+        },
+        "restrictions_and_notes": [
+        "∆ Some styles not tested for Certified Wind Load regions — refer to Price List.",
+        "Embarq doors and sidelites are not available in 8' heights.",
+        "Style availability may vary by series and material; consult catalog for exact combinations."
+        ],
+        "image_urls": {
+        "primary - example solid-panel door overview": ["images/doors/noglass_overview.jpg"],
+        "style_grid - visual grid of available no-glass style codes": ["images/doors/noglass_styles.jpg"],
+        "material_samples - fiberglass and steel texture closeups": ["images/doors/noglass_fiberglass.jpg", "images/doors/noglass_steel.jpg"],
+        "search_tags": [
+        "doors without glass", "solid panel door", "privacy door", "no-lite entry door",
+        "solid entry door", "fiberglass solid door", "steel solid door", "8 foot door availability",
+        "energy star solid door"
+        ],
+        "source_pages": [90, 91, 92]
+      }
+    }
+    ],
+    "glass_options": [
+      {
+        "chunk_id": "glass_comfortech_005",
+        "product_id": "comfortech_glazing",
+        "name": "ComforTech Warm Edge Glazing System",
+        "category": "Glass Options",
+        "subcategory": "Glazing Systems",
+        "description": "Measurably improves thermal performance with better energy efficiency and warmer glass edge using Super Spacer technology.",
+        "warranty": "Lifetime Limited (includes glass breakage and seal failure)",
+        "key_features": [
+          "Super Spacer flexible foam technology",
+          "No metal spacer - eliminates thermal conductivity",
+          "Mylar 10-layer vapor barrier",
+          "Warm edge technology reduces condensation",
+          "Available in Double, Triple, and Quad configurations"
+        ],
+        "standard_packages": [
+          {
+            "code": "QLK",
+            "name": "Quad Glass Krypton",
+            "panes": 4,
+            "gas": "Krypton",
+            "r_value": 10,
+            "u_factor": "0.09",
+            "for_doors": ["Embarq only"],
+            "uv_option": "QLK-UV available"
+          },
+          {
+            "code": "QLA",
+            "name": "Quad Glass Argon",
+            "panes": 4,
+            "gas": "Argon",
+            "r_value": 9,
+            "u_factor": "0.11",
+            "for_doors": ["Embarq only"],
+            "uv_option": "QLA-UV available"
+          },
+          {
+            "code": "TLK",
+            "name": "Triple Glass Krypton",
+            "panes": 3,
+            "gas": "Krypton",
+            "r_value": 10,
+            "u_factor": "0.10",
+            "for_doors": ["Signet", "Heritage", "Legacy"],
+            "uv_option": "TLK-UV available"
+          },
+          {
+            "code": "TLA",
+            "name": "Triple Glass Argon",
+            "panes": 3,
+            "gas": "Argon",
+            "r_value": 7,
+            "u_factor": "0.14",
+            "for_doors": ["Signet", "Heritage", "Legacy"],
+            "uv_option": "TLA-UV available"
+          },
+          {
+            "code": "DLA",
+            "name": "Double Glass Argon",
+            "panes": 2,
+            "gas": "Argon",
+            "r_value": 4,
+            "u_factor": "0.25",
+            "for_doors": ["Signet", "Heritage", "Legacy"],
+            "uv_option": "DLA-UV available"
+          },
+          {
+            "code": "DC",
+            "name": "Double Glass Clear",
+            "panes": 2,
+            "gas": "Air",
+            "r_value": 2,
+            "u_factor": "0.45",
+            "for_doors": ["Signet", "Heritage", "Legacy"],
+            "uv_option": "Not available"
+          }
+        ],
+        "elevation_series": [
+          {
+            "code": "TLE",
+            "name": "Triple Elevation",
+            "panes": 3,
+            "r_value": 5,
+            "note": "High altitude with capillary tubes"
+          },
+          {
+            "code": "DLE",
+            "name": "Double Elevation",
+            "panes": 2,
+            "r_value": 3,
+            "note": "High altitude with capillary tubes"
+          },
+          {
+            "code": "DE",
+            "name": "Double Elevation Basic",
+            "panes": 2,
+            "r_value": 2,
+            "note": "High altitude with capillary tubes"
+          }
+        ],
+        "energy_star_compliance": {
+          "half_lite_or_larger": {
+            "compliant": ["QLK", "QLA", "TLK", "TLA", "DLA"],
+            "non_compliant": ["DC"]
+          },
+          "smaller_than_half_lite": {
+            "all_compliant": true
+          }
+        },
+        "image_urls": {
+          "primary": ["images/comfortech/system_diagram.jpg"],
+          "detail_images": [
+            "images/comfortech/super_spacer.jpg",
+            "images/comfortech/warm_edge_comparison.jpg",
+            "images/comfortech/condensation_resistance.jpg"
+          ]
+        },
+        "search_tags": [
+          "comfortech", "glazing", "warm edge", "super spacer", "triple glass",
+          "quad glass", "krypton", "argon", "energy efficient", "r-10"
+        ],
+        "source_pages": [36, 37]
+      },
+      {
+        "chunk_id": "glass_decorative_006",
+        "product_id": "decorative_glass",
+        "name": "Decorative Glass Collection",
+        "category": "Glass Options",
+        "subcategory": "Decorative Glass",
+        "description": "ProVia’s decorative glass is crafted by highly skilled artisans who hand-bevel, cut, miter, and solder each component into intricate, artistically designed patterns. These panels are intentionally created with aesthetic imperfections—such as textural waves, striations, and small air bubbles known as seeds—to replicate the character of hand-made sheet glass from centuries past. Each panel is unique, with no two sheets ever identical, and these natural variations contribute to the charm, authenticity, and visual personality of the glass while maintaining complete structural stability. Every piece is rigorously inspected for quality and consistency, ensuring that patterns vary naturally but never beyond acceptable artistic and structural standards. All ProVia decorative glass features exclusive designs available only on ProVia doors, enhancing entryway uniqueness. Each panel also incorporates the ComforTech™ Warm Edge Glazing System for improved thermal efficiency and reduced heat transfer. Impact Shield versions are available for increased protection, using laminated glass engineered to withstand repeated impacts from storm debris or intrusion attempts. Every decorative glass unit is backed by a Lifetime Limited Warranty, which includes coverage for both glass breakage and seal failure, ensuring long-term performance and peace of mind.",
+        "warranty": "Lifetime Limited (includes glass breakage and seal failure)",
+        "included_features": "All decorative glass includes ComforTech glazing system",
+        "styles_count": 23,
+        "new_styles": ["Mirage", "Brookhaven", "Manhattan"],
+        "privacy_range": "5-9 (5=least private, 9=most private)",
+        "caming_options": [
+          {"name": "Zinc", "finish": "Silver"},
+          {"name": "Brass", "finish": "Gold"},
+          {"name": "Patina", "finish": "Dark aged"},
+          {"name": "Antique Brass", "finish": "Aged gold"},
+          {"name": "Wrought Iron", "finish": "Black"}
+        ],
+        "glass_textures": [
+          "Clear Beveled",
+          "Seedy",
+          "Bronze Seedy",
+          "Flat Seedy",
+          "Hammered",
+          "Small Hammered",
+          "Micro-granite",
+          "Micro-iced Granite",
+          "Iced Granite",
+          "Clear Softwave",
+          "Gray Softwave",
+          "Bronze Softwave",
+          "Thin Reed",
+          "Narrow Reed",
+          "Streamed",
+          "Gray Antique",
+          "Microcubed",
+          "Clear Renaissance",
+          "Alabaster",
+          "Double Gluechip",
+          "Chinchilla",
+          "Taffeta",
+          "Waterfall",
+          "Obscure Pebble",
+          "Faceted Jewel"
+        ],
+        "style_details": [
+          {
+            "name": "Mirage",
+            "code": "MIR",
+            "privacy": 7,
+            "caming": ["Zinc"],
+            "glass_types": ["Clear Beveled", "Narrow/Thin Reed"],
+            "new": true,
+            "description": "Mirage offers effortless style, with narrow/thin reed glass all over, complemented by clear beveled glass. Zinc caming tops it off, making it a simple, modern and attractive design."
+          },
+          {
+            "name": "Brookhaven",
+            "code": "BRO",
+            "privacy": 8,
+            "caming": ["Zinc", "Patina"],
+            "glass_types": ["Gray Antique", "Clear Beveled", "Hammered", "Microcubed"],
+            "new": true,
+            "description": "Brookhaven is accented with gray antique glass, giving it a subtle hint of color. The hammered glass delivers some privacy and is accentuated with clear beveled and microcubed glass throughout."
+          },
+          {
+            "name": "Manhattan",
+            "code": "MAN",
+            "privacy": 8,
+            "caming": ["Zinc", "Patina"],
+            "glass_types": ["Clear Beveled", "Streamed", "Gray Softwave"],
+            "new": true,
+            "description": "Manhattan features streamed glass, clear bevels and gray softwave, combining simplicity and modern style. Accent it with either patina or zinc caming to customize the look."
+          },
+          {
+            "name": "Essence",
+            "code": "ESZ",
+            "privacy": 6,
+            "caming": ["Brass", "Zinc"],
+            "glass_types": ["Micro-granite", "Clear Beveled", "Bronze Seedy"],
+            "description": "Essence features a bronze softwave glass combined with micro-granite that brings elegance to a whole new level."
+          },
+          {
+            "name": "Cheyenne",
+            "code": "CHP",
+            "privacy": 8,
+            "caming": ["Patina", "Zinc"],
+            "glass_types": ["Micro-granite", "Clear Beveled", "Faceted Jewel", "Hammered"],
+            "description": "Cheyenne features micro-granite, hammered and beveled glass that will add elegance to your entryway, while providing a high level of privacy."
+          },
+          {
+            "name": "SYMPHONY",
+            "code": "SYA",
+            "privacy": 5,
+            "caming": ["Patina", "Zinc", "Brass"],
+            "glass_types": ["Clear Renaissance", "Clear Beveled", "Caming", "Bronze Softwave","Seedy"],
+            "description": "Symphony features a bronze softwave and expresses timeless beauty and elegance at every curve. This design is sure to bring you a pleasing and melodious style."
+          },
+          {
+            "name": "BERKLEY",
+            "code": "BEA",
+            "privacy": 7,
+            "caming": ["Patina", "Zinc", "Antique Brass"],
+            "glass_types": ["Micro-granite", "Clear Beveled", "Small Hammered", "Micro-iced Granite"],
+            "description": "Berkley features micro-iced granite, clear bevels, and small hammered with a timeless herringbone pattern that complements modern, contemporary and Arts & Crafts architecture."
+          },
+          {
+            "name": "LAURENCE",
+            "code": "LAU",
+            "privacy": 6,
+            "caming": ["Patina"],
+            "glass_types": ["Clear Softwave", "Clear Beveled", "Patina Caming", "Thin Reed", "Gray Softwave"],
+            "description": "Laurence features a gray softwave expressing defined classical vintage that will greet your guests with its distinguished character and prominent lines."
+          },
+          {
+            "name": "CARRINGTON",
+            "code": "CAR",
+            "privacy": 5,
+            "caming": ["Patina"],
+            "glass_types": ["Small Hammered", "Clear Beveled", "Patina Caming"],
+            "description": "Carrington features small hammered, flat seedy and clear bevels in an attractive vintage design to accent your home’s entryway."
+          },          
+          {
+            "name": "TACOMA",
+            "code": "TAC",
+            "privacy": 6,
+            "caming": ["Patina"],
+            "glass_types": ["Micro-granite", "Clear Beveled", "Patina Caming", "Thin Reed", "Small Hammered"],
+            "description": "Tacoma features hammered and micro-granite design reminiscent of the Arts and Crafts period. Tacoma adds a southwestern inspired theme bringing heritage"
+          },
+          {
+            "name": "SOMERSET",
+            "code": "SOM",
+            "privacy": 6,
+            "caming": ["Zinc"],
+            "glass_types": ["Small Hammered", "Clear Beveled", "Zinc Caming", "Micro-granite"],
+            "description": "Somerset features small hammered, micro granite and clear bevels in a simple yet elegant design that gives a fresh look to your entryway."
+          },
+          {
+            "name": "CARMEN",
+            "code": "CRM",
+            "privacy": 9,
+            "caming": ["Zinc"],
+            "glass_types": ["Wrought Iron with Nickel-Veined Finish","Chinchilla"],
+            "description": "Carmen features a refreshing new style for an entrance way with old world style charm. Standard with Chinchilla privacy glass and also available in all privacy glass options."
+          },
+          {
+            "name": "BARCELONA",
+            "code": "BRC",
+            "privacy": 8,
+            "caming": ["Clear Glass"],
+            "glass_types": ["Black Wrought Iron", "Gluechip"],
+            "description": "Barcelona features an exquisite wrought iron design with the option of choosing gluechip (standard), waterfall, taffeta, chinchilla, obscure pebble or clear glass."
+          },
+          {
+            "name": "CONSTANCE",
+            "code": "COZ",
+            "privacy": 6,
+            "caming": ["Zinc", "Brass"],
+            "glass_types": ["Beveled Edge Gluechip", "Gluechip", "Caming", "Medium Gray Softwave"],
+            "description": "Constance features gluechip, medium gray softwave and beveled edge glue chip resulting in a traditional design that gives your entryway an elegant look"
+          },
+          {
+            "name": "TRANQUILITY",
+            "code": "TRZ",
+            "privacy": 8,
+            "caming": ["Zinc", "Patina"],
+            "glass_types": ["Streamed", "Chinchilla", "Caming", "Granite"],
+            "description": "Tranquility features unique Chinchilla glass accented with beveled clusters and streamed glass."
+          },
+          {
+            "name": "GEMSTONE",
+            "code": "GEM",
+            "privacy": 8,
+            "caming": ["Zinc"],
+            "glass_types": ["Alabaster", "Clear Beveled", "Zinc Caming", "Micro-iced Granite", "Iced Granite"],
+            "description": "Beautiful beveled glass with iced and micro-iced granite, accented with zinc caming, gives this classic design a contemporary edge."
+          },
+          {
+            "name": "ECLIPSE",
+            "code": "ECB",
+            "privacy": 7,
+            "caming": ["Zinc", "Brass", "Patina"],
+            "glass_types": ["Double Gluechip", "Clear Beveled", "Caming", "Clear Softwave"],
+            "description": "Eclipse features double gluechip and clusters of bevel with a traditional and harmonious design. Eclipse promotes classical elegance and privacy"
+          },
+          {
+            "name": "FLORENCE",
+            "code": "FLP",
+            "privacy": 8,
+            "caming": ["Brass", "Patina"],
+            "glass_types": ["Micro-iced Granite", "Clear Beveled", "Caming", "Alabaster", "Hammered"],
+            "description": "This traditional style is accented with a creamy alabaster glass adding interest and appeal that clearly sets it apart from other decorative designs"
+          },
+          {
+            "name": "ESMOND",
+            "code": "ESM",
+            "privacy": 6,
+            "caming": ["Patina"],
+            "glass_types": ["Flat Seedy", "Clear Beveled", "Caming", "Small Hammered", "Micro-granite"],
+            "description": "Esmond features small hammered, bevels in a splendid old-world style design bringing a unique touch to your entryway."
+          },
+          {
+            "name": "CARLISLE",
+            "code": "CRP",
+            "privacy": 7,
+            "caming": ["Zinc", "Patina"],
+            "glass_types": ["Arctic", "Clear Beveled", "Caming", "Seedy"],
+            "description": "Carlisle features clear bevels, arctic and seedy glass giving an appealing entranceway to any style of home."
+          },
+          {
+            "name": "TWILIGHT",
+            "code": "TWI",
+            "privacy": 8,
+            "caming": ["Zinc", "Patina"],
+            "glass_types": ["Clear", "Frosted"],
+            "description": "Twilight is a beautifully decorative silk-screened art. It’s unique frosted glass adds to the warmth and privacy of your home."
+          },
+          {
+            "name": "BRAINSTORM",
+            "code": "BRS",
+            "privacy": 6,
+            "caming": ["NA"],
+            "glass_types": ["Arctic", "Clear Beveled", "Caming", "Seedy"],
+            "description": "Appealing to both mid-modern and modern design sensibilities, Brainstorm's exterior vertical pattern and interior chevron motif combine for an appearance with both subtlety and substance. Brainstorm layered glass has a medium to medium-high privacy range."
+          },
+          {
+            "name": "REPARTEE",
+            "code": "REP",
+            "privacy": 8,
+            "caming": ["NA"],
+            "glass_types": ["Arctic", "Clear Beveled", "Caming", "Seedy"],
+            "description": "Repartee's frosted layers and geometric grid combine for a design that plays with opacity and movement. Squares and trapezoids carry on a lively back-and-forth as light and vantage points change their appearance. Repartee layered glass offers a high privacy range."
+          }
+        ],
+        "compatible_with": "All entry door series (Embarq, Signet, Heritage, Legacy)",
+        "image_urls- containing images of all decorative glasses": {
+          "primary": ["images/decorative/collection_overview.jpg"],
+
+          "mirage_images": ["images/decorative/mirage.jpg"],
+          "brookhaven_images": ["images/decorative/brookhaven.jpg"],
+          "manhattan_images": ["images/decorative/manhattan.jpg"],
+          "essence_images": ["images/decorative/essence.jpg"],
+          "cheyenne_images": ["images/decorative/cheyenne.jpg"],
+          "symphony_images": ["images/decorative/symphony.jpg"],
+          "berkley_images": ["images/decorative/berkley.jpg"],
+          "laurence_images": ["images/decorative/laurence.jpg"],
+          "carrington_images": ["images/decorative/carrington.jpg"],
+          "tacoma_images": ["images/decorative/tacoma.jpg"],
+          "somerset_images": ["images/decorative/somerset.jpg"],
+          "carmen_images": ["images/decorative/carmen.jpg"],
+          "barcelona_images": ["images/decorative/barcelona.jpg"],
+          "constance_images": ["images/decorative/constance.jpg"],
+          "tranquility_images": ["images/decorative/tranquility.jpg"],
+          "gemstone_images": ["images/decorative/gemstone.jpg"],
+          "eclipse_images": ["images/decorative/eclipse.jpg"],
+          "florence_images": ["images/decorative/florence.jpg"],
+          "esmond_images": ["images/decorative/esmond.jpg"],
+          "carlisle_images": ["images/decorative/carlisle.jpg"],
+          "twilight_images": ["images/decorative/twilight.jpg"],
+          "brainstorm_images": ["images/decorative/brainstorm.jpg"],
+          "repartee_images": ["images/decorative/repartee.jpg"]
+        },
+        "search_tags": [
+          "decorative glass", "beveled glass", "caming", "privacy glass",
+          "zinc caming", "brass caming", "patina", "art glass", "hand crafted"
+        ],
+        "source_pages": [38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80, 81]
+      },
+      {
+        "chunk_id": "glass_privacy_007",
+        "product_id": "privacy_glass",
+        "name": "Privacy Glass Options",
+        "category": "Glass Options",
+        "subcategory": "Privacy Glass",
+        "description": "Allows light to filter in while keeping high level of privacy.",
+        "warranty": "Lifetime Limited",
+        "privacy_levels": "7-9 (9 being most private)",
+        "types": [
+          {
+            "name": "Chinchilla",
+            "code": "CHI",
+            "privacy": 9,
+            "description": "Rippled texture for maximum privacy",
+            "light_transmission": "Good"
+          },
+          {
+            "name": "Taffeta",
+            "code": "TAF",
+            "privacy": 9,
+            "description": "Fabric-like texture",
+            "light_transmission": "Good"
+          },
+          {
+            "name": "Waterfall",
+            "code": "WAT",
+            "privacy": 9,
+            "description": "Vertical ripple pattern",
+            "light_transmission": "Good"
+          },
+          {
+            "name": "Gluechip",
+            "code": "GLC",
+            "privacy": 8,
+            "description": "Random crystalline pattern",
+            "light_transmission": "Excellent"
+          },
+          {
+            "name": "Obscure Pebble",
+            "code": "OBS",
+            "privacy": 9,
+            "description": "Pebbled texture",
+            "light_transmission": "Moderate"
+          }
+        ],
+        "compatible_with": "All door styles with glass options",
+        "image_urls": {
+          "primary": ["images/privacy/collection.jpg"],
+
+          "chinchilla_images": ["images/privacy/chinchilla.jpg"],
+          "taffeta_images": ["images/privacy/taffeta.jpg"],
+          "waterfall_images": ["images/privacy/waterfall.jpg"],
+          "gluechip_images": ["images/privacy/gluechip.jpg"],
+          "obscure_pebble_images": ["images/privacy/obscure_pebble.jpg"]
+      },
+        "search_tags": [
+          "privacy glass", "obscure glass", "chinchilla", "taffeta", "waterfall",
+          "gluechip", "bathroom door", "privacy", "textured glass"
+        ],
+        "source_pages": [88, 89]
+      },
+      {
+        "chunk_id": "glass_internal_blinds_008",
+        "product_id": "internal_blinds",
+        "name": "Internal Blinds",
+        "category": "Glass Options",
+        "subcategory": "Blinds Between Glass",
+        "description": "White Internal Blinds are constructed with sturdy white aluminum and enclosed in tempered safety glass. Easy to clean; no more dusting of blinds. Internal Blinds are suitable for entry doors, sidelites and patio doors and carry a 10-Year Warranty. Colored Internal blinds are now offered in four neutral hues to complement any room in the house. Easy to clean; no more dusting of blinds. Internal Blinds are suitable for entry doors, patio doors and windows. Offering a 10-Year Warranty.",
+        "warranty": "10-Year",
+        "key_features": [
+          "Enclosed between glass - no dusting",
+          "Manual tilt control",
+          "Aluminum slats",
+          "Tempered safety glass",
+          "Maintenance-free"
+        ],
+        "color_options": {
+          "standard": ["White"],
+          "premium": ["Cream", "Tan", "Silver", "Champagne"]
+        },
+        "grid_patterns": [
+          "Traditional",
+          "Prairie",
+          "Cottage",
+          "Without Grids"
+        ],
+        "compatible_door_styles": ["460", "440", "430", "230"],
+        "operation": "Manual tilt lever on interior",
+        "image_urls": {
+          "primary": ["images/blinds/internal_blinds_main.jpg"],
+          "internal_blinds": [
+            "images/blinds/white.jpg"            
+          ],
+          "colored_blinds": [
+            "images/blinds/traditional_grid.jpg",
+            "images/blinds/prairie_grid.jpg",
+            "images/blinds/cottage_grid.jpg"
+          ]
+        },
+        "search_tags": [
+          "internal blinds", "blinds between glass", "maintenance free",
+          "privacy control", "light control", "enclosed blinds"
+        ],
+        "source_pages": [92, 93, 94, 95]
+      }
+    ],
+    "hardware": [
+      {
+        "chunk_id": "hardware_trilennium_009",
+        "product_id": "trilennium_multipoint",
+        "name": "Trilennium Multi-Point Locking System",
+        "category": "Hardware",
+        "subcategory": "Multi-Point Locks",
+        "description": "Three 1 inch deadbolts with anti-saw hardened steel pins and solid I-beam full length.",
+        "warranty": "10-Year",
+        "security_features": [
+          "3 one-inch deadbolts",
+          "Anti-saw hardened steel pins",
+          "Solid I-beam construction",
+          "Full length reinforcement",
+          "Multi-point locking"
+        ],
+        "styles": [
+          {
+            "name": "Eclipse",
+            "type": "Contemporary",
+            "description": "Clean modern lines"
+          },
+          {
+            "name": "Pinnacle",
+            "type": "Traditional",
+            "description": "Classic elegance"
+          },
+          {
+            "name": "Westcott",
+            "type": "Transitional",
+            "description": "Blend of traditional and contemporary"
+          }
+        ],
+        "finishes": [
+          {"name": "Lifetime Bright Brass", "warranty": "Lifetime"},
+          {"name": "Lifetime Satin Nickel", "warranty": "Lifetime"},
+          {"name": "Lifetime Flat Bronze", "warranty": "Lifetime"},
+          {"name": "Lifetime Black", "warranty": "Lifetime"}
+        ],
+        "required_for": [
+          "8ft Signet doors",
+          "8ft Heritage doors"
+        ],
+        "not_available_on": [
+          "Steel L-Frame",
+          "French Doors (Impact Shield)"
+        ],
+        "compatible_doors": ["Signet", "Heritage", "Legacy (20-gauge)"],
+        "image_urls": {
+          "primary": ["images/hardware/trilennium_main.jpg"],
+          "styles": [
+            "images/hardware/trilennium_eclipse.jpg",
+            "images/hardware/trilennium_pinnacle.jpg",
+            "images/hardware/trilennium_westcott.jpg"
+          ],
+          "finishes": [
+            "images/hardware/finish_bright_brass.jpg",
+            "images/hardware/finish_satin_nickel.jpg",
+            "images/hardware/finish_flat_bronze.jpg",
+            "images/hardware/finish_black.jpg"
+          ],
+          "mechanism": ["images/hardware/trilennium_mechanism.jpg"]
+        },
+        "search_tags": [
+          "trilennium", "multi point lock", "three deadbolts", "high security",
+          "8 foot door hardware", "eclipse", "pinnacle", "westcott"
+        ],
+        "source_pages": [112, 113]
+      },
+      {
+        "chunk_id": "hardware_emtek_010",
+        "product_id": "emtek_mortise",
+        "name": "Emtek Mortise Hardware",
+        "category": "Hardware",
+        "subcategory": "Mortise Locks",
+        "description": "EMTEK’s Mortise hardware provides enhanced functionality through integrated push-button passage controls, allowing more flexible passage and locking options. Each piece is crafted with heavy-duty forged brass construction for long-lasting durability and premium appearance, while the solid brass nose bolts on the latches ensure reliable performance. The hardware is backed by a Lifetime Mechanical Warranty, reinforcing its long-term value, and a Lifetime Anti-Tarnish Finish Warranty that preserves its beauty for life. EMTEK Mortise hardware is only available for Signet Fiberglass and 20-gauges stell doors",
+        "warranty": {
+          "mechanical": "Lifetime",
+          "finish": "Lifetime Anti-tarnish"
+        },
+        "construction": "Heavy-duty forged brass",
+        "operation": "Push-button passage control",
+        "exterior_styles": [
+          {
+            "name": "Craftsman",
+            "style": "Arts & Crafts",
+            "description": "Mission-style design"
+          },
+          {
+            "name": "Salem",
+            "style": "Traditional",
+            "description": "Classic curved handle"
+          },
+          {
+            "name": "Mills",
+            "style": "Contemporary",
+            "description": "Clean modern lines"
+          },
+          {
+            "name": "Albany",
+            "style": "Traditional",
+            "description": "Ornate traditional design"
+          }
+        ],
+        "interior_options": [
+          "Oval Beaded Egg",
+          "Hammered Lever",
+          "Coventry Lever",
+          "Square Knob",
+          "Cortina Lever"
+        ],
+        "finishes": [
+          {"name": "Lifetime Bright Brass", "warranty": "Lifetime"},
+          {"name": "Lifetime Satin Nickel", "warranty": "Lifetime"},
+          {"name": "Lifetime Oil Rubbed Bronze", "warranty": "Lifetime"},
+          {"name": "Lifetime Black", "warranty": "Lifetime"}
+        ],
+        "compatible_doors": ["Signet fiberglass", "20-gauge Steel doors)"],
+        "not_tested_for": [
+          "Certified Wind Load",
+          "Impact Shield"
+        ],
+        "image_urls": {
+          "primary": ["images/hardware/emtek_mortise_main.jpg"],
+          "exterior_styles- showing exterior style images of handles with push buttons": [
+            "images/hardware/emtek_craftsman.jpg",
+            "images/hardware/emtek_salem.jpg",
+            "images/hardware/emtek_mills.jpg",
+            "images/hardware/emtek_albany.jpg"
+          ],
+          "interior_styles-showing interior style images of handles with push buttons": [
+            "images/hardware/emtek_oval_egg.jpg",
+            "images/hardware/emtek_hammered_lever.jpg"
+          ]
+        },
+        "search_tags": [
+          "emtek", "mortise lock", "craftsman", "salem", "mills", "albany",
+          "forged brass", "push button", "lifetime warranty"
+        ],
+        "source_pages": [116, 117]
+      },
+      {
+        "chunk_id": "hardware_emtek_interconnect_011",
+        "product_id": "emtek_interconnect",
+        "name": "Emtek Interconnect Hardware",
+        "category": "Hardware",
+        "subcategory": "Interconnect Locks",
+        "description": "EMTEK’s unique Interconnect Device combines the security of a locking deadbolt with a panic-proof exit system, allowing both the deadbolt and passage latch to retract simultaneously when the interior knob or lever is turned. The hardware is built from heavy-duty forged brass, ensuring long-lasting beauty and structural durability, and uses reinforced springs to prevent lever sag. Threaded brass tubes and solid brass nose bolts provide added strength and reliability in everyday use. EMTEK supports this system with a Lifetime Mechanical Warranty and a Lifetime Anti-Tarnish Finish Warranty, guaranteeing dependable performance and lasting appearance. The hardware is available in a range of premium finishes, including Lifetime Bright Brass, Lifetime Satin Nickel, Lifetime Oil Rubbed Bronze, and Lifetime Black.",
+        "warranty": {
+          "mechanical": "Lifetime",
+          "finish": "Lifetime Anti-tarnish"
+        },
+        "key_features": [
+          "Panic-proof exit",
+          "Single motion unlocks both deadbolt and latch",
+          "Heavy-duty construction",
+          "Required for Embarq doors"
+        ],
+        "exterior_styles": [
+          {
+            "name": "Melrose",
+            "style": "Traditional"
+          },
+          {
+            "name": "Imperial",
+            "style": "Ornate Traditional"
+          },
+          {
+            "name": "Ribbon & Reed",
+            "style": "Decorative"
+          },
+          {
+            "name": "Orleans",
+            "style": "French Provincial"
+          },
+          {
+            "name": "Marietta",
+            "style": "Traditional"
+          }
+        ],
+        "Modern Rectangular - Two Point Lock": [
+          {
+            "name": "Hanover Lever",
+            "style": "Modern Rectangular"
+          },
+          {
+            "name": "Round Knob",
+            "style": "Modern Rectangular"
+          }
+        ],        
+        "interior_options": ["Egg(Melrose)","Egg(Marietta)", "Cortina", "Turino"],
+        "finishes": [
+          {"name": "Lifetime Bright Brass", "warranty": "Lifetime"},
+          {"name": "Lifetime Satin Nickel", "warranty": "Lifetime"},
+          {"name": "Lifetime Oil Rubbed Bronze", "warranty": "Lifetime"},
+          {"name": "Lifetime Black", "warranty": "Lifetime"}
+        ],
+        "required_for": ["Embarq doors"],
+        "compatible_doors": ["Embarq", "Signet", "Heritage", "Legacy"],
+        "image_urls": {
+          "primary": ["images/hardware/emtek_interconnect_main.jpg"],
+          "exterior_styles- showing exterior style images of single point lock": [
+            "images/hardware/emtek_melrose.jpg",
+            "images/hardware/emtek_imperial.jpg",
+            "images/hardware/emtek_modern_rectangular.jpg"
+          ],
+          "Modern_rectangular_two_point_lock_image-showing exterior/interior style images of two point lock": [
+            "images/hardware/emtek_hanover_lever.jpg",
+            "images/hardware/emtek_round_knob.jpg"
+          ],
+          "interior_styles- showing interior style images of single point lock": [
+            "images/hardware/emtek_melrose.jpg",
+            "images/hardware/emtek_imperial.jpg",
+            "images/hardware/emtek_modern_rectangular.jpg"
+          ],
+          "mechanism": ["images/hardware/interconnect_mechanism.jpg"]
+        },
+        "search_tags": [
+          "emtek interconnect", "panic proof", "embarq hardware", "melrose",
+          "imperial", "orleans", "modern rectangular", "single motion exit"
+        ],
+        "source_pages": [118, 119]
+      },
+      {
+        "chunk_id": "hardware_schlage_012",
+        "product_id": "schlage_electronic",
+        "name": "Schlage Electronic Hardware",
+        "category": "Hardware",
+        "subcategory": "Smart Locks",
+        "description": "Schlage Vintage hardware offers more than timeless aesthetics—it delivers durable, high-performance security designed to last. Each piece is crafted from solid cast brass for long-lasting beauty and features a maximum-security deadbolt for enhanced peace of mind. Nickel silver pins and keys ensure smooth, reliable operation, while heavy-duty springs provide strong, droop-free lever performance. Engineered with superior components and tested for over 400,000 operational cycles, Schlage Vintage hardware is built for exceptional longevity. It is backed by a Lifetime Mechanical Warranty and a Lifetime Anti-Tarnish Finish Warranty, ensuring both lasting value and enduring appearance.",
+        "warranty": {
+          "mechanical": "Lifetime",
+          "electronics": "3-Year"
+        },
+        "products": [
+          {
+            "name": "Schlage Sense Smart Deadbolt",
+            "features": [
+              "Touchscreen keypad",
+              "Bluetooth connectivity",
+              "Smartphone app control",
+              "Up to 19 user codes",
+              "Auto-lock feature",
+              "Low battery alert"
+            ],
+            "power": "4 AA batteries"
+          },
+          {
+            "name": "Electronic Keypad Deadbolt",
+            "features": [
+              "Lighted keypad",
+              "Up to 19 user codes",
+              "No smartphone required",
+              "Vacation mode",
+              "Auto-lock option"
+            ],
+            "power": "4 AA batteries"
+          },
+          {
+            "name": "Touch Keypad Deadbolt",
+            "features": [
+              "Fingerprint-resistant touchscreen",
+              "100% pick-proof",
+              "2-year battery life",
+              "Up to 19 codes",
+              "Capacitive touchscreen"
+            ],
+            "power": "4 AA batteries"
+          }
+        ],
+        "finishes": [
+          {"name": "Lifetime Satin Nickel", "warranty": "Lifetime"},
+          {"name": "Lifetime Black", "warranty": "Lifetime"},
+          {"name": "Lifetime Bright Brass", "warranty": "Lifetime"},
+          {"name": "Lifetime Antique Brass", "warranty": "Lifetime"}
+        ],
+        "compatible_doors": ["Signet", "Heritage", "Legacy"],
+        "certifications": ["ANSI Grade 1", "UL Listed"],
+        "image_urls": {
+          "primary": ["images/hardware/schlage_electronic_main.jpg"],
+          "products": [
+            "images/hardware/schlage_sense.jpg",
+            "images/hardware/schlage_keypad.jpg",
+            "images/hardware/schlage_touch.jpg"
+          ],
+          "app_screenshots": [
+            "images/hardware/schlage_app1.jpg",
+            "images/hardware/schlage_app2.jpg"
+          ]
+        },
+        "search_tags": [
+          "schlage", "smart lock", "electronic deadbolt", "keypad lock",
+          "bluetooth lock", "smartphone", "keyless entry", "touchscreen"
+        ],
+        "source_pages": [124, 125]
+      },
+      {
+        "chunk_id": "hardware_schlage_sense_020",
+        "product_id": "schlage_sense",
+        "name": "Schlage Sense Smart Deadbolt",
+        "category": "Hardware",
+        "subcategory": "Smart Locks",
+        "description": "The Schlage Sense Smart Deadbolt simplifies daily access with a touchscreen keypad and easy Bluetooth pairing to the free Schlage Sense app for iOS and Android. Share access with trusted users, store up to 19 user codes, and control lock/unlock behavior locally or remotely when paired with the optional Wi-Fi Adapter. The lock includes a 9V battery backup, illuminated keypad and lever, is designed to operate in variable conditions (including rain and while wearing gloves), and combines convenience with rated security and reliable battery life.",
+        "warranty": {
+        "mechanical": "Lifetime",
+        "electronics": "3-Year"
+        },
+        "products": [
+        {
+        "name": "Schlage Sense Smart Deadbolt",
+        "features": [
+        "Touchscreen keypad",
+        "Bluetooth connectivity",
+        "Schlage Sense mobile app (iOS & Android)",
+        "Up to 19 user codes",
+        "Share access via app",
+        "9V battery backup",
+        "Illuminated keypad and lever",
+        "Works in rain and with gloves"
+        ],
+        "power": "9V battery (included) + internal battery"
+        },
+        {
+          "chunk_id": "hardware_schlage_classic_021",
+          "product_id": "schlage_classic",
+          "name": "Schlage Classic Hardware",
+          "category": "Hardware",
+          "subcategory": "Traditional Locksets",
+          "description": "Schlage Classic hardware delivers understated, long-lasting aesthetic and functional performance. Constructed for durability and tested for reliable operation, the Classic line includes a range of keyed locksets, passage latches, thumbturn deadbolts, and accent levers suited to both exterior and interior doors. A broad selection of finishes is available to match traditional home styles and optional accessories (door knockers, kick plates, peepholes) expand customization.",
+          "warranty": {
+          "mechanical": "5-Year",
+          "finish": "Lifetime (finish warranty time period may be limited to five years in Impact Shield regions)"
+          },
+          "Schlage_classic_door products": [
+          {
+          "name": "Accent/Addison Keyed Lockset",
+          "features": ["Traditional keyed lockset", "Multiple trim options", "Durable mechanism"]
+          },
+          {
+          "name": "Flair Keyed Lockset",
+          "features": ["Classic styling", "Secure keyed operation"]
+          },
+          {
+          "name": "Georgian Knob Lockset",
+          "features": ["Interior knob with keyed option", "Compact traditional profile"]
+          },
+          {
+          "name": "Latitude Lever with Century Trim Keyed Lockset",
+          "features": ["Lever style with trim options", "Available keyed configurations"]
+          },
+          {
+          "name": "Passage Latches (Flair, Georgian, Addison)",
+          "features": ["Non-locking passage function", "Multiple trim compatibility"]
+          },
+          {
+          "name": "Thumbturn 1 Deadbolt (Interior Only 1-Sided)",
+          "features": ["Interior thumbturn option for single-sided applications", "Note: interior-only thumbturns may present egress considerations"]
+          }
+          ],
+          "Schlage_passage_latches products": [
+          {
+          "name": "Accent/Addison Passage Latch"          
+          },
+          {
+          "name": "Accent Passage Latch"          
+          },
+          {
+          "name": "Latitude Lever with Century Trim §"          
+          },
+          {
+          "name": "Latitude Lever with Collins Trim ‡"          
+          },
+          {
+          "name": "Flair Passage Latch"
+          },
+          {
+          "name": "Georgian Passage Latch"
+          }
+          ],
+          "finishes": [
+          {"name": "Lifetime Bright Brass", "warranty": "Lifetime"},
+          {"name": "Lifetime Satin Nickel", "warranty": "Lifetime"},
+          {"name": "Lifetime Antique Brass", "warranty": "Lifetime (not available in some regions)"},
+          {"name": "Lifetime Black", "warranty": "Lifetime"}
+          ],
+          "compatible_doors": ["Signet", "Embarq", "Heritage", "Legacy"],
+          "certifications": ["Durability tested (manufacturer operational cycle testing)"],
+          "image_urls": {
+          "primary - product showing Schlage Classic lockset on a door": ["images/hardware/schlage_classic_main.jpg"],
+          "products - lineup of Classic locksets, levers, and knobs": ["images/hardware/schlage_classic_lineup.jpg"],
+          "accessories - optional Colonial door knocker, kick plate, peephole and mail slot visuals": ["images/hardware/schlage_classic_accessories.jpg"]
+          },
+          "search_tags": [
+          "schlage classic", "traditional lockset", "passage latch", "classic finishes",
+          "bright brass", "antique brass", "satin nickel", "durable lockset"
+          ],
+          "source_pages": [126, 127]
+},
+        {
+        "name": "Electronic Touch Keypad Deadbolt",
+        "products":[
+        "TOUCH KEYPAD ELECTRONIC KEYLESS DEADBOLT", 
+        "ACCENT LEVER TOUCH KEYPAD ELECTRONIC KEYLESS LOCKSET"
+        ],
+        "features": [
+        "Fingerprint-resistant",
+        "Works in the rain and when you're wearing gloves",
+        "100% pick-proof",
+        "Sleek without sacrificing strength",
+        "2-year battery life with a 9V battery backup",
+        "Illumination when you need it, on both the numbers and the lever",
+        "Enhanced Security",
+        "100% bump-proof",
+        "Graded Best in Residential Security, Durability,and Finish"
+        ],
+        "power": "4 AA batteries",
+        "Finish": "Lifetime Black"
+        },
+        {
+        "name": "Electronic Deadbolt",
+        "products":[
+        "Schlage Electronic Keypad Deadbolt", 
+        "Accent Lever Electronic Lockset"
+        ],
+        "features": [
+        "Deadbolt is available with any Schlage entry hardware",
+        "Up to 19 user codes",
+        "Vacation mode",
+        "9-volt battery included",
+        "Easy code management",
+        "Lighted keypad",
+        "Easy to add or delete codes",
+        "Lifetime Mechanical and 3-Year Electronics Warranty"
+        ],
+        "power": "4 AA batteries",
+        "Finish": ["Lifetime Black", "Lifetime Satin Nickel", "Lifetime Bright Brass"] 
+        }
+        ],
+        "finishes": [
+        {"name": "Lifetime Bright Brass", "warranty": "Lifetime"},
+        {"name": "Lifetime Satin Nickel", "warranty": "Lifetime"},
+        {"name": "Lifetime Black", "warranty": "Lifetime"},
+        {"name": "Lifetime Antique Brass", "warranty": "Lifetime"}
+        ],
+        "compatible_doors": ["Signet", "Embarq", "Heritage", "Legacy"],
+        "certifications": ["ANSI/BHMA Grade 1", "UL Listed"],
+        "image_urls": {
+        "primary - main product shot showing Schlage Sense installed on a door": ["images/hardware/schlage_sense_main.jpg"],
+        "products - product closeups: deadbolt, keypad, touch interface, and accent lever": ["images/hardware/schlage_sense.jpg", "images/hardware/schlage_keypad.jpg", "images/hardware/schlage_touch.jpg"],
+        "app_screenshots - Schlage Sense mobile app setup and user management screens": ["images/hardware/schlage_app1.jpg", "images/hardware/schlage_app2.jpg"],
+        "wifi_adapter - Wi-Fi Adapter product and installation image": ["images/hardware/schlage_wifi_adapter.jpg"]
+        },
+        "search_tags": [
+        "schlage sense", "smart deadbolt", "schlage sense wi-fi adapter", "touchscreen lock",
+        "bluetooth deadbolt", "remote lock", "keyless entry", "smartphone lock", "9v backup"
+        ],
+        "source_pages": [124, 125, 126]
+        }
+    ],
+    "finishes": [
+      {
+        "chunk_id": "finish_stain_013",
+        "product_id": "stain_finishes",
+        "name": "Stain Finishes",
+        "category": "Finishes",
+        "subcategory": "Wood Stains",
+        "description": "This chunk contains detailed information about ProVia's stain finishing systems for Embarq, Signet, Heritage, and Legacy doors. It describes the multi-step handcrafted finishing processes—including the 7-step DuraFuse™ P3 Fusion stain process for Embarq/Signet and the oven-cured urethane finishing systems for Heritage and Legacy steel doors. It also lists all available stain color options for Cherry, Mahogany, Oak, Knotty Alder, and Fir, along with tone and undertone characteristics. The data includes durability warranties, process differences between product lines, and image references for finish samples and application steps such as hand staining and oven curing. Overall, this chunk provides a complete technical and aesthetic overview of ProVia’s wood-stain finish options across product families.",
+        "embarq_signet_options": {
+          "process": "7-step with DuraFuse P3 Fusion technology: 1. DURAFUSE™ proprietary P3 Fusion Preparation Processes ensuring unprecedented finish durability\n2. HAND-APPLIED STAIN FINISH formulated exclusively for Signet fiberglass doors\n3. A layer of 2-part urethane, catalyst-hardened CLEAR COAT WITH UV INHIBITORS is applied\n4. Clear coat is OVEN-CURED for lasting durability\n5. The door is HAND-SANDED, preparing the surface for the second layer of clear coat\n6. A second layer of 2-part urethane, catalyst-hardened CLEAR COAT WITH UV INHIBITORS is applied\n7. The door is OVEN-CURED a second time, creating a long-lasting, durable finish",
+          "warranty": "15-year",
+          "cherry_mahogany_colors": [
+            {"name": "Toffee", "tone": "Light", "undertone": "Golden"},
+            {"name": "American Cherry", "tone": "Medium", "undertone": "Red"},
+            {"name": "Chestnut", "tone": "Medium", "undertone": "Brown"},
+            {"name": "Cinnamon", "tone": "Medium", "undertone": "Red-Brown"},
+            {"name": "Nutmeg", "tone": "Medium-Dark", "undertone": "Brown"},
+            {"name": "Hazelnut", "tone": "Dark", "undertone": "Brown"},
+            {"name": "Coffee Bean", "tone": "Dark", "undertone": "Espresso"},
+            {"name": "Honey Wheat", "tone": "Light", "undertone": "Golden"}
+          ],
+          "oak_knotty_alder_fir_colors": [
+            {"name": "Caramel", "tone": "Light", "undertone": "Golden"},
+            {"name": "Truffle", "tone": "Medium", "undertone": "Gray-Brown"},
+            {"name": "Ginger", "tone": "Medium", "undertone": "Orange-Brown"},
+            {"name": "Almond", "tone": "Light-Medium", "undertone": "Neutral"},
+            {"name": "Pecan", "tone": "Medium-Dark", "undertone": "Brown"},
+            {"name": "Espresso", "tone": "Dark", "undertone": "Black-Brown"}
+          ]
+        },
+        "legacy_options": {
+          "process": "1. Steel doors are A40 Hot-dipped Galvannealed (300% more coating thickness than 40Z full electrolytic zinc coated steel) to resist rust inside and out; 2. A 2-part urethane, catalyst-hardened BASE COAT (prime paint) is applied by a robotic reciprocating paint system; 3. Base coat is OVEN-CURED for lasting durability; 4. HAND-APPLIED STAIN FINISH is added for enhanced beauty; 5. A layer of 2-part urethane, catalyst-hardened CLEAR COAT WITH UV INHIBITORS is applied; 6. The door is OVEN-CURED a second time, creating a long-lasting, durable finish",
+          "warranty": "10-year finish warranty",
+          "colors": [
+            {"name": "Natural Oak", "tone": "Natural", "undertone": "None"},
+            {"name": "Light Oak", "tone": "Light", "undertone": "Golden"},
+            {"name": "Oak", "tone": "Medium", "undertone": "Brown"},
+            {"name": "Dark Oak", "tone": "Dark", "undertone": "Brown"},
+            {"name": "Walnut", "tone": "Dark", "undertone": "Gray-Brown"},
+            {"name": "Cherry", "tone": "Medium", "undertone": "Red"},
+            {"name": "Dark Mahogany", "tone": "Dark", "undertone": "Red-Brown"}
+          ]
+        },
+        "heritage_options": {
+          "process": [
+            "A 2-part urethane, catalyst-hardened BASE COAT (prime paint) is applied by a robotic reciprocating paint system",
+            "Base coat is OVEN-CURED for lasting durability",
+            "HAND-APPLIED STAIN FINISH is added for enhanced beauty",
+            "A layer of 2-part urethane, catalyst-hardened CLEAR COAT WITH UV INHIBITORS is applied",
+            "The door is OVEN-CURED a second time, creating a long-lasting, durable finish"
+          ],
+          "warranty": "10-year finish warranty",
+          "colors": [
+            {"name": "Natural Oak", "tone": "Natural", "undertone": "None"},
+            {"name": "Light Oak", "tone": "Light", "undertone": "Golden"},
+            {"name": "Oak", "tone": "Medium", "undertone": "Brown"},
+            {"name": "Dark Oak", "tone": "Dark", "undertone": "Brown"},
+            {"name": "Walnut", "tone": "Dark", "undertone": "Gray-Brown"},
+            {"name": "Cherry", "tone": "Medium", "undertone": "Red"},
+            {"name": "Dark Mahogany", "tone": "Dark", "undertone": "Red-Brown"}
+          ]
+        },
+          "embarq_signet_finishing_process - process for Embarq and Signet finishing system": [
+            "images/finishes/stain_espresso.jpg",
+            "images/finishes/stain_natural_oak.jpg"
+          ],
+          "finish_images - displaying finish images colors": [
+            "images/finishes/hand_application.jpg",
+            "images/finishes/oven_curing.jpg"
+          ],
+        "heritage_legacy_finishing_process - process for legacy and heritage finishing system": [
+            "images/finishes/stain_espresso.jpg",
+            "images/finishes/stain_natural_oak.jpg"
+          ],
+          "heritage_legacy_finish_images - displaying finish images colors": [
+            "images/finishes/hand_application.jpg",
+            "images/finishes/oven_curing.jpg"
+          ],
+          "search_tags": [
+          "stain finish", "wood stain", "durafuse", "hand applied", "toffee",
+          "cherry", "mahogany", "oak", "espresso", "15 year warranty"
+        ],
+        "source_pages": [102, 103, 104, 105]
+      },
+      {
+        "chunk_id": "finish_glazed_014",
+        "product_id": "glazed_finishes",
+        "name": "Glazed Finishes",
+        "category": "Finishes",
+        "subcategory": "Specialty Finishes",
+        "description": "Distinctive glazed finishing sytem giving each door a unique aged look through 9-step process.",
+        "warranty": "15-year",
+        "process": "The Embarq and Signet glazed finishing system begins with DURAFUSE™, a proprietary P3 Fusion preparation process that enhances long-term finish durability. A 2-part urethane, catalyst-hardened base coat is applied and then oven-cured to create a strong foundation. Skilled craftsmen hand-apply a specially formulated stain finish, after which a urethane clear coat with UV inhibitors is added to protect the surface. This clear coat is oven-cured for durability, and the door is then hand-sanded to ensure a flawless surface for the next layer. A second UV-protected urethane clear coat is applied and oven-cured once more, resulting in an xceptionally durable, long-lasting, and richly detailed finish.",
+        "unique_features": [
+          "Each door has unique character",
+          "Hand-rubbed glaze application",
+          "Aged, antique appearance",
+          "Highlights wood grain and details"
+        ],
+        "available_on": ["Embarq", "Signet"],
+        "colors": [
+          {
+            "name": "Winter Rain",
+            "base": "Light Gray",
+            "glaze": "White",
+            "effect": "Weathered coastal"
+          },
+          {
+            "name": "Dutch Gray",
+            "base": "Medium Gray",
+            "glaze": "Charcoal",
+            "effect": "European elegance"
+          },
+          {
+            "name": "Rustic Sage",
+            "base": "Green-Gray",
+            "glaze": "Brown",
+            "effect": "Countryside charm"
+          },
+          {
+            "name": "Red Velvet",
+            "base": "Deep Red",
+            "glaze": "Black",
+            "effect": "Rich dramatic"
+          },
+          {
+            "name": "Windy City",
+            "base": "Blue-Gray",
+            "glaze": "Black",
+            "effect": "Urban sophisticated"
+          },
+          {
+            "name": "River Gorge",
+            "base": "Deep Green",
+            "glaze": "Black",
+            "effect": "Natural depth"
+          },
+          {
+            "name": "Natural Leather",
+            "base": "Tan-Brown",
+            "glaze": "Dark Brown",
+            "effect": "Worn leather"
+          }
+        ],
+        "process_steps": [
+          "Base color application",
+          "Grain enhancement",
+          "Glaze application",
+          "Hand rubbing",
+          "Detail work",
+          "Sealing coats",
+          "Final protective coating"
+        ],
+        "image_urls": {
+          "primary": ["images/finishes/glazed_collection.jpg"],
+          "color_samples": [
+            "images/finishes/glazed_winter_rain.jpg",
+            "images/finishes/glazed_dutch_gray.jpg",
+            "images/finishes/glazed_red_velvet.jpg"
+          ],
+          "process": [
+            "images/finishes/glazing_process.jpg",
+            "images/finishes/hand_rubbing.jpg"
+          ]
+        },
+        "search_tags": [
+          "glazed finish", "antiqued", "hand rubbed", "winter rain",
+          "dutch gray", "red velvet", "unique character", "aged look"
+        ],
+        "source_pages": [104]
+      },
+      {
+        "chunk_id": "finish_paint_015",
+        "product_id": "paint_finishes",
+        "name": "Paint Finishes",
+        "category": "Finishes",
+        "subcategory": "Paint Colors",
+        "description": "Factory-applied with multi-step oven-cured process.",
+        "warranty": {
+          "embarq_signet": "15-year",
+          "heritage_legacy": "10-year"
+        },
+        "paint_finishing_system": [
+          { "name": "Legacy Paints", "description": "Legacy steel doors are manufactured using A40 Hot-dipped Galvannealed steel, which provides 300% more protective coating than standard 40Z electrolytic zinc steel to resist rust both inside and out. A 2-part urethane, catalyst-hardened base coat is applied by a robotic reciprocating paint system to ensure complete coverage and consistency. This base coat is then oven-cured for long-lasting durability. After curing, the door receives a 2-part urethane, catalyst-hardened finish coat that enhances appearance and protection. The door is oven-cured a second time, producing a strong, resilient, and highly durable finish designed to withstand years of exposure."},
+          { "name": "Embarq/Signet Paints", "description": "The Embarq and Signet paint finishing system begins with DURAFUSE™, a proprietary P3 Fusion preparation process that delivers exceptional long-term finish durability. A 2-part urethane, catalyst-hardened base coat is applied using a robotic reciprocating paint system to ensure complete and even coverage. This base coat is then oven-cured to create a strong foundation. After curing, the door receives a 2-part urethane, catalyst-hardened finish coat that enhances surface protection and appearance. The door is oven-cured once again, producing a resilient, long-lasting finish designed to withstand harsh environmental conditions."},
+          { "name": "Heritage Paints", "description": "The Heritage and Legacy paint finishing system begins with the application of a 2-part urethane, catalyst-hardened base coat applied by a robotic reciprocating paint system for consistent and uniform coverage. This base layer is oven-cured to reinforce durability. After curing, the door is coated with a 2-part urethane, catalyst-hardened finish coat that provides enhanced protection and color stability. A second oven-curing cycle completes the process, creating a tough, long-lasting finish engineered to maintain its appearance over time."}
+        ],
+        "standard_colors": [
+          {"name": "Snow Mist", "code": "SW", "tone": "White"},
+          {"name": "Café Cream", "code": "CC", "tone": "Off-White"},
+          {"name": "Primrose Yellow", "code": "PY", "tone": "Yellow", "limited": true},
+          {"name": "Chateau", "code": "CH", "tone": "Beige"},
+          {"name": "Sandpiper Beige", "code": "SB", "tone": "Light Tan"},
+          {"name": "Sandstone", "code": "SS", "tone": "Medium Tan"},
+          {"name": "Sterling Gray", "code": "SG", "tone": "Light Gray"},
+          {"name": "Nightfall", "code": "NF", "tone": "Dark Gray"},
+          {"name": "Clay", "code": "CL", "tone": "Terra Cotta"},
+          {"name": "Geneva Blue", "code": "GB", "tone": "Light Blue"},
+          {"name": "Enzian Blue", "code": "EB", "tone": "Medium Blue", "limited": true},
+          {"name": "Forest Green", "code": "FG", "tone": "Dark Green"},
+          {"name": "Vallis Red", "code": "VR", "tone": "Brick Red", "limited": true},
+          {"name": "Mountain Berry", "code": "MB", "tone": "Burgundy"},
+          {"name": "Rustic Bronze", "code": "RB", "tone": "Dark Brown"},
+          {"name": "Tudor Brown", "code": "TB", "tone": "Medium Brown"},
+          {"name": "Coal Black", "code": "CB", "tone": "Black"}
+        ],
+        "trending_colors": [
+          {"name": "Robin Egg", "category": "Freshly Picked"},
+          {"name": "Plum", "category": "Freshly Picked"},
+          {"name": "Avocado", "category": "Freshly Picked"},
+          {"name": "Hibiscus", "category": "Freshly Picked"},
+          {"name": "Blueberry", "category": "Freshly Picked"},
+          {"name": "Moss", "category": "Freshly Picked"},
+          {"name": "Deep Blue", "category": "Freshly Picked"},
+          {"name": "Cabernet", "category": "Freshly Picked"},
+          {"name": "Goldenrod", "category": "Freshly Picked"},
+          {"name": "Burnt Orange", "category": "Freshly Picked"},
+          {"name": "Clover", "category": "Freshly Picked"}
+        ],
+        "custom_colors": {
+          "available": true,
+          "lead_time": "Additional 2-3 weeks",
+          "color_matching": "Provide sample or color code"
+        },
+        "limited_availability_note": "Primrose Yellow, Enzian Blue, and Vallis Red have limited availability",
+        "image_urls": {
+          "legacy_paints - representing paint system for legacy doors": ["images/finishes/paint_collection.jpg"],
+          "embarq/signet_paints - representing paint system for embarq/signet doors": ["images/finishes/paint_collection.jpg"],
+          "heritage_paints - representing paint system for heritage doors": ["images/finishes/paint_collection.jpg"],
+          "color_grid": ["images/finishes/paint_color_grid.jpg"],
+          "trending": ["images/finishes/trending_colors.jpg"],
+          "color_samples": [
+            "images/finishes/paint_snow_mist.jpg",
+            "images/finishes/paint_nightfall.jpg",
+            "images/finishes/paint_forest_green.jpg"
+          ]
+        },
+        "search_tags": [
+          "paint colors", "factory paint", "snow mist", "nightfall",
+          "custom colors", "trending colors", "coal black", "forest green"
+        ],
+        "source_pages": [106, 107, 108, 109]
+      }
+    ],
+    "accessories": [
+      {
+        "chunk_id": "accessory_general_016",
+        "product_id": "optional_accessories",
+        "name": "Door Accessories Collection",
+        "category": "Accessories",
+        "subcategory": "Optional Add-ons",
+        "description": "Complete selection of door accessories for functionality and style.",
+        "warranty": "5-Year Mechanical",
+        "items": [
+          {
+            "name": "Colonial Door Knocker",
+            "type": "Decorative Hardware",
+            "finishes": [
+              "Lifetime Bright Brass",
+              "Lifetime Satin Nickel",
+              "5-Year Black/Bronze",
+              "5-Year Antique Brass"
+            ],
+            "style": "Traditional"
+          },
+          {
+            "name": "Classic Door Knocker",
+            "type": "Decorative Hardware",
+            "finishes": [
+              "Lifetime Bright Brass",
+              "Lifetime Satin Nickel",
+              "5-Year Black/Bronze",
+              "5-Year Antique Brass"
+            ],
+            "style": "Contemporary"
+          },
+          {
+            "name": "Classic Door Knocker/Viewer Combo",
+            "type": "Decorative Hardware",
+            "finishes": [
+              "Lifetime Bright Brass",
+              "Lifetime Satin Nickel",
+              "5-Year Black/Bronze",
+              "5-Year Antique Brass"
+            ],
+            "features": ["Integrated peepsite"]
+          },
+          {
+            "name": "Mail Slot",
+            "type": "Functional",
+            "size": "Standard letter size",
+            "not_compatible": ["Certified Wind Load", "Impact Shield"],
+            "energy_star": false
+          },
+          {
+            "name": "Magazine Slot",
+            "type": "Functional",
+            "size": "Large format",
+            "not_compatible": ["Certified Wind Load", "Impact Shield"],
+            "energy_star": false
+          },
+          {
+            "name": "Kick Plate",
+            "type": "Protective",
+            "heights": ["8 inch", "10 inch", "12 inch"],
+            "finishes": [
+              "Lifetime Bright Brass",
+              "Lifetime Satin Nickel",
+              "5-Year Black/Bronze",
+              "Oil Rubbed Bronze"
+            ]
+          },
+          {
+            "name": "Peepsite",
+            "type": "Security",
+            "diameter": "7/8 inch",
+            "viewing_angle": "180 degrees",
+            "finishes": ["Bright Brass", "Chrome", "Aged/Antique"]
+          },
+          {
+            "name": "Decorative Hinges",
+            "type": "Decorative Hardware",
+            "styles": ["Steeple", "Ball"],
+            "finishes": ["Satin Nickel", "Oil Rubbed Bronze"],
+            "note": "Inswing doors only"
+          }
+        ],
+        "image_urls": {
+          "primary": ["images/accessories/collection.jpg"],
+          "items": [
+            "images/accessories/colonial_knocker.jpg",
+            "images/accessories/mail_slot.jpg",
+            "images/accessories/kick_plate.jpg",
+            "images/accessories/decorative_hinges.jpg"
+          ]
+        },
+        "search_tags": [
+          "door accessories", "door knocker", "mail slot", "kick plate",
+          "peepsite", "decorative hinges", "colonial", "classic"
+        ],
+        "source_pages": [127]
+      },
+      {
+        "chunk_id": "accessory_speakeasy_017",
+        "product_id": "speakeasy_hingestraps_clavos",
+        "name": "Old World Accessories",
+        "category": "Accessories",
+        "subcategory": "Decorative Iron",
+        "description": "Old world look options in flat black aluminum.",
+        "items": [
+          {
+            "name": "Hinge Straps",
+            "material": "Aluminum",
+            "finish": "Flat Black",
+            "lengths": ["12 inch", "16 inch", "18 inch"],
+            "impact_shield": true,
+            "decorative_only": true
+          },
+          {
+            "name": "Clavos",
+            "material": "Aluminum",
+            "finish": "Flat Black",
+            "sizes": ["1 inch", "1.5 inch", "2 inch"],
+            "available_on": "Doors with planks only",
+            "impact_shield": true
+          },
+          {
+            "name": "Speakeasy Iron Door",
+            "type": "Functional",
+            "material": "Cast Iron",
+            "operation": "Sliding panel",
+            "warranty": "5-year limited",
+            "energy_star": false,
+            "not_recommended": "Northern climate"
+          },
+          {
+            "name": "Speakeasy Seedy Glass",
+            "type": "Functional",
+            "glass": "Seedy texture",
+            "operation": "Sliding panel",
+            "warranty": "5-year limited",
+            "energy_star": false,
+            "not_recommended": "Northern climate"
+          },
+          {
+            "name": "Faux Speakeasy",
+            "type": "Decorative only",
+            "description": "Decorative without affecting energy efficiency",
+            "energy_star": true
+          }
+        ],
+        "design_notes": [
+          "Creates rustic, old-world appearance",
+          "Popular with Mediterranean and Spanish styles",
+          "Complements wood-look doors"
+        ],
+        "image_urls": {
+          "primary": ["images/accessories/old_world.jpg"],
+          "items": [
+            "images/accessories/hinge_straps.jpg",
+            "images/accessories/clavos.jpg",
+            "images/accessories/speakeasy.jpg"
+          ]
+        },
+        "search_tags": [
+          "speakeasy", "hinge straps", "clavos", "old world", "rustic",
+          "decorative iron", "mediterranean", "spanish style"
+        ],
+        "source_pages": [128, 129]
+      },
+      {
+        "chunk_id": "accessory_pet_doors_018",
+        "product_id": "pet_doors",
+        "name": "Pet Door Options",
+        "category": "Accessories",
+        "subcategory": "Pet Access",
+        "description": "Factory installed pet doors on flush doors only.",
+        "brands": [
+          {
+            "name": "PlexiDor",
+            "features": [
+              "Shatter resistant acrylic",
+              "Thermo-pane panels",
+              "Weatherproof seal",
+              "Security lock"
+            ],
+            "frame_colors": ["White", "Silver", "Bronze"],
+            "sizes": [
+              {"size": "Medium", "pet_weight": "Up to 40 lbs", "opening": "8 x 10 inches"},
+              {"size": "Large", "pet_weight": "Up to 100 lbs", "opening": "11 x 16 inches"},
+              {"size": "X-Large", "pet_weight": "Up to 220 lbs", "opening": "15.75 x 23.75 inches"}
+            ]
+          },
+          {
+            "name": "Freedom",
+            "features": [
+              "Solid aluminum frame",
+              "Locking panel",
+              "Weather seal",
+              "Magnetic closure"
+            ],
+            "frame_colors": ["Antique White"],
+            "sizes": [
+              {"size": "Medium", "pet_weight": "Up to 40 lbs", "opening": "8 x 10 inches"},
+              {"size": "Large", "pet_weight": "Up to 100 lbs", "opening": "11 x 16 inches"},
+              {"size": "X-Large", "pet_weight": "Up to 220 lbs", "opening": "15.75 x 23.75 inches"}
+            ]
+          }
+        ],
+        "installation": {
+          "factory_only": true,
+          "door_types": "Flush panel doors only",
+          "location": "Lower portion of door"
+        },
+        "restrictions": [
+          "Not available with Certified Wind Load",
+          "Not available with Impact Shield",
+          "Not Energy Star compliant"
+        ],
+        "image_urls": {
+          "primary": ["images/accessories/pet_doors.jpg"],
+          "brands": [
+            "images/accessories/plexidor.jpg",
+            "images/accessories/freedom.jpg"
+          ],
+          "sizes": ["images/accessories/pet_door_sizes.jpg"]
+        },
+        "search_tags": [
+          "pet door", "dog door", "cat door", "plexidor", "freedom",
+          "pet access", "factory installed"
+        ],
+        "source_pages": [130]
+      }
+    ],
+    "frames": [
+      {
+        "chunk_id": "frame_framesaver_019",
+        "product_id": "framesaver",
+        "name": "FrameSaver Composite Bottom Frame",
+        "category": "Frame Options",
+        "subcategory": "Wood Frames",
+        "description": "Wood frame with finger-jointed composite bottom - never absorbs water, warps, cracks or rots.",
+        "warranty": "Lifetime Limited (fully transferable)",
+        "key_features": [
+          "Finger-jointed composite bottom",
+          "Never absorbs water",
+          "Never warps, cracks, or rots",
+          "Traditional wood appearance",
+          "Fully transferable warranty"
+        ],
+        "construction": {
+          "jambs": "Clear pine or primed wood",
+          "bottom": "Composite material",
+          "joint": "Finger-jointed for strength"
+        },
+        "benefits": [
+          "Eliminates bottom rot issues",
+          "Maintains wood aesthetics",
+          "Easy to paint or stain",
+          "No maintenance required at bottom"
+        ],
+        "compatible_doors": "All entry door series",
+        "image_urls": {
+          "primary": ["images/frames/framesaver.jpg"],
+          "detail": [
+            "images/frames/framesaver_bottom.jpg",
+            "images/frames/framesaver_joint.jpg"
+          ]
+        },
+        "search_tags": [
+          "framesaver", "composite bottom", "rot resistant", "lifetime warranty",
+          "transferable warranty", "wood frame"
+        ],
+        "source_pages": [16]
+      },
+      {
+        "chunk_id": "frame_fusionframe_020",
+        "product_id": "fusionframe",
+        "name": "FusionFrame Composite System",
+        "category": "Frame Options",
+        "subcategory": "Composite Frames",
+        "description": "LVL interior + FrameSaver bottom + composite exterior. Prefinished, maintenance-free.",
+        "warranty": {
+          "jamb": "Lifetime",
+          "finish": "Matches door series warranty"
+        },
+        "construction": {
+          "interior": "LVL (Laminated Veneer Lumber)",
+          "bottom": "FrameSaver composite",
+          "exterior": "Full composite cladding"
+        },
+        "features": [
+          "Prefinished - no painting required",
+          "Maintenance-free exterior",
+          "Structural strength of LVL",
+          "Rot-proof bottom",
+          "Color matched to door"
+        ],
+        "restrictions": [
+          "Not available for transoms",
+          "Not available for outswing doors"
+        ],
+        "compatible_doors": "All entry door series (inswing only)",
+        "image_urls": {
+          "primary": ["images/frames/fusionframe.jpg"],
+          "cutaway": ["images/frames/fusionframe_layers.jpg"]
+        },
+        "search_tags": [
+          "fusionframe", "composite frame", "maintenance free", "prefinished",
+          "lvl", "no painting"
+        ],
+        "source_pages": [17]
+      },
+      {
+        "chunk_id": "frame_permatech_021",
+        "product_id": "permatech",
+        "name": "PermaTech Full Composite Frame",
+        "category": "Frame Options",
+        "subcategory": "Composite Frames",
+        "description": "Full composite frame - moisture and insect resistant, never rots or splinters.",
+        "warranty": "Lifetime Limited",
+        "construction": "100% composite material throughout",
+        "key_features": [
+          "Moisture resistant",
+          "Insect resistant",
+          "Never rots or splinters",
+          "Paintable surface",
+          "Consistent dimensions"
+        ],
+        "benefits": [
+          "No wood content",
+          "Termite proof",
+          "No water absorption",
+          "Dimensionally stable",
+          "Long-term durability"
+        ],
+        "compatible_doors": "All entry door series",
+        "finishing": "Can be painted any color",
+        "image_urls": {
+          "primary": ["images/frames/permatech.jpg"],
+          "material": ["images/frames/permatech_composite.jpg"]
+        },
+        "search_tags": [
+          "permatech", "full composite", "moisture resistant", "termite proof",
+          "lifetime warranty", "paintable"
+        ],
+        "source_pages": [17]
+      },
+      {
+        "chunk_id": "frame_steel_022",
+        "product_id": "steel_lframe",
+        "name": "Steel L-Frame",
+        "category": "Frame Options",
+        "subcategory": "Steel Frames",
+        "description": "18-gauge steel with 12-gauge welded hinge plate for extra strength.",
+        "construction": {
+          "frame": "18-gauge galvanized steel",
+          "hinge_plate": "12-gauge steel",
+          "welding": "Full welded construction"
+        },
+        "features": [
+          "Heavy-duty construction",
+          "Pre-drilled for easy installation",
+          "Thermal break design",
+          "Adjustable strike plate"
+        ],
+        "compatible_doors": ["Signet", "Legacy"],
+        "restrictions": [
+          "Not tested for Certified Wind Load",
+          "Not tested for Impact Shield"
+        ],
+        "finishes": "Primed for field painting",
+        "image_urls": {
+          "primary": ["images/frames/steel_lframe.jpg"],
+          "detail": ["images/frames/steel_hinge_plate.jpg"]
+        },
+        "search_tags": [
+          "steel frame", "l-frame", "18 gauge", "commercial", "heavy duty"
+        ],
+        "source_pages": [17]
+      }
+    ],
+    "patio_doors": [
+      {
+        "chunk_id": "patio_hinged_023",
+        "product_id": "hinged_patio_doors",
+        "name": "Hinged Patio Door Systems",
+        "category": "Patio Doors",
+        "subcategory": "Swinging Patio Doors",
+        "description": "Hinged Patio Doors are swinging patio door systems available in 2 or 3-lite units and constructed of the same solid quality Signet® and Heritage™ Fiberglass, and Legacy™ Woodgrain Textured or Smooth Steel doors as our entry door units. Designer Patio Doors with Heritage Fiberglass are NOT available in Certified Wind Load regions. ProVia’s patio doors are built for strength, smooth operation, and long-lasting performance, beginning with a reinforced lock area that features a 20-gauge steel security plate for enhanced protection. The spring-loaded latch system automatically engages upon closing and includes an interior locking option for added convenience. Every patio door comes standard with BetterVue® fiberglass screen mesh, while heavy-duty fiberglass, aluminum, or SeeVue® stainless steel screen upgrades are available for increased durability and visibility. The top-hung aluminum screen frame glides effortlessly on ball-bearing rollers, preventing binding and ensuring smooth, reliable performance. Screen frames are offered in all 16 factory paint colors for a coordinated look. A Z-AC™ threshold with an auto-adjusting riser—available in Mill or Anodized Bronze—provides a secure seal, while Impact Shield–rated hinged patio doors include an oak-like riser and revised threshold design for added strength. ProVia offers patio doors in custom widths and heights in precise 1/8-inch increments, and all models are available in the full range of finishes shown in the catalog.",
+        "available_series": [
+          "Signet Fiberglass",
+          "Heritage Fiberglass",
+          "Legacy Steel"
+        ],
+        "configurations": [
+          {"type": "2-lite", "operation": "One fixed, one operating"},
+          {"type": "3-lite", "operation": "Two fixed, one operating"}
+        ],
+        "features": [
+          "20-gauge steel security plate",
+          "Spring-loaded latch system",
+          "BetterVue fiberglass screen (standard)",
+          "Z-AC auto-adjusting threshold",
+          "Schlage Flair handleset with Maximum Security deadbolt",
+          "Same finish options as entry doors",
+          "Custom sizing available (1/8 inch increments)"
+        ],
+        "hardware": {
+          "standard": "Schlage Flair handleset",
+          "deadbolt": "Maximum Security",
+          "finishes": [
+            "Bright Brass",
+            "Antique Brass",
+            "Satin Nickel",
+            "Aged Bronze"
+          ]
+        },
+        "screen_options": [
+          {"name": "BetterVue fiberglass", "standard": true},
+          {"name": "Heavy-duty fiberglass", "upgrade": true},
+          {"name": "Aluminum", "upgrade": true},
+          {"name": "SeeVue stainless steel", "premium": true}
+        ],
+        "impact_shield": {
+          "available": true,
+          "features": "Heavy aluminum interlock on center stile"
+        },
+        "image_urls": {
+          "primary": ["images/patio/hinged_main.jpg"],
+          "standard_features_images of Hinged Patio doors": [
+            "images/patio/hinged_2lite.jpg",
+            "images/patio/hinged_3lite.jpg"
+          ],
+          "hardware": ["images/patio/schlage_flair.jpg"],
+          "sizes": ["images/patio/size.jpg"]
+        },
+        "search_tags": [
+          "hinged patio", "french doors", "swinging patio", "signet patio",
+          "heritage patio", "legacy patio", "2-lite", "3-lite"
+        ],
+        "source_pages": [132, 133]
+      },
+      {
+        "chunk_id": "patio_sliding_024",
+        "product_id": "vinyl_sliding_patio_doors",
+        "name": "Vinyl Sliding Patio Door Systems",
+        "category": "Patio Doors",
+        "subcategory": "Sliding Patio Doors",
+        "description": "Vinyl Sliding Patio Doors are tested against the most stringent industry standards for air and water infiltration, wind load resistance, ease of operation, forced entry and much more. This means you’ll have lower heating and air-conditioning costs, easier cleaning, low maintenance and increased comfort. ProVia Vinyl Sliding Patio Doors are ENERGY STAR® certified and engineered for smooth, quiet, and secure performance. The top-hung aluminum screen glides effortlessly on ball-bearing rollers and comes standard with BetterVue® fiberglass mesh, with optional heavy-duty, stainless steel, or aluminum screens. AccuVent™ provides multiple venting positions using a sash lever and ratchet system—standard on Endure and optional on Aspect—offering convenient airflow with added security. A spring-loaded latch automatically engages upon closing, while galvanized steel-reinforced sills and panels ensure durability and structural rigidity. Multi-chamber vinyl frames with 4 9/16 depth enhance thermal efficiency and sound reduction, and Endure frames include Neopor® insulation. Fixed and operating panels interlock tightly for improved security, and a foot lock (standard on Aspect, optional on Endure) adds extra protection while ventilating. New welding technology provides cleaner corner aesthetics, and each operating panel includes four adjustable 1 rollers for smooth sliding action.",
+        "product_lines": [
+          {
+            "name": "Endure",
+            "tier": "Premium",
+            "features": [
+              "AccuVent sash lever (standard)",
+              "Heavy-duty rollers",
+              "Enhanced weatherstripping",
+              "Standard Mortise Hardware"
+            ],
+            "colors": ["White", "Beige", "Sandstone", "Dark Oak", "Classic Oak", "Traditional Cherry", "Classic Bronze"]
+          },
+          {
+            "name": "Aspect",
+            "tier": "Standard",
+            "features": [
+              "AccuVent sash lever (optional)",
+              "Standard rollers",
+              "Quality weatherstripping",
+              "Standard Mortise Hardware"
+            ],
+            "colors": ["White", "Beige", "Sandstone"]
+          }
+        ],
+        "warranty": "Lifetime Limited (includes glass breakage and seal failure)",
+        "energy_star": true,
+        "construction": {
+          "frame": "Multi-chamber vinyl profiles",
+          "depth": "4 9/16 inch frame",
+          "reinforcement": "Galvanized steel in panels and sill",
+          "drainage": "Patented water draining system"
+        },
+        "features": [
+          "BetterVue fiberglass screen",
+          "Adjustable rollers",
+          "Multi-point locking",
+          "Fusion-welded corners"
+        ],
+        "configurations": [
+          {"panels": 2, "operation": "XO or OX"},
+          {"panels": 3, "operation": "OXO or XOX"},
+          {"panels": 4, "operation": "OXXO"}
+        ],
+        "colors": {
+          "solid": [
+            {"name": "White", "interior": "White", "exterior": "White"},
+            {"name": "Beige", "interior": "Beige", "exterior": "Beige"},
+            {"name": "Sandstone", "interior": "Sandstone", "exterior": "Sandstone"}
+          ],
+          "laminated": [
+            {"name": "Dark Oak", "interior": "Dark Oak", "exterior": "White/Beige"},
+            {"name": "Classic Oak", "interior": "Classic Oak", "exterior": "White/Beige"},
+            {"name": "Traditional Cherry", "interior": "Cherry", "exterior": "White/Beige"},
+            {"name": "Classic Bronze", "interior": "White", "exterior": "Bronze"}
+          ]
+        },
+        "glazing_options": [
+          {"code": "DLA-UV", "standard": true, "r_value": 4},
+          {"code": "TLA-UV", "upgrade": true, "r_value": 7},
+          {"code": "TLK-UV", "upgrade": true, "r_value": 10}
+        ],
+        "internal_blinds": {
+          "available": true,
+          "colors": ["Silver", "Champagne", "White", "Cream", "Tan"],
+          "warranty": "10-Year"
+        },
+        "impact_shield": {
+          "available": true,
+          "features": "Laminated glass, heavy-duty interlock"
+        },
+        "image_urls": {
+          "primary": ["images/patio/sliding_main.jpg"],
+          "configurations - options -Grid Patterns": [
+            "images/patio/sliding_2panel.jpg",
+            "images/patio/sliding_3panel.jpg",
+            "images/patio/sliding_4panel.jpg"
+          ],
+          "colors": [
+            "images/patio/vinyl_colors.jpg",
+            "images/patio/laminate_options.jpg"
+          ],
+          "features": [
+            "images/patio/accuvent.jpg",
+            "images/patio/internal_blinds.jpg"
+          ]
+        },
+        "search_tags": [
+          "sliding patio", "vinyl patio", "endure", "aspect", "accuvent",
+          "internal blinds", "2 panel", "3 panel", "4 panel"
+        ],
+        "source_pages": [134, 135, 136, 137]
+      }
+    ],
+    "storm_doors": [
+      {
+        "chunk_id": "storm_spectrum_025",
+        "product_id": "spectrum",
+        "name": "Spectrum Storm Door",
+        "category": "Storm Doors",
+        "tier": "Premium",
+        "description": "ProVia storm doors are individually customized and built to the highest residential standards for homeowners who value uncompromising quality and long-lasting performance. Each door features a durable extruded aluminum frame with elegant rounded cove molding that enhances the glass edge and overall appearance. The oven-baked polyester paint finish provides exceptional durability and carries a Lifetime Warranty, ensuring beauty with minimal maintenance. All storm doors are constructed with tempered safety glass for enhanced security, and they are available for use in Impact Shield regions, although they are not wind-borne debris tested and therefore not considered Impact Shield products. ProVia’s storm doors include refined details such as color-matched aluminum screw covers for a clean, finished look, corrosion-proof corner gussets for added structural integrity, and high-quality hardware and door closers designed to ensure smooth, reliable operation. The air-release closer system enables continuous closing motion without rebound, improving usability and performance. Depending on the model, non-operable sashes are secured with color-matched polycarbonate clips or an internal sash lock system, and a bottom expander with sweep ensures a secure, custom fit to any entryway. The storm door paint finishing system uses a computer-controlled electrostatic application with a hydraulic reciprocator that atomizes paint for precise, even coverage across contoured surfaces. A wide selection of color options—including Snow Mist, Café Cream, Sandstone, Sterling Gray, Geneva Blue, Mountain Berry, Rustic Bronze, Tudor Brown, Coal Black, and more—allows homeowners to perfectly match their entry system. Backed by a Lifetime Finish Warranty, ProVia storm doors blend durability, craftsmanship, and beauty in every detail.",
+        "warranty": {
+          "finish": "Lifetime",
+          "glass": "Lifetime Limited"
+        },
+        "unique_features": [
+          "Dual InVent retractable screens (top and bottom)",
+          "Independent screen operation",
+          "Hidden screens when not in use"
+        ],
+        "construction": {
+          "frame": "1.25 x 4.1875 inch extruded aluminum",
+          "core": "Insulated frame",
+          "sweep": "Triple seal bottom",
+          "glass": "Tempered safety glass",
+          "lock": "Internal sash lock"
+        },
+        "hardware": {
+          "standard": "Sierra Mortise in Satin Nickel",
+          "type": "Multi-point mortise",
+          "hinges": "Painted Satin Nickel piano hinge"
+        },
+        "styles": [
+          {"code": "291", "name": "Full View", "glass": "Full"},
+          {"code": "295", "name": "Double Prairie", "glass": "3/4 with prairie grids"},
+          {"code": "298", "name": "Three-Quarter View", "glass": "3/4"},
+          {"code": "279", "name": "Half-Lite", "glass": "1/2"},
+          {"code": "292", "name": "Provincial", "glass": "1/2 with design"},
+          {"code": "293", "name": "Crossbuck", "glass": "1/2 with crossbuck"}
+        ],
+        "sizes": {
+          "standard": true,
+          "eight_foot": true,
+          "custom": true
+        },
+        "colors": "All 17 ProVia paint colors",
+        "image_urls": {
+          "primary": ["images/storm/spectrum_main.jpg"],
+          "features": ["images/storm/invent_screens.jpg"],
+          "styles": [
+            "images/storm/spectrum_291.jpg",
+            "images/storm/spectrum_295.jpg"
+          ]
+        },
+        "search_tags": [
+          "spectrum", "storm door", "retractable screen", "invent", "premium storm",
+          "dual screens", "sierra hardware"
+        ],
+        "source_pages": [142, 143]
+      },
+      {
+        "chunk_id": "storm_decorator_026",
+        "product_id": "decorator",
+        "name": "Decorator Storm Door",
+        "category": "Storm Doors",
+        "tier": "Designer",
+        "description": "Decorator Series provides a stylish, fresh look to accent your entry. Select one of the distinct styles from our Decorator Series storm doors.",
+        "warranty": {
+          "finish": "Lifetime",
+          "glass": "Lifetime Limited"
+        },
+        "construction": {
+          "frame": "1.25 x 4 inch extruded aluminum",
+          "core": "Insulated frame",
+          "sweep": "Triple seal bottom",
+          "glass": "Tempered safety glass",
+          "lock": "Internal sash lock"
+        },
+        "Standard hardware and accessories": {
+          "standard": "Windsor in Bright Brass",
+          "type": "Surface mount",
+          "hinges": "Anodized Brass piano hinge"
+        },
+        "styles": [
+          {"code": "590", "name": "Full View", "glass": "Full"},
+          {"code": "590-WES", "name": "Westin", "glass": "Full with grid pattern"},
+          {"code": "590-VIN", "name": "Vintage", "glass": "Full with decorative pattern"},
+          {"code": "591", "name": "Archway", "glass": "Full with arch detail"},
+          {"code": "595", "name": "Double Prairie", "glass": "Full with prairie grids"}
+        ],
+        "design_elements": [
+          "Decorative glass patterns",
+          "Elegant hardware",
+          "Premium finishes"
+        ],
+        "sizes": {
+          "standard": true,
+          "eight_foot": true
+        },
+        "image_urls": {
+          "primary": ["images/storm/decorator_main.jpg"],
+          "styles": [
+            "images/storm/decorator_590.jpg",
+            "images/storm/decorator_westin.jpg",
+            "images/storm/decorator_vintage.jpg"
+          ],
+          "Decorator Storm Door Hardware and accessories": [
+            "images/storm/hardware.jpg"            
+          ]
+        },
+        "search_tags": [
+          "decorator", "storm door", "designer", "windsor hardware",
+          "decorative glass", "bright brass"
+        ],
+        "source_pages": [144, 145]
+      },
+      {
+        "chunk_id": "storm_duraguard_027",
+        "product_id": "duraguard",
+        "name": "DuraGuard Storm Door",
+        "category": "Storm Doors",
+        "tier": "Security",
+        "description": "DuraGuard is exactly what you need if you’re concerned about keeping your small children and pets safely inside. Select one of our doors with heavy-duty, non-removable stainless steel screening. DURAGUARD STORM DOORS INCLUDE: • Non-removable .023 stainless steel screen (only available on DuraGuard models) • Double seal bottom sweep •wide sculptured frame",
+        "warranty": {
+          "finish": "Lifetime",
+          "screen": "Lifetime"
+        },
+        "unique_features": [
+          "Non-removable stainless steel screen",
+          "Pet and child safe",
+          "Security screening"
+        ],
+        "screen": {
+          "material": ".023 stainless steel",
+          "mesh": "12x12",
+          "attachment": "Non-removable",
+          "colors": ["Black (standard)", "White"]
+        },
+        "construction": {
+          "frame": "1.25 x 3.625 inch extruded aluminum",
+          "sweep": "Double seal bottom",
+          "glass": "Tempered safety glass where applicable"
+        },
+        "hardware": {
+          "standard": "Contemporary Curve in Black",
+          "hinges": "4 color-matched leaf hinges"
+        },
+        "styles": [
+          {"code": "097/096", "name": "Screen Door", "type": "Full screen"},
+          {"code": "099/089", "name": "Self-Storing", "type": "Screen with glass insert"},
+          {"code": "074", "name": "Half Lite", "type": "Half glass, half screen"},
+          {"code": "079/092/093", "name": "Self-Storing variants", "type": "Various configurations"}
+        ],
+        "ideal_for": [
+          "Homes with pets",
+          "Homes with children",
+          "Security conscious homeowners",
+          "High-traffic areas"
+        ],
+        "image_urls": {
+          "primary": ["images/storm/duraguard_main.jpg"],
+          "features": [
+            "images/storm/stainless_screen.jpg",
+            "images/storm/duraguard_strength_test.jpg"
+          ],
+          "styles": ["images/storm/duraguard_styles.jpg"],
+          "DuraGuard Storm Door Hardware and ccessories": [
+            "images/storm/hardware.jpg"            
+          ]
+        },
+        "search_tags": [
+          "duraguard", "storm door", "pet screen", "stainless steel screen",
+          "security screen", "child safe", "heavy duty"
+        ],
+        "source_pages": [148, 149]
+      },
+      {
+        "chunk_id": "storm_DELUXE_028",
+        "product_id": "DELUXE",
+        "name": "DELUXE Storm Door",
+        "category": "Storm Doors",
+        "tier": "Security",
+        "description": "Deluxe Series is the answer whether you’re looking for additional light, ventilation or protection from the elements. You’ll find the exact style you’re looking for in our Deluxe Series of storm doors. DELUXE STORM DOORS INCLUDE: • Double seal bottom sweep • 1¼\" x 35⁄8\" wide sculptured frame • BetterVue® Fiberglass Screen STORM DOORS LIFETIME LIMITED WARRANTY Includes Glass Breakage",
+        "warranty": {
+          "finish": "Lifetime",
+          "screen": "Lifetime"
+        },
+        "unique_features": [
+          "Non-removable stainless steel screen",
+          "Pet and child safe",
+          "Security screening"
+        ],
+        "screen": {
+          "material": ".023 stainless steel",
+          "mesh": "12x12",
+          "attachment": "Non-removable",
+          "colors": ["Black (standard)", "White"]
+        },
+        "construction": {
+          "frame": "1.25 x 3.625 inch extruded aluminum",
+          "sweep": "Double seal bottom",
+          "glass": "Tempered safety glass where applicable"
+        },
+        "hardware": {
+          "standard": "Black Contemporary Curve lever Hardware",
+          "hinges": "4 color-matched leaf hinges with bronze bushings"
+        },
+        "styles": [
+          {"code": "097/096", "name": "Screen Door", "type": "Full screen"},
+          {"code": "099/089", "name": "Self-Storing", "type": "Screen with glass insert"},
+          {"code": "074", "name": "Half Lite", "type": "Half glass, half screen"},
+          {"code": "079/092/093", "name": "Self-Storing variants", "type": "Various configurations"}
+        ],
+        "ideal_for": [
+          "Homes with pets",
+          "Homes with children",
+          "Security conscious homeowners",
+          "High-traffic areas"
+        ],
+        "image_urls": {
+          "primary": ["images/storm/duraguard_main.jpg"],
+          "features": [
+            "images/storm/stainless_screen.jpg",
+            "images/storm/duraguard_strength_test.jpg"
+          ],
+          "styles": ["images/storm/duraguard_styles.jpg"],
+          "Deluxe Storm Door Hardware and accessories": [
+            "images/storm/hardware.jpg"            
+          ]
+        },
+        "search_tags": [
+          "deluxe", "storm door", "pet screen", "stainless steel screen",
+          "security screen", "child safe", "heavy duty"
+        ],
+        "source_pages": [148, 149]
+      },
+      {
+        "chunk_id": "storm_SUPERVIEW_029",
+        "product_id": "SUPERVIEW",
+        "name": "Superview Storm Door",
+        "category": "Storm Doors",
+        "tier": "Value",
+        "description": "Superview storm doors offer a stylish, economical solution with essential features for light, ventilation, and everyday protection. Built with a sculptured frame, BetterVue® fiberglass screen, and color-matched hardware, the Superview series provides dependable performance and value in a clean, attractive package. Backed by a Lifetime Limited Warranty that includes glass breakage.",
+        
+        "warranty": {
+          "finish": "Lifetime Limited",
+          "glass": "Lifetime Limited (includes breakage)"
+        },
+
+        "unique_features": [
+          "Economical, stylish construction",
+          "BetterVue® high-visibility screen",
+          "Color-matched expander and hinges",
+          "Durable single seal bottom sweep",
+          "Clean, sculptured frame design"
+        ],
+
+        "screen": {
+          "material": "BetterVue® fiberglass mesh",
+          "style": "Included with all models",
+          "notes": "Full View and One-Lite screens include a horizontal stabilizer bar"
+        },
+
+        "construction": {
+          "frame": "1.25 x 2.625 inch sculptured extruded aluminum",
+          "sweep": "Single seal bottom sweep",
+          "glass": "Tempered safety glass"
+        },
+
+        "hardware": {
+          "standard": "Black Pull Handle (also available in White)",
+          "hinges": "4 color-matched leaf hinges with bronze bushings",
+          "closer": "Single black closer (white optional)"
+        },
+
+        "styles": [
+          {"code": "897", "name": "Full View", "type": "Full Glass with Screen"},
+          {"code": "896", "name": "One-Lite", "type": "One Lite Panel with Screen"},
+          {"code": "898", "name": "Hi-Lite", "type": "Top Screen"},
+          {"code": "899", "name": "Self-Storing", "type": "Bottom Screen Storage"},
+          {"code": "895", "name": "Crossbuck", "type": "Decorative Cross Buck with Screen"}
+        ],
+
+        "ideal_for": [
+          "Homeowners seeking affordable quality",
+          "Entryways needing light and ventilation",
+          "Moderate traffic usage",
+          "Simple, clean storm door styling"
+        ],
+
+        "colors_available": [
+          "Snow Mist",
+          "Café Cream",
+          "Rustic Bronze",
+          "Tudor Brown"
+        ],
+
+        "image_urls": {
+          "primary": ["images/storm/superview_main.jpg"],
+          "features": [
+            "images/storm/superview_handle.jpg",
+            "images/storm/superview_hinges.jpg",
+            "images/storm/superview_closer.jpg"
+          ],
+          "styles": [
+            "images/storm/superview_styles.jpg"
+          ],
+          "color_options": [
+            "images/storm/superview_colors.jpg"
+          ]
+      },
+        "search_tags": [
+          "superview", "storm door", "value storm door", "economical storm door",
+          "full view storm door", "one lite storm door", "self storing storm door",
+          "bettervue screen"
+        ],
+
+        "source_pages": [150, 151]
+    },
+    {
+      "chunk_id": "storm_SPECTRUM_030",
+      "product_id": "SPECTRUM",
+      "name": "Spectrum Storm Door",
+      "category": "Storm Doors",
+      "tier": "Premium Venting",
+      
+      "description": "Spectrum storm doors offer premium functionality with ProVia’s exclusive top and bottom InVent™ retractable screen system, providing unmatched venting flexibility and smooth operation. With a wide sculptured frame, triple-seal bottom sweep, reinforced aluminum kick panel, and Lifetime Limited Warranty including glass breakage, Spectrum combines ventilation, durability, and elegant styling in one advanced storm door system.",
+      
+      "warranty": {
+        "finish": "Lifetime Limited",
+        "glass": "Lifetime Limited (includes breakage)"
+      },
+
+      "unique_features": [
+        "Top and bottom InVent™ retractable screens",
+        "Greater venting flexibility than traditional storm doors",
+        "Triple-seal bottom sweep for superior weather protection",
+        "Reinforced aluminum dent-resistant kick panel",
+        "Premium sculptured 1.25 x 4.1875 inch frame",
+        "Dual color-matched closers included"
+      ],
+
+      "screen": {
+        "system": "InVent™ retractable screen system (top and bottom)",
+        "benefits": "Smooth, adjustable ventilation without removing screens",
+        "notes": "Some SH (single screen) styles include only top retractable screen with a fixed bottom sash"
+      },
+
+      "construction": {
+        "frame": "1.25 x 4.1875 inch sculptured extruded aluminum",
+        "sweep": "Triple-seal bottom sweep",
+        "kick_panel": "Reinforced aluminum / dent-resistant depending on style",
+        "glass": "Tempered safety glass (Acrylic used automatically for oversized custom sashes)"
+      },
+
+      "hardware": {
+        "standard": "Satin Nickel Sierra solid brass mortise hardware (not recommended for coastal regions)",
+        "hinge": "Painted Satin Nickel piano hinge",
+        "expander": "1.5 inch Satin Nickel bottom expander",
+        "closers": "Color-matched dual closers"
+      },
+
+      "styles": [
+        {"code": "295-Z", "name": "Full View Double Prairie (Zinc)", "type": "Full View with Beveled Glass and Zinc Inlay"},
+        {"code": "295", "name": "Full View Double Prairie", "type": "Full View with Beveled Glass"},
+        {"code": "298-B", "name": "Three-Quarter View (Brass)", "type": "¾ View with Beveled Glass and Brass Inlay"},
+        {"code": "298-Z", "name": "Three-Quarter View (Zinc)", "type": "¾ View with Beveled Glass and Zinc Inlay"},
+        {"code": "298-VG", "name": "Three-Quarter View", "type": "¾ View with Beveled Glass"},
+        {"code": "298", "name": "Three-Quarter View", "type": "¾ View (Inspirations Glass Optional)"},
+        {"code": "279-C", "name": "Colonial Half-Lite", "type": "Colonial Half-Lite"},
+        {"code": "279", "name": "Flush Half-Lite", "type": "Smooth Half-Lite"},
+        {"code": "292", "name": "Provincial Half-Lite", "type": "Styled Half-Lite"},
+        {"code": "293", "name": "Crossbuck Half-Lite", "type": "Decorative Crossbuck"},
+        {"code": "298SH", "name": "Three-Quarter SH", "type": "¾ View, Single InVent screen with fixed bottom sash"},
+        {"code": "274-CSH", "name": "Colonial Half-Lite SH", "type": "Single InVent screen with fixed bottom sash"},
+        {"code": "274SH", "name": "Half-Lite SH", "type": "Half-Lite, Single InVent screen"},
+        {"code": "291SH", "name": "Full View SH", "type": "Full View with Single InVent screen"},
+        {"code": "298-AME", "name": "Americana (Timberland)", "type": "Inspirations Art Glass"},
+        {"code": "298-AZT", "name": "Aztec (Coral Reef)", "type": "Inspirations Art Glass"},
+        {"code": "298-TUL", "name": "Tulips (Vineyard)", "type": "Inspirations Art Glass"}
+      ],
+
+      "art_glass": {
+        "supported": true,
+        "description": "Inspirations™ Art Glass available for select Spectrum styles"
+      },
+
+      "ideal_for": [
+        "Homeowners wanting maximum ventilation flexibility",
+        "Premium entryways with decorative glass",
+        "High-traffic use requiring durable construction",
+        "Homes wanting a premium storm door aesthetic"
+      ],
+
+      "image_urls": {
+        "primary": ["images/storm/spectrum_main.jpg"],
+        "features": [
+          "images/storm/invent_screens.jpg",
+          "images/storm/spectrum_frame.jpg",
+          "images/storm/spectrum_closers.jpg"
+        ],
+        "styles": ["images/storm/spectrum_styles.jpg"],
+        "hardware": ["images/storm/spectrum_hardware.jpg"],
+        "art_glass_samples": [
+          "images/storm/inspirations_aztec.jpg",
+          "images/storm/inspirations_tulips.jpg",
+          "images/storm/inspirations_americana.jpg"
+        ]
+      },
+
+      "search_tags": [
+        "spectrum", "spectrum storm door", "invent screens", "retractable screens",
+        "premium storm door", "full view storm door", "three quarter view",
+        "decorative storm door", "inspirations art glass"
+      ],
+
+      "source_pages": [142, 143, 144]
+    }
+    ]
+  },
+  "search_index": {
+    "keywords": {
+      "energy_efficiency": ["embarq", "signet", "heritage", "legacy", "comfortech", "r-10", "triple glass", "quad glass"],
+      "premium_doors": ["embarq", "signet"],
+      "value_doors": ["heritage", "legacy"],
+      "fiberglass_doors": ["embarq", "signet", "heritage"],
+      "steel_doors": ["legacy"],
+      "decorative_glass": ["mirage", "brookhaven", "manhattan", "essence", "cheyenne", "all 23 styles"],
+      "smart_locks": ["schlage electronic", "schlage sense", "keypad"],
+      "multi_point_locks": ["trilennium", "hoppe"],
+      "custom_sizes": ["signet", "legacy", "1/8 inch increments"],
+      "impact_resistant": ["impact shield", "florida approved"],
+      "lifetime_warranty": ["framesaver", "permatech", "hardware finishes"],
+      "15_year_warranty": ["embarq finish", "signet finish"],
+      "10_year_warranty": ["heritage finish", "legacy finish"]
+    },
+    "common_queries": {
+      "most_energy_efficient": "embarq",
+      "best_fiberglass": "embarq or signet",
+      "best_value": "heritage",
+      "best_steel": "legacy",
+      "highest_r_value": "r-10 with qlk or tlk",
+      "best_security": "trilennium multi-point",
+      "smart_home": "schlage electronic options",
+      "hurricane_doors": "impact shield products",
+      "custom_colors": "trending colors and custom paint",
+      "pet_friendly": "pet doors and duraguard storm"
+    }
+  }
+}

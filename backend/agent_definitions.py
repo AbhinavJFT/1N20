@@ -3,9 +3,11 @@ Agent definitions for the Voice Sales Agent MVP
 - Data Collection Agent: Collects customer info (name, email, phone)
 - Sales Agent: Handles product queries with RAG (tool enforced via instructions)
 - Output Guardrails: Domain validation for doors & windows only
+
+Uses standard Agent class for VoicePipeline (STT → LLM → TTS) architecture.
 """
 
-from agents.realtime import RealtimeAgent, realtime_handoff
+from agents import Agent, handoff
 
 from config import config
 from models import CustomerContext
@@ -26,11 +28,11 @@ from guardrails import domain_validation_guardrail
 # Sales Agent (Second Agent - tool usage enforced via strong instructions)
 # =============================================================================
 
-# Note: RealtimeAgent doesn't support model_settings or tool_choice parameter
-# Tool usage is enforced through explicit instructions
+# Tool usage is enforced through explicit instructions in the prompt
 
-sales_agent = RealtimeAgent(
+sales_agent = Agent(
     name="SalesAgent",
+    model=config.LLM_MODEL,
     instructions=f"""
 You are a knowledgeable and friendly sales consultant for {config.COMPANY_NAME}.
 
@@ -206,8 +208,9 @@ NEVER add subjective descriptors like "bold", "stunning", "elegant", "beautiful"
 # Data Collection Agent (First Agent)
 # =============================================================================
 
-data_collection_agent = RealtimeAgent(
+data_collection_agent = Agent(
     name="GreetingAgent",
+    model=config.LLM_MODEL,
     instructions=f"""
 You are a warm and friendly receptionist for {config.COMPANY_NAME}.
 
@@ -276,7 +279,7 @@ STEP 5: HAND OFF (only when all_collected=True)
         check_customer_info_complete,
     ],
     handoffs=[
-        realtime_handoff(
+        handoff(
             agent=sales_agent,
             tool_name_override="transfer_to_sales",
             tool_description_override="Transfer to Sales Agent. ONLY call this after check_customer_info_complete returns all_collected=True (name, email, and phone all collected).",
@@ -289,9 +292,14 @@ STEP 5: HAND OFF (only when all_collected=True)
 # Agent Factory Functions
 # =============================================================================
 
-def get_starting_agent() -> RealtimeAgent:
+def get_starting_agent() -> Agent:
     """Returns the starting agent for new sessions."""
     return data_collection_agent
+
+
+def get_sales_agent() -> Agent:
+    """Returns the sales agent."""
+    return sales_agent
 
 
 def get_all_agents() -> dict:
@@ -300,3 +308,10 @@ def get_all_agents() -> dict:
         "greeting": data_collection_agent,
         "sales": sales_agent,
     }
+
+
+# Agent voice mapping for VoicePipeline TTS
+AGENT_VOICES = {
+    "GreetingAgent": config.GREETING_AGENT_VOICE,  # coral
+    "SalesAgent": config.SALES_AGENT_VOICE,  # ash
+}

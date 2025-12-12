@@ -2,14 +2,18 @@
 FastAPI Backend for Voice Sales Agent MVP
 - WebSocket endpoint for real-time voice communication
 - Session management with context persistence
-- RealtimeAgent integration with proper audio streaming
+- VoicePipeline integration (STT → LLM → TTS) for cost-effective voice
+
+Architecture: VoicePipeline (3-step process)
+1. STT: gpt-4o-mini-transcribe converts user speech to text
+2. LLM: gpt-4o-mini processes the text and generates response
+3. TTS: gpt-4o-mini-tts converts response to speech
 """
 
 import asyncio
 import json
 import base64
 import uuid
-import struct
 from datetime import datetime
 from typing import Dict, Optional, List
 from contextlib import asynccontextmanager
@@ -21,16 +25,158 @@ from fastapi.staticfiles import StaticFiles
 from fastapi.responses import FileResponse
 import uvicorn
 
-from agents.realtime import RealtimeRunner, RealtimeSession
+from agents import Agent, Runner
+from agents.voice import (
+    VoicePipeline,
+    VoiceWorkflowBase,
+    VoiceWorkflowHelper,
+    VoicePipelineConfig,
+    TTSModelSettings,
+    StreamedAudioInput,
+)
+from typing import AsyncIterator, Any
 
 from config import config
 from models import CustomerContext, MessageType, WebSocketMessage, ConversationMessage
-from agent_definitions import get_starting_agent
+from agent_definitions import get_starting_agent, get_sales_agent, AGENT_VOICES
 from database import MongoDB
 from task_queue import task_queue
 
 import os
 os.environ["OPENAI_API_KEY"] = config.OPENAI_API_KEY
+
+# Audio configuration (must match frontend)
+CONFIG_AUDIO_SAMPLE_RATE = 24000  # 24kHz sample rate
+CONFIG_AUDIO_CHANNELS = 1  # Mono
+
+
+# =============================================================================
+# Custom Voice Workflow with Context Support
+# =============================================================================
+
+class ContextAwareVoiceWorkflow(VoiceWorkflowBase):
+    """
+    Custom voice workflow that passes CustomerContext to the agent.
+
+    Unlike SingleAgentVoiceWorkflow, this workflow passes the context parameter
+    to Runner.run_streamed(), enabling tools to access CustomerContext.
+    """
+
+    def __init__(
+        self,
+        agent: Agent[Any],
+        context: CustomerContext,
+        input_history: list = None,
+        on_transcription: callable = None,  # Callback when transcription is ready
+        on_tool_call: callable = None,  # Callback when tool is called
+        on_tool_result: callable = None,  # Callback when tool returns
+    ):
+        self._current_agent = agent
+        self._context = context
+        self._input_history: list = input_history or []
+        self._last_agent = agent  # Track the last agent for handoff detection
+        self._last_transcription = ""  # Store the last user transcription
+        self._on_transcription = on_transcription
+        self._on_tool_call = on_tool_call
+        self._on_tool_result = on_tool_result
+
+    async def run(self, transcription: str) -> AsyncIterator[str]:
+        """Run the workflow with context passed to the agent."""
+        # Store the transcription
+        self._last_transcription = transcription
+
+        # Call transcription callback immediately so UI can show user message
+        if self._on_transcription:
+            await self._on_transcription(transcription)
+
+        # Add the transcription to the input history
+        self._input_history.append({
+            "role": "user",
+            "content": transcription,
+        })
+
+        # Run the agent with context - THIS IS THE KEY DIFFERENCE
+        result = Runner.run_streamed(
+            self._current_agent,
+            self._input_history,
+            context=self._context,  # Pass CustomerContext here!
+        )
+
+        # Track tool calls for callbacks
+        tool_names_by_id: Dict[str, str] = {}
+
+        # Process events and stream text
+        async for event in result.stream_events():
+            event_type = type(event).__name__
+
+            # Handle tool call items
+            if event_type == "RunItemStreamEvent":
+                item = event.item
+                item_type = getattr(item, 'type', '')
+
+                if item_type == "tool_call_item" and self._on_tool_call:
+                    raw_item = getattr(item, 'raw_item', None)
+                    if raw_item:
+                        tool_name = getattr(raw_item, 'name', 'tool')
+                        call_id = getattr(raw_item, 'call_id', '')
+                        tool_names_by_id[call_id] = tool_name
+                        await self._on_tool_call(tool_name, call_id)
+
+                elif item_type == "tool_call_output_item" and self._on_tool_result:
+                    raw_item = getattr(item, 'raw_item', None)
+                    if raw_item:
+                        call_id = getattr(raw_item, 'call_id', '')
+                        output = getattr(raw_item, 'output', None)
+                        tool_name = tool_names_by_id.get(call_id, 'tool')
+                        await self._on_tool_result(tool_name, call_id, str(output) if output else '')
+
+                elif item_type == "message_output_item":
+                    # This contains text output
+                    raw_item = getattr(item, 'raw_item', None)
+                    if raw_item:
+                        content = getattr(raw_item, 'content', [])
+                        for part in content:
+                            if hasattr(part, 'text'):
+                                yield part.text
+
+            # Handle raw response streaming for partial text
+            elif event_type == "RawResponsesStreamEvent":
+                data = getattr(event, 'data', None)
+                if data:
+                    # Extract text delta if available
+                    delta = getattr(data, 'delta', None)
+                    if delta:
+                        text = getattr(delta, 'text', None)
+                        if text:
+                            yield text
+
+        # Update the input history and track the last agent
+        self._input_history = result.to_input_list()
+        self._last_agent = result.last_agent
+
+        # Update current agent if handoff occurred
+        if result.last_agent and result.last_agent != self._current_agent:
+            self._current_agent = result.last_agent
+
+    @property
+    def last_agent(self) -> Agent:
+        """Get the last agent that ran (for handoff detection)."""
+        return self._last_agent
+
+    @property
+    def current_agent(self) -> Agent:
+        """Get the current active agent."""
+        return self._current_agent
+
+    @property
+    def input_history(self) -> list:
+        """Get the conversation history."""
+        return self._input_history
+
+    @property
+    def last_transcription(self) -> str:
+        """Get the last user transcription."""
+        return self._last_transcription
 
 
 # =============================================================================
@@ -49,10 +195,13 @@ class SessionManager:
         self.sessions[session_id] = {
             "context": context,
             "created_at": datetime.now().isoformat(),
-            "realtime_session": None,
             "conversation_history": [],  # Store conversation for context
             "current_agent": "GreetingAgent",
-            "partial_transcript": "",  # For real-time typing display
+            "current_voice": AGENT_VOICES.get("GreetingAgent", config.VOICE),
+            "voice_pipeline": None,  # VoicePipeline instance
+            "streamed_input": None,  # StreamedAudioInput for voice mode
+            "is_voice_mode": False,  # Track if currently in voice mode
+            "voice_input_history": [],  # Conversation history for VoicePipeline workflow
         }
         return context
 
@@ -64,11 +213,6 @@ class SessionManager:
         """Get context for a session."""
         session = self.sessions.get(session_id)
         return session["context"] if session else None
-
-    def update_realtime_session(self, session_id: str, realtime_session: RealtimeSession):
-        """Store the realtime session reference."""
-        if session_id in self.sessions:
-            self.sessions[session_id]["realtime_session"] = realtime_session
 
     def add_message(self, session_id: str, role: str, content: str, agent: str = None):
         """Add a message to conversation history."""
@@ -87,19 +231,32 @@ class SessionManager:
         session = self.sessions.get(session_id)
         return session["conversation_history"] if session else []
 
+    def get_history_as_messages(self, session_id: str) -> List[dict]:
+        """Get conversation history formatted for agent input."""
+        session = self.sessions.get(session_id)
+        if not session:
+            return []
+        return [
+            {"role": msg.role, "content": msg.content}
+            for msg in session["conversation_history"]
+        ]
+
     def update_current_agent(self, session_id: str, agent_name: str):
-        """Update the current active agent."""
+        """Update the current active agent and voice."""
         if session_id in self.sessions:
             self.sessions[session_id]["current_agent"] = agent_name
-
-    def update_partial_transcript(self, session_id: str, text: str):
-        """Update partial transcript for real-time display."""
-        if session_id in self.sessions:
-            self.sessions[session_id]["partial_transcript"] = text
+            self.sessions[session_id]["current_voice"] = AGENT_VOICES.get(agent_name, config.VOICE)
 
     def end_session(self, session_id: str):
         """Clean up a session."""
         if session_id in self.sessions:
+            # Close any open streamed input
+            session = self.sessions[session_id]
+            if session.get("streamed_input"):
+                try:
+                    session["streamed_input"].close()
+                except:
+                    pass
             del self.sessions[session_id]
 
     def get_all_sessions(self) -> Dict[str, dict]:
@@ -109,6 +266,7 @@ class SessionManager:
                 "created_at": data["created_at"],
                 "current_agent": data["current_agent"],
                 "message_count": len(data["conversation_history"]),
+                "is_voice_mode": data.get("is_voice_mode", False),
                 "context": {
                     "name": data["context"].name,
                     "email": data["context"].email,
@@ -234,13 +392,70 @@ async def list_leads(limit: int = 100, skip: int = 0):
 
 
 # =============================================================================
+# VoicePipeline Factory
+# =============================================================================
+
+def create_voice_pipeline(
+    agent: Agent,
+    voice: str,
+    context: CustomerContext,
+    input_history: list = None,
+    on_transcription: callable = None,
+    on_tool_call: callable = None,
+    on_tool_result: callable = None,
+) -> tuple[VoicePipeline, ContextAwareVoiceWorkflow]:
+    """
+    Create a VoicePipeline with context-aware workflow.
+
+    Returns both the pipeline and workflow so we can access workflow properties
+    (like last_agent for handoff detection) after the pipeline runs.
+
+    Callbacks:
+        on_transcription: Called immediately when user speech is transcribed
+        on_tool_call: Called when a tool is invoked
+        on_tool_result: Called when a tool returns
+    """
+    # Create our custom workflow that passes context to the agent
+    workflow = ContextAwareVoiceWorkflow(
+        agent=agent,
+        context=context,
+        input_history=input_history,
+        on_transcription=on_transcription,
+        on_tool_call=on_tool_call,
+        on_tool_result=on_tool_result,
+    )
+
+    pipeline = VoicePipeline(
+        workflow=workflow,
+        stt_model=config.STT_MODEL,
+        tts_model=config.TTS_MODEL,
+        config=VoicePipelineConfig(
+            tts_settings=TTSModelSettings(
+                voice=voice,
+                instructions="Speak clearly and professionally. Be friendly and helpful."
+            ),
+            tracing_disabled=True,  # Disable tracing for production
+        )
+    )
+
+    return pipeline, workflow
+
+
+def get_agent_by_name(name: str) -> Agent:
+    """Get agent instance by name."""
+    if name == "SalesAgent":
+        return get_sales_agent()
+    return get_starting_agent()
+
+
+# =============================================================================
 # WebSocket Endpoint
 # =============================================================================
 
 @app.websocket("/ws/{session_id}")
 async def websocket_endpoint(websocket: WebSocket, session_id: str):
     """
-    WebSocket endpoint for real-time voice communication.
+    WebSocket endpoint for voice and text communication using VoicePipeline.
 
     Message Protocol:
     - Client sends: {"type": "audio_input", "data": {"audio": "<base64>"}}
@@ -265,64 +480,66 @@ async def websocket_endpoint(websocket: WebSocket, session_id: str):
         context = session["context"]
         print(f"📝 EXISTING SESSION resumed: {short_id}")
 
+    session = session_manager.get_session(session_id)
+
     # Send session started message
     await send_ws_message(websocket, MessageType.SESSION_STARTED, {
         "session_id": session_id,
+        "agent": session["current_agent"],
         "message": f"Welcome to {config.COMPANY_NAME}! Connecting you to our assistant..."
     })
 
     try:
-        # Create RealtimeRunner with the starting agent and configuration
-        # Note: Voice is set per-session. Using greeting agent voice initially.
-        # For different voices per agent, the session would need to be recreated on handoff.
-        runner = RealtimeRunner(
-            starting_agent=get_starting_agent(),
-            config={
-                "model_settings": {
-                    "voice": config.GREETING_AGENT_VOICE,  # Use greeting agent voice
-                    "modalities": ["audio"],  # Audio-only mode (text not supported with audio)
-                    "input_audio_format": "pcm16",
-                    "output_audio_format": "pcm16",
-                    "input_audio_transcription": {
-                        "model": config.TRANSRIPTION_MODEL,
-                        "language": "en",
-                    },
-                    "turn_detection": {
-                        "type": "server_vad",
-                        "threshold": 0.95,  # Higher threshold to reduce background noise
-                        "prefix_padding_ms": 300,
-                        "silence_duration_ms": 800,  # Shorter silence to detect end of speech faster
-                    },
-                }
-            }
-        )
+        # Main message handling loop
+        while True:
+            try:
+                data = await websocket.receive_text()
+                message = json.loads(data)
+                msg_type = message.get("type")
+                msg_data = message.get("data", {})
 
-        # Start realtime session
-        realtime_session = await runner.run(context=context)
-        async with realtime_session:
-            session_manager.update_realtime_session(session_id, realtime_session)
+                if msg_type == MessageType.TEXT_INPUT.value:
+                    # Handle text input - use Runner directly (no TTS)
+                    text = msg_data.get("text", "")
+                    if text:
+                        await handle_text_input(websocket, session_id, text, context)
 
-            # Create tasks for bidirectional communication
-            receive_task = asyncio.create_task(
-                handle_client_messages(websocket, realtime_session, session_id)
-            )
-            send_task = asyncio.create_task(
-                handle_agent_events(websocket, realtime_session, session_id, context)
-            )
+                elif msg_type == MessageType.AUDIO_INPUT.value:
+                    # Handle audio input - use VoicePipeline
+                    audio_base64 = msg_data.get("audio", "")
+                    if audio_base64:
+                        await handle_audio_input(websocket, session_id, audio_base64, context)
 
-            # Wait for either task to complete (client disconnect or error)
-            done, pending = await asyncio.wait(
-                [receive_task, send_task],
-                return_when=asyncio.FIRST_COMPLETED
-            )
+                elif msg_type == "voice_mode_start":
+                    # Client starting voice mode - initialize pipeline
+                    session["is_voice_mode"] = True
+                    print(f"🎤 VOICE MODE START | {short_id}")
 
-            # Cancel pending tasks
-            for task in pending:
-                task.cancel()
-                try:
-                    await task
-                except asyncio.CancelledError:
-                    pass
+                elif msg_type == "voice_mode_end":
+                    # Client ending voice mode - process accumulated audio
+                    session["is_voice_mode"] = False
+                    print(f"🎤 VOICE MODE END | {short_id}")
+                    await handle_voice_turn_end(websocket, session_id, context)
+
+                elif msg_type == "interrupt":
+                    # User interrupt - cancel current processing
+                    print(f"⏹️  USER INTERRUPT | {short_id}")
+                    await send_ws_message(websocket, MessageType.AGENT_DONE, {
+                        "agent": session["current_agent"],
+                        "interrupted": True
+                    })
+
+                elif msg_type == MessageType.END_SESSION.value:
+                    break
+
+            except WebSocketDisconnect:
+                raise
+            except json.JSONDecodeError:
+                print(f"❌ Invalid JSON received | {short_id}")
+            except Exception as e:
+                print(f"❌ Message handling error | {short_id} | {e}")
+                import traceback
+                traceback.print_exc()
 
     except WebSocketDisconnect:
         print(f"\n{'─'*60}")
@@ -330,6 +547,8 @@ async def websocket_endpoint(websocket: WebSocket, session_id: str):
         print(f"{'─'*60}\n")
     except Exception as e:
         print(f"\n❌ ERROR | Session: {short_id} | {e}")
+        import traceback
+        traceback.print_exc()
         await send_ws_message(websocket, MessageType.ERROR, {"error": str(e)})
     finally:
         print(f"\n📊 SESSION SUMMARY | {short_id}")
@@ -347,391 +566,412 @@ async def websocket_endpoint(websocket: WebSocket, session_id: str):
         })
 
 
-async def handle_client_messages(
+# =============================================================================
+# Text Input Handler (uses Runner directly - no TTS)
+# =============================================================================
+
+async def handle_text_input(
     websocket: WebSocket,
-    realtime_session: RealtimeSession,
-    session_id: str
-):
-    """Handle incoming messages from the client."""
-    try:
-        while True:
-            # Receive message from client
-            data = await websocket.receive_text()
-            message = json.loads(data)
-
-            msg_type = message.get("type")
-            msg_data = message.get("data", {})
-
-            if msg_type == MessageType.AUDIO_INPUT.value:
-                # Decode base64 audio and send to realtime session
-                audio_base64 = msg_data.get("audio", "")
-                if audio_base64:
-                    audio_bytes = base64.b64decode(audio_base64)
-                    await realtime_session.send_audio(audio_bytes)
-
-            elif msg_type == MessageType.TEXT_INPUT.value:
-                # Send text message to realtime session
-                text = msg_data.get("text", "")
-                if text:
-                    print(f"📝 TEXT INPUT | {session_id[:12]} | \"{text}\"")
-                    await realtime_session.send_message(text)
-
-            elif msg_type == "interrupt":
-                # User interrupted the agent - cancel current response
-                print(f"⏹️  USER INTERRUPT | {session_id[:12]} | User requested interrupt")
-                try:
-                    # Try to interrupt the realtime session
-                    if hasattr(realtime_session, 'interrupt'):
-                        await realtime_session.interrupt()
-                    elif hasattr(realtime_session, 'cancel'):
-                        await realtime_session.cancel()
-                except Exception as e:
-                    print(f"   └─ Interrupt error: {e}")
-
-            elif msg_type == MessageType.END_SESSION.value:
-                break
-
-    except WebSocketDisconnect:
-        pass  # Normal disconnect, don't re-raise
-    except asyncio.CancelledError:
-        pass  # Task was cancelled
-    except Exception as e:
-        print(f"Error handling client message: {e}")
-
-
-async def handle_agent_events(
-    websocket: WebSocket,
-    realtime_session: RealtimeSession,
     session_id: str,
+    text: str,
     context: CustomerContext
 ):
-    """Handle events from the realtime agent with proper streaming."""
+    """Handle text input using Runner directly (cheaper, no audio)."""
+    session = session_manager.get_session(session_id)
+    if not session:
+        return
+
+    short_id = session_id[:12]
+    current_agent_name = session["current_agent"]
+    current_agent = get_agent_by_name(current_agent_name)
+
+    print(f"📝 TEXT INPUT | {short_id} | \"{text}\"")
+
+    # Add user message to history
+    session_manager.add_message(session_id, "user", text)
+
+    # Send user transcript to frontend
+    await send_ws_message(websocket, MessageType.USER_TRANSCRIPT, {
+        "text": text,
+        "role": "user"
+    })
+
+    # Notify frontend that agent is processing
+    await send_ws_message(websocket, MessageType.AGENT_SPEAKING, {
+        "agent": current_agent_name
+    })
+
     try:
-        current_agent_name = "GreetingAgent"
-        partial_agent_transcript = ""
-        partial_user_transcript = ""
-        last_context_update = datetime.now()
-        short_id = session_id[:12]
+        # Get conversation history for context
+        history = session_manager.get_history_as_messages(session_id)
 
-        # Track audio streaming state to avoid repetitive logs
-        is_streaming_audio = False
-        audio_chunk_count = 0
+        # Build input with conversation history
+        # The agent needs the full conversation to maintain context
+        if history:
+            # Use history as input (includes the current message we just added)
+            agent_input = history
+        else:
+            # First message - just use the text
+            agent_input = text
 
-        # Buffer for agent response until user transcription is received
-        # This ensures user message appears before agent response in UI
-        awaiting_user_transcription = False
-        buffered_audio_chunks = []
-        buffered_transcript_deltas = []
-        user_transcription_received = False
+        # Run the agent with streaming to capture tool events
+        result = Runner.run_streamed(
+            starting_agent=current_agent,
+            input=agent_input,
+            context=context,
+        )
 
-        async for event in realtime_session:
-            event_type = getattr(event, 'type', None)
+        # Track response text and tool calls
+        response_text = ""
+        tool_calls_in_progress = set()
 
-            # Handle raw_model_event for transcripts and audio
-            if event_type == 'raw_model_event':
-                raw_data = getattr(event, 'data', None)
-                if raw_data:
-                    raw_type = getattr(raw_data, 'type', '')
+        # Track tool names by call_id for results
+        tool_names_by_id: Dict[str, str] = {}
 
-                    # Handle raw_server_event - check for errors
-                    if raw_type == 'raw_server_event':
-                        server_data = getattr(raw_data, 'data', None)
-                        if server_data:
-                            server_type = server_data.get('type', '')
-                            # Check for response failures
-                            if server_type == 'response.done':
-                                response = server_data.get('response', {})
-                                status = response.get('status', '')
-                                if status == 'failed':
-                                    status_details = response.get('status_details', {})
-                                    error_info = status_details.get('error', {})
-                                    error_type = error_info.get('type', 'unknown')
-                                    error_msg = error_info.get('message', 'Unknown error')
-                                    print(f"❌ API ERROR | {short_id} | {error_type}: {error_msg}")
-                                    await send_ws_message(websocket, MessageType.ERROR, {
-                                        "error": f"API Error: {error_msg}",
-                                        "type": error_type
-                                    })
+        # Process streaming events
+        async for event in result.stream_events():
+            event_type = type(event).__name__
 
-                    # Detect when user starts speaking (item_updated with user role)
-                    if raw_type == 'item_updated':
-                        item = getattr(raw_data, 'item', None)
-                        if item:
-                            role = getattr(item, 'role', '')
-                            if role == 'user':
-                                # User is speaking, start buffering agent response
-                                awaiting_user_transcription = True
-                                user_transcription_received = False
-                                buffered_audio_chunks = []
-                                buffered_transcript_deltas = []
-                                partial_agent_transcript = ""
+            # Handle tool call items
+            if event_type == "RunItemStreamEvent":
+                item = event.item
+                item_type = getattr(item, 'type', '')
 
-                    # Handle transcript delta (agent speaking - real-time)
-                    if raw_type == 'transcript_delta':
-                        delta = getattr(raw_data, 'delta', '')
-                        if delta:
-                            partial_agent_transcript += delta
-                            if awaiting_user_transcription and not user_transcription_received:
-                                # Buffer the transcript until user transcription arrives
-                                buffered_transcript_deltas.append(partial_agent_transcript)
-                            else:
-                                await send_ws_message(websocket, MessageType.PARTIAL_TRANSCRIPT, {
-                                    "text": partial_agent_transcript,
-                                    "role": "assistant",
-                                    "agent": current_agent_name
-                                })
+                if item_type == "tool_call_item":
+                    # ToolCallItem has raw_item which is a ResponseFunctionToolCall
+                    raw_item = getattr(item, 'raw_item', None)
+                    if raw_item:
+                        tool_name = getattr(raw_item, 'name', 'tool')
+                        call_id = getattr(raw_item, 'call_id', '')
+                    else:
+                        # Fallback - try to get from item directly
+                        tool_name = 'tool'
+                        call_id = str(id(item))  # Use object id as fallback
 
-                    # Handle audio delta (the actual audio bytes)
-                    elif raw_type == 'audio':
-                        audio_delta = getattr(raw_data, 'delta', None)
-                        if audio_delta:
-                            if not is_streaming_audio:
-                                is_streaming_audio = True
-                                audio_chunk_count = 0
-                            audio_chunk_count += 1
-
-                            if awaiting_user_transcription and not user_transcription_received:
-                                # Buffer audio until user transcription arrives
-                                buffered_audio_chunks.append(audio_delta)
-                            else:
-                                await send_ws_message(websocket, MessageType.AUDIO_OUTPUT, {
-                                    "audio": audio_delta
-                                })
-
-                    # Handle audio done - finalize transcript
-                    elif raw_type == 'audio_done':
-                        if is_streaming_audio:
-                            print(f"🔊 AUDIO COMPLETE | {short_id} | {audio_chunk_count} chunks streamed")
-                            is_streaming_audio = False
-                            audio_chunk_count = 0
-                        if partial_agent_transcript:
-                            print(f"🤖 AGENT SAID | {short_id} | \"{partial_agent_transcript[:100]}{'...' if len(partial_agent_transcript) > 100 else ''}\"")
-                            await send_ws_message(websocket, MessageType.TRANSCRIPT, {
-                                "text": partial_agent_transcript,
-                                "role": "assistant",
-                                "agent": current_agent_name
-                            })
-                            session_manager.add_message(session_id, "assistant", partial_agent_transcript, current_agent_name)
-                            partial_agent_transcript = ""
-                        # Send agent done so frontend knows to resume listening
-                        await send_ws_message(websocket, MessageType.AGENT_DONE, {
-                            "agent": current_agent_name
+                    if call_id and call_id not in tool_calls_in_progress:
+                        tool_calls_in_progress.add(call_id)
+                        tool_names_by_id[call_id] = tool_name
+                        print(f"🔧 TOOL CALL | {short_id} | {tool_name}")
+                        await send_ws_message(websocket, MessageType.TOOL_CALL, {
+                            "tool": tool_name,
+                            "call_id": call_id,
                         })
-                        # Reset buffering state
-                        awaiting_user_transcription = False
-                        user_transcription_received = False
 
-                    # Handle turn ended - reset state
-                    elif raw_type == 'turn_ended':
-                        partial_agent_transcript = ""
-                        awaiting_user_transcription = False
-                        user_transcription_received = False
+                elif item_type == "tool_call_output_item":
+                    # ToolCallOutputItem has raw_item which is a FunctionCallOutput
+                    raw_item = getattr(item, 'raw_item', None)
+                    if raw_item:
+                        call_id = getattr(raw_item, 'call_id', '')
+                        output = getattr(raw_item, 'output', None)
+                    else:
+                        call_id = ''
+                        output = None
 
-                    # Handle input audio transcription (user speech)
-                    elif 'input_audio_transcription' in raw_type:
-                        transcript = getattr(raw_data, 'transcript', '')
+                    # Convert output to string safely (it could be an object like CustomerInfoStatus)
+                    output_str = str(output) if output is not None else 'done'
+                    tool_name = tool_names_by_id.get(call_id, 'tool')
 
-                        # Only send completed transcriptions (not deltas)
-                        if 'completed' in raw_type and transcript:
-                            print(f"🎤 USER SAID | {short_id} | \"{transcript}\"")
-                            await send_ws_message(websocket, MessageType.USER_TRANSCRIPT, {
-                                "text": transcript,
-                                "role": "user"
-                            })
-                            session_manager.add_message(session_id, "user", transcript)
+                    print(f"✅ TOOL RESULT | {short_id} | {tool_name} → {output_str[:50]}...")
+                    await send_ws_message(websocket, MessageType.TOOL_RESULT, {
+                        "tool": tool_name,
+                        "call_id": call_id,
+                        "result": output_str[:200],
+                        "status": "completed",
+                    })
+                    if call_id in tool_calls_in_progress:
+                        tool_calls_in_progress.discard(call_id)
 
-                            # Mark transcription as received and flush buffered agent response
-                            user_transcription_received = True
-                            if buffered_transcript_deltas:
-                                # Send the latest transcript state
-                                await send_ws_message(websocket, MessageType.PARTIAL_TRANSCRIPT, {
-                                    "text": buffered_transcript_deltas[-1],
-                                    "role": "assistant",
-                                    "agent": current_agent_name
-                                })
-                            # Flush buffered audio
-                            for audio_chunk in buffered_audio_chunks:
-                                await send_ws_message(websocket, MessageType.AUDIO_OUTPUT, {
-                                    "audio": audio_chunk
-                                })
-                            buffered_audio_chunks = []
-                            buffered_transcript_deltas = []
+            # Handle text output
+            elif event_type == "RawResponsesStreamEvent":
+                # This contains the raw response chunks
+                pass
 
-                        elif 'delta' not in raw_type and transcript:
-                            print(f"🎤 USER SAID | {short_id} | \"{transcript}\"")
-                            await send_ws_message(websocket, MessageType.USER_TRANSCRIPT, {
-                                "text": transcript,
-                                "role": "user"
-                            })
-                            session_manager.add_message(session_id, "user", transcript)
+        # Get the final response text
+        response_text = result.final_output if hasattr(result, 'final_output') else ""
 
-                            # Mark transcription as received and flush buffered agent response
-                            user_transcription_received = True
-                            if buffered_transcript_deltas:
-                                await send_ws_message(websocket, MessageType.PARTIAL_TRANSCRIPT, {
-                                    "text": buffered_transcript_deltas[-1],
-                                    "role": "assistant",
-                                    "agent": current_agent_name
-                                })
-                            for audio_chunk in buffered_audio_chunks:
-                                await send_ws_message(websocket, MessageType.AUDIO_OUTPUT, {
-                                    "audio": audio_chunk
-                                })
-                            buffered_audio_chunks = []
-                            buffered_transcript_deltas = []
+        if response_text:
+            print(f"🤖 AGENT SAID | {short_id} | \"{response_text[:100]}{'...' if len(response_text) > 100 else ''}\"")
 
-                    # Handle function calls from raw events
-                    elif raw_type == 'function_call':
-                        func_name = getattr(raw_data, 'name', 'unknown')
-                        func_args = getattr(raw_data, 'arguments', '{}')
-                        print(f"🔧 TOOL CALL | {short_id} | {func_name}")
-                        print(f"   └─ Args: {func_args[:200]}{'...' if len(str(func_args)) > 200 else ''}")
+            # Add assistant message to history
+            session_manager.add_message(session_id, "assistant", response_text, current_agent_name)
 
-                continue
+            # Send transcript to frontend
+            await send_ws_message(websocket, MessageType.TRANSCRIPT, {
+                "text": response_text,
+                "role": "assistant",
+                "agent": current_agent_name
+            })
 
-            # Skip noisy events silently
-            if event_type in ('history_updated', 'history_added', 'audio'):
-                # Handle high-level audio events the same way
-                if event_type == 'audio':
-                    audio_event = getattr(event, 'audio', None)
-                    if audio_event:
-                        audio_data = None
-                        audio_delta = getattr(audio_event, 'delta', None)
-                        if audio_delta and isinstance(audio_delta, str):
-                            audio_data = audio_delta
-                        if not audio_data:
-                            raw_data = getattr(audio_event, 'data', None)
-                            if raw_data and isinstance(raw_data, bytes):
-                                audio_data = base64.b64encode(raw_data).decode('utf-8')
-                        if not audio_data:
-                            raw_audio = getattr(audio_event, 'audio', None)
-                            if raw_audio and isinstance(raw_audio, bytes):
-                                audio_data = base64.b64encode(raw_audio).decode('utf-8')
-                        if audio_data:
-                            if not is_streaming_audio:
-                                is_streaming_audio = True
-                                audio_chunk_count = 0
-                            audio_chunk_count += 1
-
-                            if awaiting_user_transcription and not user_transcription_received:
-                                # Buffer audio until user transcription arrives
-                                buffered_audio_chunks.append(audio_data)
-                            else:
-                                await send_ws_message(websocket, MessageType.AUDIO_OUTPUT, {
-                                    "audio": audio_data
-                                })
-                continue
-
-            # Log significant events only
-            if event_type == "audio_end":
-                if is_streaming_audio:
-                    print(f"🔊 AUDIO COMPLETE | {short_id} | {audio_chunk_count} chunks")
-                    is_streaming_audio = False
-                    audio_chunk_count = 0
-                await send_ws_message(websocket, MessageType.AGENT_DONE, {
-                    "agent": current_agent_name
-                })
-                partial_agent_transcript = ""
-
-            elif event_type == "audio_interrupted":
-                print(f"⏸️  INTERRUPTED | {short_id} | User interrupted agent")
-                is_streaming_audio = False
-                audio_chunk_count = 0
-                await send_ws_message(websocket, MessageType.AGENT_DONE, {
-                    "agent": current_agent_name,
-                    "interrupted": True
-                })
-                partial_agent_transcript = ""
-
-            elif event_type == "agent_start":
-                agent = getattr(event, 'agent', None)
-                if agent:
-                    current_agent_name = getattr(agent, 'name', current_agent_name)
-                    session_manager.update_current_agent(session_id, current_agent_name)
-                print(f"🚀 AGENT START | {short_id} | {current_agent_name}")
-                await send_ws_message(websocket, MessageType.AGENT_SPEAKING, {
-                    "agent": current_agent_name
-                })
-
-            elif event_type == "agent_end":
-                print(f"✅ AGENT END | {short_id} | {current_agent_name}")
-
-            elif event_type == "tool_start":
-                tool = getattr(event, 'tool', None)
-                tool_name = getattr(tool, 'name', 'unknown') if tool else 'unknown'
-                # Try to get tool arguments/input
-                tool_input = getattr(event, 'input', None) or getattr(tool, 'input', None)
-                print(f"🔧 TOOL START | {short_id} | {tool_name}")
-                if tool_input:
-                    print(f"   └─ Input: {str(tool_input)[:200]}{'...' if len(str(tool_input)) > 200 else ''}")
-                await send_ws_message(websocket, MessageType.TOOL_CALL, {
-                    "tool": tool_name,
-                    "status": "started"
-                })
-
-            elif event_type == "tool_end":
-                tool = getattr(event, 'tool', None)
-                tool_name = getattr(tool, 'name', 'unknown') if tool else 'unknown'
-                tool_output = getattr(event, 'output', None)
-                print(f"✅ TOOL END | {short_id} | {tool_name}")
-                if tool_output:
-                    output_str = str(tool_output)
-                    print(f"   └─ Output: {output_str[:200]}{'...' if len(output_str) > 200 else ''}")
-                await send_ws_message(websocket, MessageType.TOOL_RESULT, {
-                    "tool": tool_name,
-                    "status": "completed",
-                    "result": str(tool_output) if tool_output else None
-                })
-
-            elif event_type == "handoff":
-                old_agent = current_agent_name
-                to_agent = getattr(event, 'to_agent', None)
-                new_agent_name = getattr(to_agent, 'name', 'Unknown') if to_agent else 'Unknown'
-                current_agent_name = new_agent_name
-                session_manager.update_current_agent(session_id, current_agent_name)
-                print(f"🔀 HANDOFF | {short_id} | {old_agent} → {new_agent_name}")
+        # Check for handoff
+        if hasattr(result, 'last_agent') and result.last_agent:
+            new_agent_name = result.last_agent.name
+            if new_agent_name != current_agent_name:
+                print(f"🔀 HANDOFF | {short_id} | {current_agent_name} → {new_agent_name}")
+                session_manager.update_current_agent(session_id, new_agent_name)
                 await send_ws_message(websocket, MessageType.HANDOFF, {
-                    "from_agent": old_agent,
+                    "from_agent": current_agent_name,
                     "to_agent": new_agent_name,
                     "message": f"Transferring you to {new_agent_name}..."
                 })
 
-            elif event_type == "guardrail_tripped":
-                message = getattr(event, 'message', "I can only help with questions about doors and windows.")
-                print(f"🛑 GUARDRAIL | {short_id} | {message[:100]}")
-                await send_ws_message(websocket, MessageType.ERROR, {
-                    "type": "guardrail",
-                    "message": message
-                })
+        # Send context update
+        await send_ws_message(websocket, MessageType.CONTEXT_UPDATE, {
+            "name": context.name,
+            "email": context.email,
+            "phone": context.phone,
+            "info_complete": context.info_collection_complete,
+            "products_discussed": context.products_discussed,
+            "selected_product": context.selected_product,
+            "current_agent": session["current_agent"],
+        })
 
-            elif event_type == "error":
-                error = getattr(event, 'error', None)
-                error_msg = str(error) if error else "Unknown error"
-                print(f"❌ ERROR | {short_id} | {error_msg}")
-                await send_ws_message(websocket, MessageType.ERROR, {
-                    "error": error_msg
-                })
-
-            # Send context update periodically (throttled) - silent
-            now = datetime.now()
-            if (now - last_context_update).total_seconds() > 1.0:
-                await send_ws_message(websocket, MessageType.CONTEXT_UPDATE, {
-                    "name": context.name,
-                    "email": context.email,
-                    "phone": context.phone,
-                    "info_complete": context.info_collection_complete,
-                    "products_discussed": context.products_discussed,
-                    "selected_product": context.selected_product,
-                    "current_agent": current_agent_name,
-                })
-                last_context_update = now
-
-    except asyncio.CancelledError:
-        raise
     except Exception as e:
-        print(f"❌ EVENT ERROR | {session_id[:12]} | {e}")
+        print(f"❌ TEXT HANDLER ERROR | {short_id} | {e}")
         import traceback
         traceback.print_exc()
+        await send_ws_message(websocket, MessageType.ERROR, {
+            "error": str(e)
+        })
+
+    finally:
+        # Notify frontend that agent is done
+        await send_ws_message(websocket, MessageType.AGENT_DONE, {
+            "agent": session["current_agent"]
+        })
+
+
+# =============================================================================
+# Audio Input Handler (uses VoicePipeline - STT → LLM → TTS)
+# =============================================================================
+
+# Buffer for accumulating audio chunks during voice mode
+audio_buffers: Dict[str, bytearray] = {}
+
+
+async def handle_audio_input(
+    websocket: WebSocket,
+    session_id: str,
+    audio_base64: str,
+    context: CustomerContext
+):
+    """Handle audio input - accumulate chunks for VoicePipeline processing."""
+    session = session_manager.get_session(session_id)
+    if not session:
+        return
+
+    # Decode audio and add to buffer
+    audio_bytes = base64.b64decode(audio_base64)
+
+    if session_id not in audio_buffers:
+        audio_buffers[session_id] = bytearray()
+
+    audio_buffers[session_id].extend(audio_bytes)
+
+
+async def handle_voice_turn_end(
+    websocket: WebSocket,
+    session_id: str,
+    context: CustomerContext
+):
+    """Process accumulated audio when voice turn ends."""
+    session = session_manager.get_session(session_id)
+    if not session:
+        return
+
+    short_id = session_id[:12]
+
+    # Get accumulated audio
+    if session_id not in audio_buffers or len(audio_buffers[session_id]) == 0:
+        print(f"⚠️  NO AUDIO | {short_id} | No audio data to process")
+        return
+
+    audio_data = bytes(audio_buffers[session_id])
+    audio_buffers[session_id] = bytearray()  # Clear buffer
+
+    current_agent_name = session["current_agent"]
+    current_agent = get_agent_by_name(current_agent_name)
+    current_voice = session["current_voice"]
+
+    print(f"🎤 VOICE INPUT | {short_id} | Processing {len(audio_data)} bytes of audio")
+
+    # Notify frontend that agent is processing
+    await send_ws_message(websocket, MessageType.AGENT_SPEAKING, {
+        "agent": current_agent_name
+    })
+
+    try:
+        # Get existing voice history from session (for maintaining conversation context)
+        voice_history = session.get("voice_input_history", [])
+
+        # Define callbacks for real-time updates
+        async def on_transcription(text: str):
+            """Called immediately when user speech is transcribed."""
+            print(f"🎤 USER SAID | {short_id} | \"{text}\"")
+            await send_ws_message(websocket, MessageType.USER_TRANSCRIPT, {
+                "text": text,
+                "role": "user"
+            })
+            session_manager.add_message(session_id, "user", text)
+
+        async def on_tool_call(tool_name: str, call_id: str):
+            """Called when a tool is invoked."""
+            print(f"🔧 TOOL CALL | {short_id} | {tool_name}")
+            await send_ws_message(websocket, MessageType.TOOL_CALL, {
+                "tool": tool_name,
+                "call_id": call_id,
+            })
+
+        async def on_tool_result(tool_name: str, call_id: str, output: str):
+            """Called when a tool returns."""
+            print(f"✅ TOOL RESULT | {short_id} | {tool_name} → {output[:50]}...")
+            await send_ws_message(websocket, MessageType.TOOL_RESULT, {
+                "tool": tool_name,
+                "call_id": call_id,
+                "result": output[:200],
+                "status": "completed",
+            })
+
+        # Create VoicePipeline with context-aware workflow and callbacks
+        pipeline, workflow = create_voice_pipeline(
+            agent=current_agent,
+            voice=current_voice,
+            context=context,  # Pass CustomerContext for tools!
+            input_history=voice_history,  # Maintain conversation history
+            on_transcription=on_transcription,
+            on_tool_call=on_tool_call,
+            on_tool_result=on_tool_result,
+        )
+
+        # Create audio input from accumulated audio
+        # AudioInput expects a numpy array (int16 or float32), not raw bytes
+        import numpy as np
+        from agents.voice import AudioInput
+
+        # Convert PCM16 bytes to numpy int16 array
+        audio_array = np.frombuffer(audio_data, dtype=np.int16)
+        audio_input = AudioInput(
+            buffer=audio_array,
+            frame_rate=CONFIG_AUDIO_SAMPLE_RATE,  # 24000 Hz
+            sample_width=2,  # 16-bit = 2 bytes
+            channels=1,  # Mono
+        )
+
+        # Run the pipeline
+        result = await pipeline.run(audio_input)
+
+        # Track response text for history
+        response_text = ""
+        audio_chunk_count = 0
+
+        # Stream events back to client
+        async for event in result.stream():
+            # Get event type - could be class name or type attribute
+            event_class = type(event).__name__
+            event_type = getattr(event, 'type', event_class)
+
+            # Debug: print event info
+            print(f"📡 EVENT | {short_id} | {event_class} | type={event_type}")
+
+            # Handle audio events
+            if event_class == "VoiceStreamEventAudio" or "audio" in event_type.lower():
+                # Get audio data - could be 'data' or 'audio' attribute
+                # Note: data might be a numpy array, not bytes
+                audio_data = getattr(event, 'data', None)
+                if audio_data is None:
+                    audio_data = getattr(event, 'audio', None)
+
+                if audio_data is not None:
+                    # Convert numpy array to bytes if needed
+                    import numpy as np
+                    if isinstance(audio_data, np.ndarray):
+                        # Convert to int16 bytes for PCM audio
+                        if audio_data.dtype == np.float32:
+                            # Convert float32 [-1, 1] to int16
+                            audio_int16 = (audio_data * 32767).astype(np.int16)
+                            audio_bytes = audio_int16.tobytes()
+                        else:
+                            audio_bytes = audio_data.tobytes()
+                    elif isinstance(audio_data, bytes):
+                        audio_bytes = audio_data
+                    else:
+                        audio_bytes = bytes(audio_data)
+
+                    audio_b64 = base64.b64encode(audio_bytes).decode('utf-8')
+                    await send_ws_message(websocket, MessageType.AUDIO_OUTPUT, {
+                        "audio": audio_b64
+                    })
+                    audio_chunk_count += 1
+                    print(f"🔊 AUDIO CHUNK | {short_id} | {len(audio_bytes)} bytes")
+
+            # Handle lifecycle events
+            elif event_class == "VoiceStreamEventLifecycle" or "lifecycle" in event_type.lower():
+                lifecycle_event = getattr(event, 'event', '') or getattr(event, 'lifecycle', '')
+                if lifecycle_event == "turn_started":
+                    print(f"🚀 TURN START | {short_id}")
+                elif lifecycle_event == "turn_ended":
+                    print(f"✅ TURN END | {short_id} | {audio_chunk_count} audio chunks")
+
+            # Handle error events
+            elif event_class == "VoiceStreamEventError" or "error" in event_type.lower():
+                error = getattr(event, 'error', '') or getattr(event, 'message', '')
+                print(f"❌ VOICE ERROR | {short_id} | {error}")
+
+        # User transcript is already handled by the on_transcription callback
+        # which fires immediately when STT completes, before the agent responds
+
+        # Get agent response text - StreamedAudioResult uses total_output_text
+        response_text = getattr(result, 'total_output_text', None) or ""
+        print(f"📊 RESPONSE | {short_id} | total_output_text={response_text[:100] if response_text else 'None'}...")
+
+        if response_text:
+            print(f"🤖 AGENT SAID | {short_id} | \"{response_text[:100]}{'...' if len(response_text) > 100 else ''}\"")
+            session_manager.add_message(session_id, "assistant", response_text, current_agent_name)
+
+            # Send transcript to frontend
+            await send_ws_message(websocket, MessageType.TRANSCRIPT, {
+                "text": response_text,
+                "role": "assistant",
+                "agent": current_agent_name
+            })
+
+        # Update voice history in session for next turn
+        session["voice_input_history"] = workflow.input_history
+
+        # Check for handoff using our custom workflow's last_agent property
+        if workflow.last_agent and workflow.last_agent.name != current_agent_name:
+            new_agent_name = workflow.last_agent.name
+            print(f"🔀 HANDOFF | {short_id} | {current_agent_name} → {new_agent_name}")
+            session_manager.update_current_agent(session_id, new_agent_name)
+            await send_ws_message(websocket, MessageType.HANDOFF, {
+                "from_agent": current_agent_name,
+                "to_agent": new_agent_name,
+                "message": f"Transferring you to {new_agent_name}..."
+            })
+
+        # Send context update (tools have now updated context!)
+        await send_ws_message(websocket, MessageType.CONTEXT_UPDATE, {
+            "name": context.name,
+            "email": context.email,
+            "phone": context.phone,
+            "info_complete": context.info_collection_complete,
+            "products_discussed": context.products_discussed,
+            "selected_product": context.selected_product,
+            "current_agent": session["current_agent"],
+        })
+
+    except Exception as e:
+        print(f"❌ VOICE HANDLER ERROR | {short_id} | {e}")
+        import traceback
+        traceback.print_exc()
+        await send_ws_message(websocket, MessageType.ERROR, {
+            "error": str(e)
+        })
+
+    finally:
+        # Notify frontend that agent is done
+        await send_ws_message(websocket, MessageType.AGENT_DONE, {
+            "agent": session["current_agent"]
+        })
 
 
 async def send_ws_message(websocket: WebSocket, msg_type: MessageType, data: dict):
