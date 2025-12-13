@@ -37,7 +37,7 @@ from agents.voice import (
 from typing import AsyncIterator, Any
 
 from config import config
-from models import CustomerContext, MessageType, WebSocketMessage, ConversationMessage
+from models import CustomerContext, MessageType, WebSocketMessage, ConversationMessage, SalesAgentResponse
 from agent_definitions import get_starting_agent, get_sales_agent, AGENT_VOICES
 from database import MongoDB
 from task_queue import task_queue
@@ -686,21 +686,47 @@ async def handle_text_input(
                 # This contains the raw response chunks
                 pass
 
-        # Get the final response text
-        response_text = result.final_output if hasattr(result, 'final_output') else ""
+        # Get the final response - may be structured (SalesAgentResponse) or plain text
+        final_output = result.final_output if hasattr(result, 'final_output') else ""
+
+        # Debug: Log the type of final_output to diagnose structured output issues
+        print(f"📦 OUTPUT TYPE | {short_id} | type={type(final_output).__name__} | is_SalesAgentResponse={isinstance(final_output, SalesAgentResponse)}")
+        print(f"📦 OUTPUT PREVIEW | {short_id} | {str(final_output)[:300] if final_output else 'None'}")
+
+        # Handle structured output from SalesAgent
+        response_text = ""
+        images = []
+
+        if isinstance(final_output, SalesAgentResponse):
+            # Structured output from SalesAgent
+            response_text = final_output.response
+            images = [{"url": img.url, "description": img.description} for img in final_output.images]
+            print(f"🤖 AGENT SAID | {short_id} | \"{response_text[:100]}{'...' if len(response_text) > 100 else ''}\" [+{len(images)} images]")
+        elif isinstance(final_output, str):
+            # Plain text output from other agents
+            response_text = final_output
+            if response_text:
+                print(f"🤖 AGENT SAID | {short_id} | \"{response_text[:100]}{'...' if len(response_text) > 100 else ''}\"")
+        elif final_output is not None:
+            # Other types - convert to string
+            response_text = str(final_output)
+            if response_text:
+                print(f"🤖 AGENT SAID | {short_id} | \"{response_text[:100]}{'...' if len(response_text) > 100 else ''}\"")
 
         if response_text:
-            print(f"🤖 AGENT SAID | {short_id} | \"{response_text[:100]}{'...' if len(response_text) > 100 else ''}\"")
-
             # Add assistant message to history
             session_manager.add_message(session_id, "assistant", response_text, current_agent_name)
 
-            # Send transcript to frontend
-            await send_ws_message(websocket, MessageType.TRANSCRIPT, {
+            # Send transcript to frontend with images if present
+            transcript_data = {
                 "text": response_text,
                 "role": "assistant",
                 "agent": current_agent_name
-            })
+            }
+            if images:
+                transcript_data["images"] = images
+
+            await send_ws_message(websocket, MessageType.TRANSCRIPT, transcript_data)
 
         # Check for handoff
         if hasattr(result, 'last_agent') and result.last_agent:
@@ -995,13 +1021,17 @@ async def send_ws_message(websocket: WebSocket, msg_type: MessageType, data: dic
 
 
 # =============================================================================
-# Serve Frontend
+# Serve Frontend & Static Files
 # =============================================================================
 
 # Get the directory containing this file
 import pathlib
 BACKEND_DIR = pathlib.Path(__file__).parent
 FRONTEND_DIR = BACKEND_DIR.parent / "frontend"
+IMAGES_DIR = BACKEND_DIR / "images"
+
+# Mount images directory as static files at /images/
+app.mount("/images", StaticFiles(directory=str(IMAGES_DIR)), name="images")
 
 
 @app.get("/app")

@@ -20,6 +20,7 @@ from models import (
     CustomerContext,
     ProductSearchResponse,
     ProductSearchResult,
+    ProductImage,
     CustomerInfoStatus,
     LeadEmailResponse,
 )
@@ -140,105 +141,277 @@ def check_customer_info_complete(
 @function_tool
 def search_products(query: str) -> ProductSearchResponse:
     """
-    Search the ProVia product catalog for doors and windows using semantic search.
-    THIS TOOL MUST BE CALLED for every customer query about products.
+    Search the ProVia product catalog using semantic search.
 
-    HOW TO FORMULATE EFFECTIVE QUERIES:
-    The vector database contains product chunks with: description, key_features, search_tags, series name.
-    To get the best results, include relevant terms from these categories:
-
-    1. PRODUCT TYPES & SERIES:
-       - "embarq fiberglass entry door" (premium, highest efficiency)
-       - "signet fiberglass entry door" (high-end traditional)
-       - "heritage fiberglass entry door" (classic styles)
-       - "endure fiberglass entry door" (durable, value)
-       - "doors without glass" (solid panel, privacy)
-       - "steel entry door" (security focused)
-
-    2. FEATURES & BENEFITS (use these terms):
-       - Energy: "energy efficient", "quad glass", "r-10", "low u-factor", "energy star"
-       - Construction: "fiberglass", "steel", "2.5 inch thick", "dovetailed construction"
-       - Glass: "decorative glass", "full lite", "half lite", "privacy glass", "no glass"
-       - Style: "modern", "traditional", "craftsman", "contemporary", "rustic"
-       - Finish: "stain finish", "paint finish", "oak", "mahogany", "cherry", "knotty alder"
-
-    3. SPECIFIC NEEDS:
-       - "premium door highest efficiency" → finds Embarq
-       - "traditional wood look fiberglass" → finds Signet/Heritage
-       - "solid panel maximum privacy" → finds doors without glass
-       - "decorative glass options entry door" → finds doors with glass compatibility
+    IMPORTANT: The Sales Agent should reframe customer questions into optimized
+    queries before calling this tool. Use terms that match the embedded content.
 
     Args:
-        query: Search query combining product type + features + customer needs.
-               BE SPECIFIC and use multiple descriptive terms.
-               Examples:
-               - "premium fiberglass entry door quad glass energy efficient"
-               - "traditional entry door decorative glass mahogany stain"
-               - "modern contemporary door full lite glass"
-               - "solid panel door no glass maximum privacy"
-               - "craftsman style fiberglass door with sidelites"
+        query: An OPTIMIZED search query (reframed by the agent).
+               Should include relevant terms like:
+               - Product types: "embarq", "signet", "french door", "storm door", "pet door"
+               - Features: "energy efficient", "quad glass", "r-10", "fiberglass", "steel"
+               - Styles: "modern", "traditional", "craftsman", "rustic"
+               - Materials: "mahogany", "cherry", "oak", "knotty alder"
 
     Returns:
-        ProductSearchResponse with matching products including:
-        - Product name, series, tier, category
-        - Key features and description
-        - Available door styles, skin options, glass packages
-        - Compatible frames, hardware, finishes
-        - Energy ratings (Energy Star, U-factor)
-        - Warranty and restriction info
+        ProductSearchResponse with matching products containing ONLY metadata:
+        - Product identification (name, series, tier, category)
+        - Key features and specifications
+        - Customization options (skins, styles, glass, frames)
+        - Detailed info (finishes, hardware, warranty, restrictions)
+        - Image URLs and product links
+
+        NOTE: Description field is NOT included - all info is in structured metadata.
     """
     try:
         # Get embedding for the query
         query_embedding = get_embedding(query)
 
-        # Query Pinecone (index: doorindex, namespace: doors)
+        # Query Pinecone (index: 1n20, namespace: 1n20)
         results = pinecone_index.query(
             vector=query_embedding,
             top_k=5,
             include_metadata=True,
-            namespace="doors"
+            namespace="1n20"
         )
 
-        # Format results with comprehensive metadata
+        # Format results using ONLY metadata (not description)
         product_results = []
+
+        # Known metadata keys that we explicitly handle
+        KNOWN_METADATA_KEYS = {
+            # Identity
+            'product_id', 'name', 'series', 'category', 'top_category', 'subcategory', 'tier', 'chunk_id',
+            # Features
+            'key_features', 'energy_star', 'u_factor', 'energy_certification',
+            # Customization
+            'skin_options', 'door_style_codes', 'styles_available', 'glass_package_names',
+            'compatible_decorative_glass', 'compatible_frames', 'sidelites',
+            # Accessories
+            'brands',
+            # Search
+            'search_tags',
+            # Raw JSON fields
+            '_raw_compatible_finishes', '_raw_hardware', '_raw_warranty', '_raw_restrictions',
+            '_raw_installation', '_raw_image_urls', '_raw_door_styles', '_raw_glass_packages',
+            '_raw_astragal_details', '_raw_styles_configurations', '_raw_available_series',
+            '_raw_eight_foot_availability',
+            # Other known fields
+            'compatible_hardware', 'restrictions', 'restrictions_and_notes',
+            'image_primary', 'product_url', 'source_pages',
+            # Description is known but intentionally not used
+            'description',
+        }
+
+        # Important fields that should be flagged if missing (contextually important)
+        IMPORTANT_FIELDS_MAP = {
+            'Entry Door': ['key_features', 'skin_options', 'glass_package_names', 'compatible_frames', 'energy_star'],
+            'Storm Doors': ['key_features', 'energy_star'],
+            'Accessories': ['brands', 'restrictions'],
+            'Finishes': ['key_features'],
+            'Frame Options': ['key_features'],
+            'Glass Options': ['key_features'],
+            'Hardware': ['key_features'],
+        }
+
         for match in results.matches:
             metadata = match.metadata if hasattr(match, 'metadata') and match.metadata else {}
 
-            # Product name from product_id, formatted nicely
-            product_id = metadata.get('product_id', match.id)
-            product_name = product_id.replace('_', ' ').title()
-
-            # Extract list fields (handle both list and string formats)
+            # Helper to extract list fields cleanly
             def get_list(key: str) -> list:
                 val = metadata.get(key, [])
                 if isinstance(val, list):
-                    # Filter out complex JSON strings from skin_options etc.
+                    # Filter out complex JSON strings, keep clean values
                     return [item for item in val if isinstance(item, str) and not item.startswith('{')]
                 return []
 
-            # Build the product result with all available metadata
+            # Helper to get raw JSON field as dict
+            def get_raw_json(key: str) -> Optional[dict]:
+                val = metadata.get(key)
+                if val and isinstance(val, str):
+                    try:
+                        import json
+                        return json.loads(val)
+                    except:
+                        return None
+                return val if isinstance(val, dict) else None
+
+            # Extract product name - use 'name' field if available, else format product_id
+            product_name = metadata.get('name')
+            if not product_name:
+                product_id = metadata.get('product_id', match.id)
+                product_name = product_id.replace('_', ' ').title()
+
+            # Get category for context-aware field checking
+            category = metadata.get('category', metadata.get('top_category', 'Product'))
+
+            # Extract all standard fields
+            key_features = get_list('key_features')
+            skin_options = get_list('skin_options')
+            door_styles = get_list('door_style_codes') or get_list('styles_available')
+            glass_packages = get_list('glass_package_names')
+            decorative_glass = get_list('compatible_decorative_glass')
+            compatible_frames = get_list('compatible_frames')
+            sidelites = get_list('sidelites')
+            brands = get_list('brands')
+            search_tags = get_list('search_tags')
+            finishes = get_raw_json('_raw_compatible_finishes')
+            hardware = get_raw_json('_raw_hardware') or get_list('compatible_hardware')
+            warranty = get_raw_json('_raw_warranty')
+            restrictions = get_raw_json('_raw_restrictions') or get_list('restrictions') or get_list('restrictions_and_notes')
+            installation = get_raw_json('_raw_installation')
+
+            # === BUILD CONSOLIDATED IMAGES LIST ===
+            images: List[ProductImage] = []
+
+            # 1. Parse _raw_image_urls (main source - JSON with descriptive keys)
+            raw_image_urls = get_raw_json('_raw_image_urls')
+            if raw_image_urls and isinstance(raw_image_urls, dict):
+                for key, urls in raw_image_urls.items():
+                    # Skip non-image entries that might be in the JSON
+                    if not isinstance(urls, list):
+                        continue
+                    # Extract category and description from the key
+                    # Keys are like "primary - main image of the door" or just "primary"
+                    if ' - ' in key:
+                        parts = key.split(' - ', 1)
+                        img_category = parts[0].strip()
+                        img_description = parts[1].strip()
+                    else:
+                        img_category = key.strip()
+                        img_description = key.replace('_', ' ').strip()
+
+                    for url in urls:
+                        if isinstance(url, str) and (url.endswith('.jpg') or url.endswith('.png') or url.endswith('.jpeg')):
+                            images.append(ProductImage(
+                                url=url,
+                                description=img_description,
+                                category=img_category
+                            ))
+
+            # 2. Parse flattened image fields (image_primary, image_detail_images, etc.)
+            for key, value in metadata.items():
+                if key.startswith('image_') and isinstance(value, list):
+                    img_category = key.replace('image_', '').replace('_', ' ')
+                    for url in value:
+                        if isinstance(url, str) and (url.endswith('.jpg') or url.endswith('.png') or url.endswith('.jpeg')):
+                            # Check if this URL is already added from _raw_image_urls
+                            if not any(img.url == url for img in images):
+                                images.append(ProductImage(
+                                    url=url,
+                                    description=f"{img_category} image",
+                                    category=img_category
+                                ))
+
+            # 3. Parse standalone descriptive keys with images (e.g., in Finishes)
+            for key, value in metadata.items():
+                if key.startswith('_raw_') or key.startswith('image_'):
+                    continue
+                if isinstance(value, list):
+                    for item in value:
+                        if isinstance(item, str) and (item.endswith('.jpg') or item.endswith('.png') or item.endswith('.jpeg')):
+                            # Check if this URL is already added
+                            if not any(img.url == item for img in images):
+                                # Use the key as description
+                                if ' - ' in key:
+                                    parts = key.split(' - ', 1)
+                                    img_description = parts[1].strip()
+                                    img_category = parts[0].strip()
+                                else:
+                                    img_description = key.replace('_', ' ')
+                                    img_category = "other"
+                                images.append(ProductImage(
+                                    url=item,
+                                    description=img_description,
+                                    category=img_category
+                                ))
+
+            # === CASE 1: Capture extra metadata fields not in our model ===
+            extra_metadata = {}
+            for key, value in metadata.items():
+                if key not in KNOWN_METADATA_KEYS and value:
+                    # Skip empty values
+                    if isinstance(value, (list, dict)) and not value:
+                        continue
+                    if isinstance(value, str) and not value.strip():
+                        continue
+                    extra_metadata[key] = value
+
+            # === CASE 2: Track important fields that are missing ===
+            unavailable = []
+            important_fields = IMPORTANT_FIELDS_MAP.get(category, [])
+
+            field_checks = {
+                'key_features': key_features,
+                'skin_options': skin_options,
+                'glass_package_names': glass_packages,
+                'compatible_frames': compatible_frames,
+                'energy_star': metadata.get('energy_star'),
+                'brands': brands,
+                'restrictions': restrictions,
+            }
+
+            for field_name in important_fields:
+                if field_name in field_checks:
+                    value = field_checks[field_name]
+                    # Check if field is empty/missing
+                    if value is None or value == [] or value == {}:
+                        unavailable.append(field_name)
+
+            # Build comprehensive product result from metadata ONLY
             product = ProductSearchResult(
                 product_id=match.id,
                 name=product_name,
                 series=metadata.get('series'),
-                category=metadata.get('category', 'Entry Door'),
+                category=category,
+                subcategory=metadata.get('subcategory'),
                 tier=metadata.get('tier'),
-                description=metadata.get('description', 'No description available'),
-                key_features=get_list('key_features'),
-                door_style_codes=get_list('door_style_codes'),
-                skin_options=get_list('skin_options'),
-                compatible_frames=get_list('compatible_frames'),
-                glass_packages=get_list('glass_package_names'),
-                decorative_glass_codes=get_list('compatible_decorative_glass'),
+
+                # Key features - primary selling points
+                key_features=key_features,
+
+                # Energy specifications
                 energy_star=metadata.get('energy_star', False),
                 u_factor=metadata.get('u_factor'),
+                energy_certification=metadata.get('energy_certification'),
+
+                # Customization options
+                skin_options=skin_options,
+                door_styles=door_styles,
+                glass_packages=glass_packages,
+                decorative_glass=decorative_glass,
+                compatible_frames=compatible_frames,
+                sidelites=sidelites,
+
+                # For accessories
+                brands=brands,
+
+                # Search metadata
+                search_tags=search_tags,
+
+                # Detailed JSON data
+                finishes=finishes,
+                hardware=hardware,
+                warranty=warranty,
+                restrictions=restrictions,
+                installation=installation,
+
+                # Images with descriptions - agent selects relevant ones
+                images=images,
+
+                # Links and references
                 product_url=metadata.get('product_url'),
+                source_pages=get_list('source_pages'),
+
+                # Relevance score
                 relevance_score=round(match.score, 3) if hasattr(match, 'score') else 0.0,
-                # Include raw JSON for detailed queries about finishes, hardware, warranty
-                raw_finishes=metadata.get('_raw_compatible_finishes'),
-                raw_hardware=str(metadata.get('compatible_hardware', [])),
-                raw_warranty=metadata.get('_raw_warranty'),
-                raw_restrictions=metadata.get('_raw_restrictions'),
+
+                # Extra metadata not in our standard model
+                additional_info=extra_metadata if extra_metadata else None,
+
+                # Fields that were expected but not available
+                unavailable_fields=unavailable,
             )
             product_results.append(product)
 

@@ -350,6 +350,154 @@ function addProduct(productName) {
 }
 
 /**
+ * Strip markdown image syntax from text
+ * Removes patterns like ![alt](url) and "- Images:" sections
+ */
+function stripMarkdownImages(text) {
+    if (!text) return text;
+
+    let cleaned = text;
+
+    // Remove markdown image syntax: ![alt](url)
+    cleaned = cleaned.replace(/!\[[^\]]*\]\([^)]+\)/g, '');
+
+    // Remove "- Images:" headers followed by bullet lists of images
+    cleaned = cleaned.replace(/- Images:\s*\n(?:\s*[•\-]\s*!\[[^\]]*\]\([^)]+\)\s*\n?)*/g, '');
+
+    // Remove standalone "Images:" lines
+    cleaned = cleaned.replace(/^Images:\s*$/gm, '');
+
+    // Clean up multiple newlines
+    cleaned = cleaned.replace(/\n{3,}/g, '\n\n');
+
+    // Clean up trailing whitespace
+    cleaned = cleaned.trim();
+
+    return cleaned;
+}
+
+/**
+ * Parse images block from agent response
+ * Extracts ```images [...] ``` JSON block and returns parsed images array
+ * Also strips any markdown image syntax from the text
+ * Returns { text: cleanedText, images: [...] }
+ */
+function parseImagesFromResponse(text) {
+    if (!text) return { text: '', images: [] };
+
+    // Match ```images ... ``` block (with optional newlines)
+    const imagesRegex = /```images\s*\n?([\s\S]*?)\n?```/g;
+    let images = [];
+    let cleanedText = text;
+
+    const match = imagesRegex.exec(text);
+    if (match) {
+        try {
+            // Parse the JSON array
+            const jsonStr = match[1].trim();
+            images = JSON.parse(jsonStr);
+
+            // Remove the images block from text
+            cleanedText = text.replace(match[0], '').trim();
+        } catch (e) {
+            console.error('Error parsing images JSON:', e);
+        }
+    }
+
+    // Also strip any markdown image syntax that might be in the text
+    cleanedText = stripMarkdownImages(cleanedText);
+
+    return { text: cleanedText, images };
+}
+
+/**
+ * Create image gallery HTML for product images
+ * @param {Array} images - Array of {url, description} objects
+ * @returns {string} HTML for image gallery
+ */
+function createImageGallery(images) {
+    if (!images || images.length === 0) return '';
+
+    const imageItems = images.map(img => {
+        // Handle relative URLs - prepend base path if needed
+        const imageUrl = img.url.startsWith('http') ? img.url : `/images/${img.url.replace(/^images\//, '')}`;
+
+        return `
+            <div class="product-image-item" onclick="openImageLightbox('${imageUrl}', '${(img.description || '').replace(/'/g, "\\'")}')">
+                <img src="${imageUrl}" alt="${img.description || 'Product image'}" loading="lazy" onerror="this.parentElement.style.display='none'">
+                <span class="image-caption">${img.description || ''}</span>
+            </div>
+        `;
+    }).join('');
+
+    return `
+        <div class="product-image-gallery">
+            ${imageItems}
+        </div>
+    `;
+}
+
+/**
+ * Open image lightbox for full-size view
+ */
+function openImageLightbox(imageUrl, caption) {
+    // Create lightbox if it doesn't exist
+    let lightbox = document.getElementById('imageLightbox');
+    if (!lightbox) {
+        lightbox = document.createElement('div');
+        lightbox.id = 'imageLightbox';
+        lightbox.className = 'image-lightbox';
+        lightbox.innerHTML = `
+            <div class="image-lightbox-close" onclick="closeImageLightbox()">
+                <i class="fas fa-times"></i>
+            </div>
+            <img src="" alt="Full size image">
+            <div class="image-lightbox-caption"></div>
+        `;
+        lightbox.onclick = function(e) {
+            if (e.target === lightbox) {
+                closeImageLightbox();
+            }
+        };
+        document.body.appendChild(lightbox);
+    }
+
+    // Set image and caption
+    const img = lightbox.querySelector('img');
+    const captionEl = lightbox.querySelector('.image-lightbox-caption');
+
+    img.src = imageUrl;
+    captionEl.textContent = caption || '';
+    captionEl.style.display = caption ? 'block' : 'none';
+
+    // Show lightbox
+    lightbox.classList.add('active');
+
+    // Add escape key listener
+    document.addEventListener('keydown', handleLightboxEscape);
+}
+
+/**
+ * Close image lightbox
+ */
+function closeImageLightbox() {
+    const lightbox = document.getElementById('imageLightbox');
+    if (lightbox) {
+        lightbox.classList.remove('active');
+        document.removeEventListener('keydown', handleLightboxEscape);
+    }
+}
+
+/**
+ * Handle escape key to close lightbox
+ */
+function handleLightboxEscape(e) {
+    if (e.key === 'Escape') {
+        closeImageLightbox();
+    }
+}
+
+/**
  * Format message text with markdown-like styling
  * Converts numbered lists, bold text, etc. to HTML
  * Handles streaming by hiding incomplete markdown syntax
@@ -404,10 +552,28 @@ function formatMessageText(text, isStreaming = false) {
 
 /**
  * Add message to chat
+ * @param {string} text - Message text
+ * @param {string} sender - 'agent' or 'user'
+ * @param {string} agentName - Agent name (for agent messages)
+ * @param {boolean} isTyping - Whether this is a typing/streaming message
+ * @param {Array} providedImages - Images from structured output (optional)
  */
-function addMessage(text, sender = 'agent', agentName = null, isTyping = false) {
+function addMessage(text, sender = 'agent', agentName = null, isTyping = false, providedImages = []) {
     const processedText = processTextForDisplay(text);
-    const formattedText = isTyping ? processedText : formatMessageText(processedText);
+
+    // Use provided images or parse from text (fallback for backward compatibility)
+    let displayText = processedText;
+    let images = providedImages || [];
+
+    if (!isTyping && sender === 'agent' && images.length === 0) {
+        // Fallback: parse images from text if not provided directly
+        const parsed = parseImagesFromResponse(processedText);
+        displayText = parsed.text;
+        images = parsed.images;
+    }
+
+    const formattedText = isTyping ? displayText : formatMessageText(displayText);
+    const imageGalleryHtml = createImageGallery(images);
 
     const message = document.createElement('div');
     const isUser = sender === 'user';
@@ -429,6 +595,7 @@ function addMessage(text, sender = 'agent', agentName = null, isTyping = false) 
                 <span class="message-time">${formatTime()}</span>
             </div>
             <div class="message-text">${formattedText}</div>
+            ${imageGalleryHtml}
         </div>
     `;
 
@@ -496,15 +663,40 @@ function updatePartialTranscript(text, agentName) {
     scrollToBottom();
 }
 
-function finalizeTranscript(finalText, agentName) {
+function finalizeTranscript(finalText, agentName, providedImages = []) {
     if (currentTypingMessage) {
         const textElement = currentTypingMessage.querySelector('.message-text');
+        const bubbleElement = currentTypingMessage.querySelector('.message-bubble');
         textElement.classList.remove('typing');
 
-        // Apply final formatted text
+        // Apply final formatted text and handle images
         if (finalText) {
             const processedText = processTextForDisplay(finalText);
-            textElement.innerHTML = formatMessageText(processedText);
+
+            // Use provided images or parse from text (fallback for backward compatibility)
+            let displayText = processedText;
+            let images = providedImages || [];
+
+            if (images.length === 0) {
+                // Fallback: parse images from text if not provided directly
+                const parsed = parseImagesFromResponse(processedText);
+                displayText = parsed.text;
+                images = parsed.images;
+            }
+
+            textElement.innerHTML = formatMessageText(displayText);
+
+            // Add image gallery if images are present
+            if (images && images.length > 0) {
+                const imageGalleryHtml = createImageGallery(images);
+                // Remove any existing gallery first
+                const existingGallery = bubbleElement.querySelector('.product-image-gallery');
+                if (existingGallery) {
+                    existingGallery.remove();
+                }
+                bubbleElement.insertAdjacentHTML('beforeend', imageGalleryHtml);
+                scrollToBottom();
+            }
         }
 
         currentTypingMessage = null;
@@ -711,13 +903,14 @@ function handleSessionEnded(data) {
 function handleTranscript(data) {
     if (data.role === 'assistant') {
         const agentName = data.agent || state.currentAgent;
+        const images = data.images || [];  // Images from structured output
 
         // Check if there's a typing message to finalize
         if (currentTypingMessage) {
-            finalizeTranscript(data.text, agentName);
+            finalizeTranscript(data.text, agentName, images);
         } else {
             // No typing message - add the message directly (text mode)
-            addMessage(data.text, 'agent', agentName);
+            addMessage(data.text, 'agent', agentName, false, images);
         }
     }
 }

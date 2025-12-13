@@ -18,7 +18,7 @@ class Config:
 
     # Pinecone Configuration
     PINECONE_API_KEY: str = os.getenv("PINECONE_API_KEY", "")
-    PINECONE_INDEX_NAME: str = os.getenv("PINECONE_INDEX_NAME", "doorindex")
+    PINECONE_INDEX_NAME: str = os.getenv("PINECONE_INDEX_NAME", "1n20")
 
     # Embedding model - must match what was used to create Pinecone index
     EMBEDDING_MODEL: str = os.getenv("EMBEDDING_MODEL", "text-embedding-3-large")
@@ -26,7 +26,7 @@ class Config:
     # VoicePipeline Models (STT → LLM → TTS)
     STT_MODEL: str = os.getenv("STT_MODEL", "gpt-4o-mini-transcribe")  # Speech-to-text ($0.003/min)
     TTS_MODEL: str = os.getenv("TTS_MODEL", "gpt-4o-mini-tts")  # Text-to-speech (~$0.015/min)
-    LLM_MODEL: str = os.getenv("LLM_MODEL", "gpt-4o-mini")  # Agent LLM for responses
+    LLM_MODEL: str = os.getenv("LLM_MODEL", "gpt-4o")  # Agent LLM for responses
     print(f"Using LLM Model: {LLM_MODEL}")
     print(f"Using TTS Model: {TTS_MODEL}")
     print(f"Using STT Model: {STT_MODEL}")
