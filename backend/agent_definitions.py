@@ -21,7 +21,6 @@ from tools import (
     finalize_selection,
     submit_lead,
 )
-from guardrails import domain_validation_guardrail
 
 
 # =============================================================================
@@ -308,7 +307,6 @@ NEVER add subjective descriptors like "bold", "stunning", "elegant", "beautiful"
         finalize_selection,
         submit_lead,
     ],
-    output_guardrails=[domain_validation_guardrail],
     output_type=SalesAgentResponse,
 )
 
@@ -319,7 +317,7 @@ NEVER add subjective descriptors like "bold", "stunning", "elegant", "beautiful"
 
 data_collection_agent = Agent(
     name="GreetingAgent",
-    model=config.LLM_MODEL,
+    model=config.GREETING_MODEL,  # gpt-4o-mini - 25x cheaper than gpt-4o
     instructions=f"""
 You are a warm and friendly receptionist for {config.COMPANY_NAME}.
 

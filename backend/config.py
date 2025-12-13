@@ -26,7 +26,8 @@ class Config:
     # VoicePipeline Models (STT → LLM → TTS)
     STT_MODEL: str = os.getenv("STT_MODEL", "gpt-4o-mini-transcribe")  # Speech-to-text ($0.003/min)
     TTS_MODEL: str = os.getenv("TTS_MODEL", "gpt-4o-mini-tts")  # Text-to-speech (~$0.015/min)
-    LLM_MODEL: str = os.getenv("LLM_MODEL", "gpt-4o")  # Agent LLM for responses
+    LLM_MODEL: str = os.getenv("LLM_MODEL", "gpt-4o")  # Agent LLM for responses (SalesAgent)
+    GREETING_MODEL: str = os.getenv("GREETING_MODEL", "gpt-4o-mini")  # Cheaper model for GreetingAgent
     print(f"Using LLM Model: {LLM_MODEL}")
     print(f"Using TTS Model: {TTS_MODEL}")
     print(f"Using STT Model: {STT_MODEL}")
