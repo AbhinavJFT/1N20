@@ -39,7 +39,7 @@ class Config:
 
     # Business Configuration
     CLIENT_EMAIL: str = os.getenv("CLIENT_EMAIL", "abhinav.sarkar@jellyfishtechnologies.com")
-    COMPANY_NAME: str = os.getenv("COMPANY_NAME", "ABC Doors & Windows")
+    COMPANY_NAME: str = os.getenv("COMPANY_NAME", "1n20 Home Services")
 
     # Default voice (fallback)
     VOICE: str = os.getenv("VOICE", "alloy")
