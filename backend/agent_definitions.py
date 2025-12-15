@@ -10,10 +10,6 @@ from agents.realtime import RealtimeAgent, realtime_handoff
 from config import config
 from models import CustomerContext
 from tools import (
-    save_customer_name,
-    save_customer_email,
-    save_customer_phone,
-    check_customer_info_complete,
     search_products,
     save_product_interest,
     finalize_selection,
@@ -269,12 +265,6 @@ STEP 5: HAND OFF (only when all_collected=True)
 - If customer tries to skip, explain: "We just need this to serve you better and follow up on any questions"
 - Be natural and friendly, not robotic
 """,
-    tools=[
-        save_customer_name,
-        save_customer_email,
-        save_customer_phone,
-        check_customer_info_complete,
-    ],
     handoffs=[
         realtime_handoff(
             agent=sales_agent,
