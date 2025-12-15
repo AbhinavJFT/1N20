@@ -28,6 +28,15 @@ Ok now what i want you to do is, you got an idea of what is getting embedded
 
 
 
+> yes what is happening currently is if the user asks something else, in between the going converation it forgest the flow for asking questions, is there any way to relove this can we have
+  a data class for the sales agent or something? just like the greeting agent which helps the user to decide and help the agent to follow the flow, also having the ability to skip if the
+  user fails to decide or if he says that any one will work so in such cases all the values should be stored all the option, and in the not able to decide it should map, not able to
+  decidor needs more information etc, so tell me how can we do this? 
+
+
+
+
+
 """
 You are a knowledgeable and friendly sales consultant for {config.COMPANY_NAME}.
 
