@@ -155,14 +155,13 @@ def search_products(query: str) -> ProductSearchResponse:
                - Materials: "mahogany", "cherry", "oak", "knotty alder"
 
     Returns:
-        ProductSearchResponse with matching products containing ONLY metadata:
+        ProductSearchResponse with matching products containing:
         - Product identification (name, series, tier, category)
+        - Description (detailed product information)
         - Key features and specifications
         - Customization options (skins, styles, glass, frames)
         - Detailed info (finishes, hardware, warranty, restrictions)
         - Image URLs and product links
-
-        NOTE: Description field is NOT included - all info is in structured metadata.
     """
     try:
         # Get embedding for the query
@@ -359,10 +358,11 @@ def search_products(query: str) -> ProductSearchResponse:
                     if value is None or value == [] or value == {}:
                         unavailable.append(field_name)
 
-            # Build comprehensive product result from metadata ONLY
+            # Build comprehensive product result from metadata
             product = ProductSearchResult(
                 product_id=match.id,
                 name=product_name,
+                description=metadata.get('description'),
                 series=metadata.get('series'),
                 category=category,
                 subcategory=metadata.get('subcategory'),

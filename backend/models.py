@@ -67,15 +67,11 @@ class SalesAgentResponse(BaseModel):
 
 
 class ProductSearchResult(BaseModel):
-    """Schema for product search results from Pinecone metadata.
-
-    NOTE: Description field is intentionally excluded - it's only used for
-    embedding/search, not for response context. All product info is in
-    structured metadata fields below.
-    """
+    """Schema for product search results from Pinecone metadata."""
     # Product identification
     product_id: str = Field(description="Unique identifier for the product")
     name: str = Field(description="Product display name")
+    description: Optional[str] = Field(default=None, description="Detailed product description with features and specifications")
     series: Optional[str] = Field(default=None, description="Product series/line (Embarq, Signet, etc.)")
     category: str = Field(description="Product category (Entry Door, Storm Door, Accessories, etc.)")
     subcategory: Optional[str] = Field(default=None, description="Product subcategory (Pet Access, Decorative Iron, etc.)")
