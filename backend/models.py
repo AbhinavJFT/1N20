@@ -62,7 +62,7 @@ class SalesAgentResponse(BaseModel):
     response: str = Field(description="The text response to show to the customer")
     images: List[RelevantImage] = Field(
         default_factory=list,
-        description="List of relevant product images to display. Select 1-3 images that are most relevant to what the customer asked about."
+        description="List of relevant product images to display. Include ALL images that are relevant to the CURRENT response only."
     )
 
 

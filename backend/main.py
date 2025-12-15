@@ -713,32 +713,37 @@ async def handle_text_input(
             if response_text:
                 print(f"🤖 AGENT SAID | {short_id} | \"{response_text[:100]}{'...' if len(response_text) > 100 else ''}\"")
 
-        if response_text:
-            # Add assistant message to history
-            session_manager.add_message(session_id, "assistant", response_text, current_agent_name)
-
-            # Send transcript to frontend with images if present
-            transcript_data = {
-                "text": response_text,
-                "role": "assistant",
-                "agent": current_agent_name
-            }
-            if images:
-                transcript_data["images"] = images
-
-            await send_ws_message(websocket, MessageType.TRANSCRIPT, transcript_data)
-
-        # Check for handoff
+        # Check for handoff FIRST (before sending transcript)
+        # This ensures handoff notification appears before the new agent's message
+        responding_agent_name = current_agent_name
         if hasattr(result, 'last_agent') and result.last_agent:
             new_agent_name = result.last_agent.name
             if new_agent_name != current_agent_name:
                 print(f"🔀 HANDOFF | {short_id} | {current_agent_name} → {new_agent_name}")
                 session_manager.update_current_agent(session_id, new_agent_name)
+                # Send handoff notification BEFORE the new agent's response
                 await send_ws_message(websocket, MessageType.HANDOFF, {
                     "from_agent": current_agent_name,
                     "to_agent": new_agent_name,
                     "message": f"Transferring you to {new_agent_name}..."
                 })
+                # The response is from the NEW agent after handoff
+                responding_agent_name = new_agent_name
+
+        if response_text:
+            # Add assistant message to history with the correct agent name
+            session_manager.add_message(session_id, "assistant", response_text, responding_agent_name)
+
+            # Send transcript to frontend with images if present
+            transcript_data = {
+                "text": response_text,
+                "role": "assistant",
+                "agent": responding_agent_name
+            }
+            if images:
+                transcript_data["images"] = images
+
+            await send_ws_message(websocket, MessageType.TRANSCRIPT, transcript_data)
 
         # Send context update
         await send_ws_message(websocket, MessageType.CONTEXT_UPDATE, {
@@ -949,30 +954,35 @@ async def handle_voice_turn_end(
         response_text = getattr(result, 'total_output_text', None) or ""
         print(f"📊 RESPONSE | {short_id} | total_output_text={response_text[:100] if response_text else 'None'}...")
 
-        if response_text:
-            print(f"🤖 AGENT SAID | {short_id} | \"{response_text[:100]}{'...' if len(response_text) > 100 else ''}\"")
-            session_manager.add_message(session_id, "assistant", response_text, current_agent_name)
-
-            # Send transcript to frontend
-            await send_ws_message(websocket, MessageType.TRANSCRIPT, {
-                "text": response_text,
-                "role": "assistant",
-                "agent": current_agent_name
-            })
-
-        # Update voice history in session for next turn
-        session["voice_input_history"] = workflow.input_history
-
-        # Check for handoff using our custom workflow's last_agent property
+        # Check for handoff FIRST (before sending transcript)
+        # This ensures handoff notification appears before the new agent's message
+        responding_agent_name = current_agent_name
         if workflow.last_agent and workflow.last_agent.name != current_agent_name:
             new_agent_name = workflow.last_agent.name
             print(f"🔀 HANDOFF | {short_id} | {current_agent_name} → {new_agent_name}")
             session_manager.update_current_agent(session_id, new_agent_name)
+            # Send handoff notification BEFORE the new agent's response
             await send_ws_message(websocket, MessageType.HANDOFF, {
                 "from_agent": current_agent_name,
                 "to_agent": new_agent_name,
                 "message": f"Transferring you to {new_agent_name}..."
             })
+            # The response is from the NEW agent after handoff
+            responding_agent_name = new_agent_name
+
+        if response_text:
+            print(f"🤖 AGENT SAID | {short_id} | \"{response_text[:100]}{'...' if len(response_text) > 100 else ''}\"")
+            session_manager.add_message(session_id, "assistant", response_text, responding_agent_name)
+
+            # Send transcript to frontend
+            await send_ws_message(websocket, MessageType.TRANSCRIPT, {
+                "text": response_text,
+                "role": "assistant",
+                "agent": responding_agent_name
+            })
+
+        # Update voice history in session for next turn
+        session["voice_input_history"] = workflow.input_history
 
         # Send context update (tools have now updated context!)
         await send_ws_message(websocket, MessageType.CONTEXT_UPDATE, {
